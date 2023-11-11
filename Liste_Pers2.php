@@ -123,7 +123,7 @@ else {
 }
 
 // Accès autorisé
-if ((isset($_SESSION['estGestionnaire'])) and ($_SESSION['estGestionnaire'])) {
+if True { //((isset($_SESSION['estGestionnaire'])) and ($_SESSION['estGestionnaire'])) {
 	
 	$liste_pers = false;
 	if (($Type_Liste == 'P') or ($Type_Liste == 'p'))
