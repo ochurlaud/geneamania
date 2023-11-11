@@ -1,0 +1,1743 @@
+Version 2023.03
+===============
+Asc_Conjoints.php ==> nouveau : arbre avec les parents et grands-parents des conjoints d'un couple (non disponible sur les sites hébergés non Premium)
+Fiche_Fam_Pers.php ==> amélioration : icônes pour modifier en 1 clic la visibilité d'une personne sur Internet
+                   ==> correction : plus de message d'erreur en log si accès direct avec une référence personne inexistante (très courant avec les bots sur les bases évolutives)
+                   ==> correction : message d'erreur "Undefined index: Prenoms..., Surnom et Diff_Internet"
+Liste_Pers_Role.php ==> nouveau : écran permettant de lister les personnes pour un rôle donné (accessible depuis la fiche rôle)
+Import_Sauvegarde.php ==> amélioration : possibilité d'importer en local une sauvegarde avec un autre préfixe
+Verif_Homonymes.php ==> amélioration : ajout d'un contrôle pour obliger à sélectionner 2 personnes différentes
+Edition_Image.php ==> amélioration : ajout de la diffusibilité internet du commentaire
+Liste_Images.php ==> amélioration : ajout du commentaire éventuel dans la liste
+Edition_Lier_Doc.php ==> amélioration : ajout du nom du fichier en modification
+Liste_Documents.php ==> amélioration : affichage du type de document
+Edition_Union.php ==> changement : passage à 80 caractères du notaire
+install.php ==> correction : message d'erreur sur $vdirPathTarget lors d'une demande de préfixe dans l'initialisation
+            ==> amélioration : cinématique sur l'initialisation
+Fiche_Couple_txt.php ==> correction : les accents dans les notes ne ressortaient pas correctement
+exp_Gedcom.php ==> changement : remplacement de CHAR ANSI par CHAR UTF-8 si besoin (impératif pour les exports sur les plate-formes Internet)
+Liste_Pers2.php ==> correction : suppression du message d'erreur "Call to a member function rowCount() ... on line 245" dans certaines circonstances
+                ==> correction : suppression du message d'erreur "Undefined index: estGestionnaire ... on line 35" dans certaines circonstances
+Liste_Pers.php ==> correction : mauvais affichage des caractères accentués sur les entêtes
+               ==> correction : partie initiales KO avec mySql 8
+Completude_Nom.php ==> correction : suppression du message d'erreur "Call to a member function rowCount() ... 77" dans certaines circonstances
+appelle_chronologie_personne.php ==> correction : sur l'export pdf, suppression erreur et affichage bouton si problème sur les dates
+                                 ==> correction : message d'erreur "A non-numeric value encountered...on line 443" lorsque 2 dates consécutives étaient sur le même mois
+Edition_Lier_Eve.php ==> amélioration : le clic dans la zone de date appelle le calendrier (homgénéisation avec d'autres écrans)
+Edition_Lier_Nom.php ==> correction : message "Uncaught TypeError: document.getElementById(...) is null" dans la console du navigateur
+                     ==> correction : "Requête en erreur : update noms_personnes..." quand l'utilisateur clique sur valider sur un lien existant sans modifier le commentaire
+Import_Gedcom.php ==> correction : message "Warning: count(): Parameter must be an array or an object that implements Countable ... on line 1547' si on ne met pas à jour la base
+                  ==> correction : message "Requête en erreur : update noms_famille set nomFamille = REPLACE...' pour un fichier en UTF-8 si l'encodage de Geneamania est UTF-8
+				  ==> correction : nombre de noms incorrect en cas d'import partiel
+				  ==> correction : import OK depuis un fichier en CHAR ANSI ou UTF-8 vers UTF-8
+Edition_Region.php ==> correction : internationalisation et passage en UTF-8 de la page
+Recherche_Cousinage.php ==> correction : non affichage ou erreur du nombre de générations dans l'aide en ligne
+Recherche_Commentaire.php ==> amélioration : gestion des commentaires sur les images
+Fiche_Role.php ==> correction : l'indicateur de symétrié était sur la ligne du libellé et réciproquement
+Liste_Referentiel.php et Edition_Type_Evenement.php ==> correction : libellé "type de document" à tort pour les types d'évènement
+Edition_Type_Evenement.php ==> correction : la suppression ne fonctionnait pas
+Edition_Lier_Source.php ==> correction : le bouton "Dernière source saisie" ne fonctionnait pas si la dernière source était déjà sélectionnée pour l'objet
+Edition_Lien.php ==> amélioration : clarté de la case à cocher "Garder l'image" qui n'est affichée désormais que s'il y a une image
+                 ==> correction : icône absente en cas d'erreur de chargement de l'image et le nom de l'icône n'était pas issu du fichier des icones
+Liste_Pers2.php	==> correction : affichage incorrect du titre sur la sortie pdf
+Gestion_Pages.php ==> correction : suppression de plusieurs messages d'erreur "undefined index..." en accès direct (robots), lignes 167 et suivantes
+index.php ==> amélioration : affichage de la page quand la connexion n'est pas établie (par exemple quand Geneamania n'est pas bien paramétré)
+Edition_Subdivision.php ==> correction : message "Warning: include(jscripts/Edition_Ville.js): failed to open stream ... on line 363"
+Fiche_Ville.php ==> correction : message "Notice: Undefined variable: LG_ICSV_Town_Search_Cloud in ..." on line 129
+plusieurs pages ==> correction : certains libellés n'étaient pas internationalisés
+                ==> corrections mineures non listées
+				==> corrections : compatibilité PHP 7.4
+				==> amélioration : clic possible sur les libellés associés à des boutons radio ou des check boxes (label)
+				==> correction : message d'erreur sur des listes vides en PHP 7.4
+                ==> correction : inversion des libellés de création et modification des dépôts de sources
+                ==> correction : on pouvait voir toutes les personnes sans être privilégié dans certaines listes déroulantes nom / prénoms
+			
+Version 2022.02
+===============
+Recherche_Personne_CP.php ==> nouveau : Recherche multi-critère de personnes par les conjoints ou parents
+Recherche_Commentaire.php ==> amélioration : gestion des commentaires sur les subdivisions
+fonction.php ==> correction : l'affichage de la subdivision ne fonctionnait pas dans l'affichage de la fiche évènement
+             ==> correction : sous php 7.3 et au-dessus, message "Deprecated: strpos(): Non-string needles ...\fonctions.php on line 71"
+Recherche_Ville.php ==> correction : message "Warning: Use of undefined constant LG_TOWN_SCH_COUNTY...'
+Import_Sauvegarde.php ==> correction : pour les sites gratuits, lignes version et péfixes non reconnues sur une sauvegarde en version 2021.06
+                      ==> correction : pour les sites gratuits, 1ère table vidée par erreur
+Fiche_Fam_Pers.php ==> correction : message "Undefined variable: LG_Data_noavailable_profile in ... Fiche_Fam_Pers.php on line 208" pour l'affichage des enfants sur internet si les données sont protogées et que la personne n'est pas autorisée
+                   ==> correction : affichage de la génération calculée dans les infobulles incorrect
+                   ==> correction : affichage incorrect des noms avec apostrophes ou accents dans l'infobulle à droite du titre
+				   ==> amélioration : plus de décalage si pas d'images sur les enfants ou frères et soeurs
+Desc_Directe_Pers.php ==> correction : message "Undefined variable: LG_Data_noavailable_profile in ... Desc_Directe_Pers.php on line 83" pour l'affichage des enfants sur internet si les données sont protogées et que la personne n'est pas autorisée
+Liste_Sources.php ==> changement : saut de ligne en trop qui rallonge l'affichage
+Edition_Subdivision.php ==> correction : message "Requête en erreur : select max(Identifiant_zone)..." en création si le préfixe des tables est défini
+                         ==> correction : type d'objet "s" pour les commentaires (anciennement "S" à tort qui était déjà utilisé pour les sources)
+index.php ==> affichage de l'infobulle d'aide sur la recherche rapide incorrect	
+Liste_Pers2.php	==> correction : affichage incorrect du titre sur la sortie pdf
+Verif_Personne.php ==> correction : affichage incorrect du contrôle sur la date de décès
+Edition_Personne.php ==> correction : message "Fatal error: Uncaught Error: Call to undefined function Div_Note_Old()" quand il existe des commentaires sur les évènements et qu'on est en mode "ancien affichage" des commentaires
+Liste_Pers_Gen.php ==> correction : sur le pdf, le lieu de décès affichait par erreur le lieu de naissance
+                   ==> correction : gestion de l'affichage des personnes manquantes
+plusieurs pages ==> correction : double entrée de recherche de ville dans le menu rapide
+                ==> correction : message "Function get_magic_quotes_gpc() is deprecated ..." pour les versions de php à partir de 7.4 ; idem pour get_magic_quotes_runtime
+				==> correction : le type d'évènement gedcom RESI (domicile) était à tort destiné aux unions ; c'est désormais un type pour les personnes (régression)
+				==> changement : le statut des fiches département est désormais "Validé"
+				==> passage en UTF-8 des pages et de la base de données
+				
+Version 2021.06
+===============
+Arbre_Noyau.php ==> nouveau : affichage du noyau d'un couple sous forme d'arbre : parents et enfants
+Edition_Subdivision.php ==> nouveau : introduction de la subdivision de ville (lieu-dit ou autre)
+Fiche_Subdivision.php ==> nouveau : introduction de la subdivision de ville (lieu-dit ou autre)
+Fiche_Evenement.php ==> amélioration : lien direct vers la fiche du type d'évènement
+Verif_Sosa.php ==> amélioration : lien direct vers la ré-initialisation des numéros Sosa
+Init_Sosa.php ==> amélioration : lien direct vers la vérification des numéros Sosa
+Fiche_Document.php.php ==> amélioration : lien direct vers la fiche du type de document
+Fiche_Fam_Pers.php ==> amélioration : affichage des commentaires des évènements de la personne
+                   ==> correction : affichage d'un mauvais commentaire sur l'union dans certaines conditions
+Edition_Evenement.php ==> nouveau : ajout du niveau subdivision
+                      ==> correction : mauvais message en cas de suppression d'une actualité
+                      ==> correction : pas d'onglet document en création
+					  ==> correction : la suppression du lieu pouvait potentiellement poser problème lors des exports / imports ultérieurs (impact possible sur d'autres pages)
+Liste_Noms_Non_Ut.php ==> amélioration : suppression directement sur la liste
+Fiche_Type_Document.php ==> amélioration : affichage de la liste des documents du type
+Edition_Lien.php ==> amélioration : possibilité de masquer les liens sur Internet, sauf pour les personnes autorisées
+Parentees.php ==> amélioration : liens vers les cousins / cousines quand on est sur oncles / tantes et inversement
+Arbre_Agnatique_Cognatique.php ==> changement : les images potentielles sont réparties sur 2 colonnes
+                               ==> correction : le message d'information sur les images n'apparaissait que si la dernière personne a 1 image       
+Arbre_Asc_PDF.php ==> changement : déplacement de la date et heure de génération en bas
+html2pdfb.php ==> changement : compatibilité PHP 7
+FPDF.php ==> changement : migration vers la version 1.82, compatible PHP 7
+Liste_Villes.php ==> nouveau : export CSV des subdivisions, villes, départements, régions et pays (non disponible sur les sites hébergés non Premium)
+                 ==> changement : possibilité d'ajouter un lieu s'il n'y en a pas de même niveau en base
+                 ==> correction : depuis la liste par département, le débranchement de positionnait mal pour les départements contenant "-" ou "'" dans le nom
+                                  idem pour les régions et les pays 
+sel_zone_geo.php ==> correction : il y avait 2 groupes de bouton Valider / Annuler 
+                 ==> correction : affichage de l'icône permettant la sélection d'un lieu
+                 ==> changement : augmentation de la taille de la fenêtre pour améliorer l'ergonomie
+Fiche_Utilisateur.php ==> changement : nouvelle présentation
+Liste_Connexions.php ==> nouveau : export CSV (non disponible sur les sites hébergés non Premium)
+                     ==> changement : date et heure de la connexion au format français
+Edition_Personnes_Ville.php ==> correction : il était possible de modifier la date de fin directement dans le champ
+Ajout_Rapide.php ==> correction : une date de baptême de conjoint faisait planter l'ajout rapide
+Recherche_Ville_Heberges.php ==> correction : message d'erreur "Parse error: syntax error, unexpected '}', (...)  on line 93"
+Liste_Pers_Gen.php ==> correction : la sélection de police de caractères ne fonctionnait pas pour le pdf
+Ajout_Contribution.php ==> correction : l'image avec l'addition ne s'affichait pas
+                       ==> correction : le bouton "Valider" n'avait pas d'effet
+Edition_Contribution.php ==> correction : le message saisi par l'utilisateur n'était pas affiché dans l'onglet "Données du contributeur"
+                         ==> correction : les données des propositions n'étaient pas dans les cadres
+Liste_Nom_Vivants.php ==> correction : la sélection de police de caractères ne fonctionnait pas pour le pdf
+Import_CSV_Liens.php ==> amélioration : lien vers la liste des liens après la mise à jour
+                     ==> correction : le trairement continuait si le fichier n'avait pas la bonne extension
+Import_CSV_Evenements.php ==> correction : le traitement continuait si le fichier n'avait pas la bonne extension
+Import_CSV_Villes.php ==> correction : le traitement continuait si le fichier n'avait pas la bonne extension
+Init_Noms.php ==> correction : message d'erreur "Notice: Undefined variable: ident_nom..."
+              ==> amélioration : le paramètre ini=o permet désormais en plus de refaire la table des noms de famille et des liens
+Edition_NomFam.php ==> correction : la modification de la phonétique ne fonctionnait pas
+                   ==> correction : en cas de nom existant, l'annulation créait malgré tout un nom en base
+Pyramide_Ages_Mar_Histo.php ==> correction : la largeur de la barre pour les femmes était la même que celle des hommes
+                            ==> correction : message "Notice: Undefined variable: larg ... on line ..." dans certaines conditions
+							==> correction : messages d'erreur sur une base vide
+Import_Sauvegarde.php ==> correction : affichage des requêtes en erreur
+Import_Docs.php ==> correction : l'aide en ligne n'était pas accessible lors du ré-affichage de la page
+Enfants_Femme_Histo.php ==> correction : message"Notice: Undefined variable: nb_femmes ... on line 96" sur une base vide
+plusieurs pages : sur une zone date, il est possible d'ouvrir le calendrier en cliquant sur la zone et non uniquement sur le calendrier
+                : compatibilité PHP 7.2
+				: passage en utf-8 (la plupart des pages)
+				: sur les imports csv, nouveau type de format de date autorisé : jj.mm.aaaa
+
+Version 2019.09
+===============
+Fiche_Homonymes.php ==> nouveau : possibilité de fusionner 2 personnes
+                    ==> amélioration : ajout du commentaire de la personne
+                    ==> changement : les nom et prénom de la personne sont remontés dans le titre
+Liste_Pers2.php ==> amélioration : possibilité d'avoir la liste des personnes avec les conjointsc
+                ==> correction : affichage des caractères accentués dans le pdf
+Liste_Nom_Vivants.php ==> correction : affichage des caractères accentués dans le pdf
+Liste_Docs_Branche.php ==> nouveau : galerie de documents de type image pour une branche de personnes (e.g. signatures des ascendants d'une personne, non disponible sur les sites hébergés non Premium)
+Enfants_Femme_Histo.php ==> nouveau : historique du nombre moyen d'enfants par femme
+Liste_Noms_Non_Ut.php ==> nouveau : liste des noms non utilisés
+Pyramide_Ages_Mar_Histo.php ==> nouveau : historique de l'âge de premier enfant (même page que pour le premier mariage)
+                            ==> amélioration : cadet(te) pour l'âge de premier mariage / enfant
+Histo_Ages_Mariage.php ==> amélioration : cadet(te) pour l'âge de premier mariage / enfant
+                       => correction : calcul du nombre de femmes incorrect
+Pyramide_Ages_Histo.php ==> amélioration : doyen(ne) au décès
+Histo_Ages_Deces.php ==> amélioration : doyen(ne) au décès
+Naissances_Mariages_Deces_Mois ==> amélioration : statistique sur le mois de conception théorique
+Edition_Source.php ==> amélioration : possibilité de spécifier la fiabilité d'une source (Haute, Moyenne, Faible)
+Fiche_Source.php ==> correction : messages divers (possiblement non affichés suivant les cas) en cas de source non trouvée
+                 ==> correction : la fiche est affichée même si le dépôt n'est pas cohérent
+Liste_Nom_Evenement.php ==> correction : message "Undefined variable: LG_Names_For_Event..."
+Ajout_Enfants.php ==> correction : message "Requête en erreur : insert into personnes(..." sous certaines configurations techniques
+Recherche_Commentaire.php ==> correction : les sources n'étaient pas correctement gérées
+index.php  ==> correction : lien incorrect vers le guide démarrage rapide Windows
+Edition_Requete.php ==> correction : message "Undefined variable: compl ..." sous certaines configurations techniques
+Import_Gedcom.php ==> amélioration : prise en compte automatique de l'encodage des caractères UTF-8 en cas de présence de la balise adhoc dans le fichier
+                  ==> correction : les notes au format UTF-8 n'étaient pas converties
+				  ==> correction : plusieurs imports successifs d'un fichier avec des sources généraient une erreur
+				  ==> changements : quelques optimisations
+Edition_Image.php ==> amélioration : ajout du nom du fichier
+                  ==> correction : le passage d'une image à "par défaut" n'enlevait pas cette caractéristique sur les autres images
+Edition_Union.php ==> correction : l'ajout d'un enfant depuis l'union ne fonctionnait pas
+Edition_Lier_Eve.php ==> correction : message "Uncaught TypeError: document.getElementById(...) is null" depuis la fiche évènement sur certaines configurations techniques
+                     ==> correction : affichage de l'icone de sélection de lieu
+Recherche_Personne_Archive.php ==> changement : accès à partir du profil contributeur
+                               ==> changement : ajout du préfixe optionnel sur le nom du fichier csv (utile pour les sites en ligne)
+							   ==> correction : sur l'export csv, on avait une erreur "Undefined variable: c_date..." et un fichier csv incorrect
+Edition_Personne.php ==> amélioration : ajout d'une icône de vérification de la personne
+Verif_Personne.php ==> amélioration : débranchement possible vers le conjoint ou l'enfant sur le contrôle
+                   ==> correction : le contrôle vis à vis des dates de l'union ne fonctionnait pas
+Noyau_Pers.php ==> correction : la saisie n'entrainait pas la mise à jour de la date du site
+Edition_Parametres_Graphiques.php ==> correction : il n'y avait pas de lettre sur le graphisme pré-défini bleu
+pages présentant des graphiques en camembert ==> changement : révision du design
+Export_Gedcom.php ==> correction : les villes des évènements n'étaient pas exportées comme les villes des personnes ce qui pouvait entrainer des problèmes d'import
+plusieurs pages ==> changement : légère modification du design
+                ==> correction : le type d'évènement gedcom RESI (domicile) était à tort destiné aux unions ; c'est désormais un type pour les personnes
+
+Version 6.9
+===========
+Calcul_Distance.php ==> nouveau : calcul de distance entre 2 villes (non disponible sur les sites hébergés non Premium)
+Fiche_Ville.php ==> nouveau : possibilité de récupérer le code postal et les coordonnées géographiques (latitude et longitude) sur Généamania
+Controle_Personnes.php ==> amélioration : possibilité de n'afficher que les fiches OK et / ou avec avertissement et / ou avec erreur
+                       ==> amélioration : possibilité d'ignorer les personnes validées
+                       ==> amélioration : contrôle que la personne est née avant le décès de la mère
+                       ==> changement : icône OK / avertissement / erreur devant la personne
+                       ==> correction : message 'que la personne soit née au plus tard 9 mois ... de la mère' : la personne ne peut pas être née après le décès de la mère
+Parentees.php ==> nouveau : affichage des oncles, tantes, cousins, cousines à partir de la fiche familiale
+Fiche_Fam_Pers.php ==> amélioration : icone permettant d'afficher toutes les personnes portant le même nom
+                   ==> amélioration : affichage de la conversion des dates révolutionnaires (paramétrable)
+                   ==> changement : possibilité d'afficher les notes à l'ancienne mode (avec trombonne ; pré 6.6) avec le paramètre $aff_note_old = true;
+Stat_Base_Generations.php ==> amélioration : complétude par rapport à la génération précédente (contribution de mbuono)
+                          ==> amélioration : lien direct vers la liste par génération avec les personnes manquantes sans passer par le menu
+Fiche_Homonymes.php ==> amélioration : nouveau design permettant une comparaison visuelle immédiate
+                    ==> correction : message "Notice: Undefined variable: LG_modify..."
+Verif_Homonymes.php ==> amélioration : possibilité d'ajouter les dates de naissance et décès comme critères d'égalité					
+Arbre_Asc_Pers.php ==> changement remplacement de la fonction bcpow par pow pour rendre utilisable Geneamania sur plus de plate-formes
+image_arbre_asc.php ==> changement remplacement de la fonction bcpow par pow pour rendre utilisable Geneamania sur plus de plate-formes
+Import_Sauvegarde.php ==> correction : mauvais traitement du préfixe lors d'un import depuis une sauvegarde de site hébergé
+                      ==> changement : l'icône permettant d'afficher la liste des fichiers n'est présentée que s'il existe des fichiers
+Liste_Pers_Gen.php ==> amélioration : possibilité de n'afficher que les personnes absentes (suggestion de mbuono)
+                   ==> correction : les personnes manquantes étaient mal positionnées quand c'était les premières personnes d'une génération
+                   ==> correction : message 'Cannot modify header information - ...' dans le cas de la demande d'une sortie au format pdf
+Liste_Pers2.php ==> amélioration : lien vers la page de complétude des personnes portant un nom (contribution de mbuono)
+                ==> correction : message Undefined index: mem_pers en cas d'accès direct à la page
+Liste_Pers.php ==> correction : message Undefined index: mem_pers en cas d'accès direct à la page
+Verif_Internet_Absente.php ==> amélioration : lien direct vers la vérification des visibilités Internet
+Verif_Internet.php ==> amélioration : lien direct vers la vérification des visibilités Internet restreintes
+index.php ==> changement : déplacement de la ligne indiquant les date et heure de dernière modification pour plus de clarté
+Utilisations_Document.php ==> amélioration : rappel du titre du document
+Fiche_Lien.php ==> changement : l'image si présente est déplacée dans le tableau
+Edition_Filiation.php ==> correction : les boutons de restriction sur le nom ne fonctionnaient pas pour des noms comportant des apostrophes
+Edition_Parametres_Graphiques.php ==> amélioration : nouvelle couleur de dégradés : rose
+Arbre_Asc_PDF.php ==> correction : messages Undefined index: estPrivilegie Undefined index: estCnx en cas d'accès direct à la page
+Pers_Isolees.php ==> correction : blanc manquant entre le nom et le prénom
+Fiche_Indiv_txt.php ==> amélioration : nouveau design par blocs
+plusieurs pages ==> correction : harmonisation du libellé "de cujus"
+                ==> correction : dans certaines configurations, les libellés présentant des accents étaient mal affichés
+                ==> changement : menu de la gestion du site reporté à la fin de a liste des menus
+				
+Version 6.8
+===========
+Controle_Personnes.php ==> nouveau : fonction de contrôles de base de l'ensemble des personnes de la base
+Noyau_Pers.php ==> nouveau : saisie du noyau initial
+chronologie_personne.php ==> amélioration : nouveau design
+Liste_Pers.php ==> amélioration : cartouche d'accès rapide à une personne (non disponible sur les sites hébergés non Premium)
+Fiche_Couple_txt.php ==> amélioration : nouveau design par blocs
+                     ==> correction : les retours à la ligne n'étaient pas corrects pour la sortie pdf
+Liste_Prof_Pop.php ==> nouveau : statistique sur les professions les plus exercées
+Import_CSV_Evenements.php ==> nouveau : import CSV d'évènement pour une zone géographique
+Import_CSV_Villes.php ==> nouveau : import CSV de villes pour un département
+Liste_Pers_Gen.php ==> amélioration : il est désormais possible de simuler l'affichage tel que le verait un invité sans droits particuliers sur internet (protection des données personnelles)
+                   ==> correction : l'entête de la dernière génération était affichée même s'il n'y avait personne dans cette génération
+Liste_Patro.php ==> amélioration : il est désormais possible de simuler l'affichage tel que le verait un invité sans droits particuliers sur internet (protection des données personnelles)
+                ==> correction : le pdf ne s'affichait pas en cas de données non disponibles pour le profil
+Edition_Union ==> amélioration : il est désormais possible de lier un document qui n'existe pas encore (création de la fiche document en même temps que le lien)
+Edition_Filiation ==> amélioration : il est désormais possible de lier un document qui n'existe pas encore (création de la fiche document en même temps que le lien)
+Liste_Nom_Vivants.php ==> amélioration : affichage pour les contributeurs de l'icône de diffusion Internet
+Edition_Parametres_Graphiques.php ==> amélioration : nouvelle couleur de dégradés : orange
+                                  ==> correction : message "Notice: Undefined variable: src_case_copie_arbres_asc..."
+                                  ==> correction : le chargement d'une image de fond de page ne fonctionnait pas
+Liste_Liens.php ==> correction : message "Warning: Invalid argument supplied for foreach()" lorqu'aucun lien n'est sélectionné et que l'on demande la suppression
+Import_Gedcom.php ==> correction : message "Requête en erreur : insert into commentaires..." et plantage lors de la présence de commentaires
+                  ==> correction : différents messages "Notice: Undefined..."
+                  ==> correction : en mode lecture et non insertion, le format des lieux n'était pas correctment pris en compte
+Import_CSV.php ==> amélioration : les entêtes peuvent désormais contenir les noms de colonnes et non les libellés ; de plus, il n'est plus nécessaire de respecter la casse (minuscules / majuscules)
+               ==> amélioration : ergonomie ; les correspondances ne sont plus sytématiquement proposées
+               ==> amélioration : les colonnes peuvent être entourées de guillemets
+Import_CSV_Liens.php ==> amélioration : les entêtes peuvent désormais contenir les noms de colonnes et non les libellés ; de plus, il n'est plus nécessaire de respecter la casse (minuscules / majuscules)
+                     ==> amélioration : ergonomie ; les correspondances ne sont plus sytématiquement proposées
+Edition_Parametres_Site.php ==> correction : message 'Requête en erreur : update general set Affiche_Annee=null'
+Liste_Pers_Gen.php ==> correction : erreur "ReferenceError: Survole_Clic_Div_Tous is not defined" en cas d'absence de decujus
+Edition_Lier_Document ==> correction : il restait un massage de développement résiduel "ok : "
+Arbre_Agnatique_Cognatique.php ==> correction : message "Notice: Undefined variable: classe" lorsque la personne en haut de l'arbre n'a pas de conjoint (correction mbuono)
+Liste_Pers.php ==> correction : les retours à la ligne n'étaient pas corrects pour la sortie pdf
+Liste_Pers2.php ==> correction : les retours à la ligne n'étaient pas corrects pour la sortie pdf
+Notaires_Ville.php ==> correction : les lignes n'étaient pas séparées par des sauts de lignes
+Edition_NomFam.php ==> correction : icônes dans les boutons
+                   ==> changement : légère modification du design
+Notaires_Ville.php ==> correction : sauts de lignes mal placés qui généraient des erreurs d'interprétation de l'affichage
+index.php ==> amélioration : nouveau cartouche de recherche
+          ==> amélioration : lien vers la page de régénération de mot de passe          
+          ==> correction : les liens, la date de mise à jour du site et le nombre d'anniversaires n'étaient pas affichés en l'absence d'actualités
+Fiche_Ville.php ==> correction : en cas d'édition et de suppression, on ne retourne plus sur la fiche de la ville avec une erreur mais sur la page précédente (souvent la liste)
+Fiche_Utilisateur.php ==> amélioration : affichage de la date de dernière connexion
+                      ==> la liste vers les connexions n'est plus proposée s'il n'y a pas eu de connexion
+                      ==> correction : le bouton "Retour" ne fonctionnait pas
+Liste_Connexions.php ==> amélioration : ajout d'un bouton "Retour"
+Mail_Ut.php ==> correction : message "Parse error: ..."
+Liste_Sources.php ==> amélioration : débranchement vers la liste depuis la fiche dépôt
+Verif_Homonymes.php ==> changement : modification du design pour plus de clarté
+Fiche_Type_Evenement.php ==> correction : si on vient d'une fiche édition pour laquelle on a supprimé la fiche, on retourne vers la page précédente
+Create_Multiple_Docs.php ==> correction : message "Notice: Undefined variable: erreur..."
+Galerie_Images.php ==> correction : le bouton "Retour" ne fonctionnait pas
+Fiche_Fam_Pers.php ==> correction : alignement des enfants sur conjoints multiples en cas de présence de photos
+Vue_Personnalisee_Rapide.php ==> correction : message "Undefined variable: ref_decujus in..."
+plusieurs pages ==> correction : dans certaines configurations, les libellés présentant des accents étaient mal affichés 
+				==> correction : affichage du libellé des rôles non symétriques sur les liens de personnes
+				==> correction : 2 failles potentielles de sécurité
+                ==> compatibilité W3C
+				==> amélioration : le bouton pour l'appel des zones géographiques n'est affiché que s'il y a un lieu
+
+Version 6.7
+===========
+Galerie_Images.php ==> nouveau : galerie de documents de type image
+Recherche_Document.php ==> nouveau : fonction de recherche de document
+Create_Multiple_Docs.php ==> nouveau : création de plusieurs documents
+Liste_Connexions.php ==> nouveau : historique des connexions des utilisateurs
+Liste_Nom_Vivants.php ==> nouveau : sortie de la liste au format imprimable
+                      ==> nouveau : sortie de la liste au format PDF (non disponible sur les sites hébergés non Premium)
+Edition_Lien.php ==> nouveau : possibilité d'afficher le lien sur la page d'accueil ; les 3 derniers modifiés maximum (non disponible sur les sites hébergés non Premium)
+Rectif_Utf8.php ==> nouveau : rectification des caractères UTF-8 en base (typiquement après un import Gedcom)
+Edition_Lier_Eve.php ==> amélioration : la liste des évènements est désormais filtrée par type
+                     ==> correction : retour sur la fiche d'édition de personne si l'utilisateur clique sur Annuler
+Edition_Lier_Pers.php ==> amélioration : la liste des évènements est désormais filtrée par nom
+Edition_Lier_Doc.php ==> amélioration : la liste des document est désormais filtrée par type
+Import_Gedcom.php ==> amélioration : prise en charge optionnelle des fichiers en UTF-8
+                  ==> amélioration : contrôle de cohérence du code postal pour la France
+Liste_Patro.php ==> amélioration : modernisation du style de la sortie au format imprimable
+cal.php ==> amélioration : ajout de l'utilisataire de calcul sur date dans la fenêtre de saisie
+        ==> amélioration : modifications dans le design et boutons harmonisés avec les autres écrans de Généamania
+sel_zone_geo.php ==> amélioration : boutons harmonisés avec les autres écrans de Généamania
+Completude_Nom.php ==> correction : la modernisation du design de la sortie au format imprimable n'était pas disponible 
+Liste_Pers2.php ==> correction : plantage lors des sorties texte si appel depuis la fiche d'une ville
+Fiche_Requete.php ==> correction : si on vient d'une fiche édition pour laquelle on a supprimé la fiche, on retourne vers la page précédente
+Fiche_Evenement.php ==> changement : différenciation évènement / actualité
+                    ==> amélioration : le rôle '-- Défaut --' n'est plus affiché pour les personnes
+Edition_Evenement.php ==> correction : présentation à tort de l'onglet des liens vers les personnes / unions / filiations
+Fiche_Actualite.php ==> correction : message "Parse error: ... on line 57"
+                    ==> correction : la modification débouche sur l'édition d'un évènement en mode actualité
+                    ==> changement : refonte du design de la fiche pour l'aligner avec celle des évènements et optimisations diverses
+Edition_Personne.php ==> amélioration : le rôle '-- Défaut --' n'est plus affiché pour les évènements
+                     ==> correction :  message "PHP Notice:  Undefined variable: Existe_Union..."
+Fiche_Fam_Pers.php ==> amélioration : le rôle '-- Défaut --' n'est plus affiché pour les évènements
+                   ==> amélioration : présentation des notes sur les professions et les villes
+                   ==> correction : message d'erreur mal affiché quand la personne qui visualise la fiche n'a pas les droits suffisantsFiche_Indiv_txt.php ==> amélioration : le rôle '-- Défaut --' n'est plus affiché pour les évènements
+index.php ==> correction : lors d'une connexion/déconnexion sur Internet, les anniversaires n'étaient pas ré-accédés pour afficher les bonnes indications
+          ==> correction : la déconnexion ne fonctionnait pas avec certaines versions de php
+          ==> changement : nouvelles images de lettres B pour le message de bienvenue et suppression de certaines anciennes
+Export_Liens.php ==> amélioration : ajout d'un bouton "Retour"
+                 ==>  changement : tri des liens par description
+                 ==> correction : affichage d'un message d'erreur applicatif au lieu de plusieurs messages techniques lorsque le fichier n'a pas pu être ouvert				 
+Liste_Liens.php ==> amélioration : ajout d'un lien direct vers l'import CSV
+                ==> correction : la liste ,n'était pas accessible sur internet pour les personnes non connectées
+Import_CSV_Liens.php ==> amélioration : possibilité de supprimer une catégorie avant l'import du fichier				
+Edition_Evenement.php ==> correction : mauvaise page de retour après l'appel de la sélection d'une zone, si l'utilisateur modifiait la zone		
+Ajout_Contribution.php ==> correction : message "Undefined variable: larg_col..."
+Liste_Pers_Gen.php ==> correction : espaces manquants sur les personnes manquantes
+                   ==> correction : les personnes manquantes étaient mal positionnées quand c'était les premières personnes d'une génération
+Recherche_Personne.php ==> correction : la liste des villes était incorrecte pour les décès dès lors qu'il existait des requêtes mémorisées
+Import_Docs.php ==> changement : pas de proposition de téléchargement si aucune image ou aucun document ne manque
+Edition_Parametres_Graphiques.php ==> changement : nouveau graphisme pré-défini et modification des rouges par défaut
+Verif_Internet.php ==> correction : mise à jour de la date du site s'il y a au moins une demande de mise à jour réussie
+	   
+Version 6.6.1
+=============
+Arbre_Perso.php ==> correction : message "Parse error: ..."
+
+Version 6.6
+===========
+Notaires_Ville.php ==> nouveau : liste par ville des notaires intervenant dans les contrats des unions
+Edition_Parametres_Graphiques.php ==> amélioration : refonte totale de l'ergonomie avec, notamment, des propositions de design pré-définis
+                                  ==> correction ; message "PHP Warning:  Missing argument 3 for Insere_Haut()..." en cas de chargement d'un fichier au mauvais format + icone erreur non affichée
+Fiche_Fam_Pers.php ==> amélioration : affichage du divorce si présent pour les mariages avec date
+Arbre_Agnatique_Cognatique.php ==> amélioration : ajout d'un lien direct vers l'arbre agnatique si cognatique et réciproquement
+                               ==> correction : position des icônes en bas
+                               ==> changement : possibilité d'utiliser les mêmes styles personnalisables pour les cases que dans l'arbre ascendant
+Recherche_Personne.php ==> amélioration : possibilité de demander que les fiches personnes s'ouvrent dans un nouvel onglet, préservant ainsi les résultats de recherche
+Recherche_Ville.php ==> amélioration : possibilité de demander que les fiches villes s'ouvrent dans de nouveaux onglet, préservant ainsi les résultats de recherche
+Completude_Nom.php ==> amélioration : modernisation du style de la sortie au format imprimable
+Stat_Base_Villes.php ==> correction : le bouton "Retour" ne fonctionnait pas
+index.php ==> changement : ajout d'un lien vers le guide de démarrage rapide Windows ou site hébergé
+Fiche_Type_Document.php ==> correction : message "Fatal error: Call to undefined method PDOStatement::fetch_field()..."
+                        ==> correction : si on vient d'une fiche édition pour laquelle on a supprimé la fiche, on retourne vers la page précédente
+Edition_Type_Document.php ==> correction : message "Fatal error: Call to undefined method PDOStatement::fetch_field()..."
+                          ==> correction : en création, le titre de la page n'apparaissait pas correctement ("cr&eacute;ation" au lieu de "création")
+Edition_Depot.php ==> correction : message "Fatal error: Call to undefined function send_sql()..."
+Edition_Image.php ==> amélioration : rafraichissement de l'image si celle-ci est changée
+                  ==> correction : message "Fatal error: Call to undefined method PDOStatement::fetch_field()..." en modification
+Edition_Source.php ==> correction : "message "Fatal error: Call to undefined function send_sql()"
+Stat_Base_Villes.php ==> correction : action sur bouton Reetour si on ne vient pas des statistiques par département
+Import_Gedcom.php ==> correction : une filiation en double ne provoque plus l'arrêt du traitement
+Import_Sauvegarde.php ==> amélioration : ajout de la date et heure de modification dans la liste des fichiers disponibles
+Fiche_NomFam.php ==> correction : lien vers la recherche sur les sites hébergés
+sel_zone_geo.php ==> correction : message "PHP Parse error:  syntax error, unexpected ',' ..."
+plusieurs pages ==> changement : toutes les couleurs de dégradés sont désormais ouvertes sur les sites hébergés gratuits
+                ==> changement : design "arrondi"
+
+Version 6.5
+===========
+Import_CSV_Liens.php ==> nouveau : possibilité d'importer des liens
+Export_Liens.php ==> nouveau : possibilité d'exporter des liens
+Liste_Liens.php ==> amélioration : possibilité de supprimer les liens depuis la liste
+Edition_Ville.php ==> nouveau : possibilité de supprimer des villes non utilisées (en local uniquement)
+                  ==> changement : il n'est plus proposé de lier une source en création de la ville
+Fiche_NomFam.php ==> nouveau : possibilité de rechercher le nom sur les sites hébergés (non disponible pour les sites hébergés gratuits)
+Recherche_Personne.php ==> nouveau : possibilité de rechercher le nom sur les sites hébergés si le nom est l'un des critères de recherche (non disponible pour les sites hébergés gratuits)
+Infos_Tech.php ==> nouveau : informations sur l'environnement technique dans le menu "Utilitaires"
+Recherche_Personne.php ==> amélioration : ajout d'un critère de tri du résultat
+                       ==> correction : les critères d'une recherche à partir d'une requête sauvegardée n'étaient pas affichés
+Import_Sauvegarde.php ==> amélioration : ajout sur Internet d'une option pour préserver la liste des utilisateurs
+Init_Noms.php ==> amélioration : la fonction de recalcul des identifiants de noms manquants est désormais accessible dans le menu (sauf sites hébergés)
+Import_Gedcom.php ==> amélioration : optimisation sur le traitement des villes
+Liste_Pers2.php ==> amélioration : bloc d'entêtes pour les initiales de nom sur les listes par ville
+exp_Gedcom_Personne.php ==> amélioration : ajout d'un bouton retour
+                        ==> correction : compatibilité W3C
+Edition_Type_Evenement.php ==> amélioration : en modification, ajout d'une icône vers la fiche type évènement (lecture seule)
+Ajout_Enfants.php ==> amélioration : ajout d'un lien vers les fiches familiales du père et de la père
+Edition_Filiation.php ==> correction : certains boutons ne fonctionnaient plus en 6.4 suite aux unions de personnes de même sexe
+                      ==> correction : la demande de suppression ne supprimait pas les commentaires ou les liens vers les documents, évènements ou images
+Recherche_Cousinage.php ==> correction : message "Undefined variable: droite..." lorqu'aucune ascendance commune n'a été trouvée
+Edition_Union.php ==> correction : il n'est plus proposé de lier une source en création de l'union (provoquait une erreur)
+                  ==> correction : la demande de suppression ne supprimait pas les commentaires ou les liens vers les documents, évènements ou images
+                  ==> correction : UnKnow column ’Ref_Union’ in ‘field list’ en cas de création d'enfants
+                  ==> correction : l'ajout d'événements ne fonctonnait plus en 6.4
+Edition_Evenement.php ==> changement : il n'est plus proposé de lier une source en création de l'évènement
+                      ==> correction : la demande de suppression ne supprimait pas les commentaires ou les liens vers les documents ou images
+index.php ==> correction : problème d'affichage des caractères accentués avec certaines versions de PHP (corrections par Christian et Armand)
+          ==> correction : compatibilité W3C, ajout de "alt" sur détection de version incohérente
+Fiche_Homonymes.php ==> changement : le niveau requis passe de gestionnaire à contributeur
+Liste_Nom_Evenement.php ==> correction : le retour depuis la fiche du nom de famille ne fonctionnait pas
+Recherche_Commentaire.php ==> correction : l'appel de la modification d'une union ne donnait pas les personnes de l'union dans la fiche edition
+exp_GenWeb.php ==> correction : décalage à l'affichage dans l'entête
+Fiche_Lien.php ==> correction : plantage lorsque l'on revenit de la fiche modification où on avait demandé la suppression du lien
+Fiche_Document.php ==> correction : la visibilité Internet était inversée
+Edition_NomFam.php ==> correction : lors de la modification d'un nom avec apostrophe, les personnes n'étaient pas modifiées
+Fiche_Fam_Pers.php ==> correction : affichage à tort du lien vers OpenStreetMap pour la ville de mariage alors qu'elle n'était pas saisie si présence date de mariage et ville de naissance ou de décès avec coordonnées
+                   ==> correction : caractères accentués interprétés dans certaines configurations sur le bouton "Contribuer"
+plusieurs pages ==> amélioration : optimisation : pas d'accès à la base pour rechercher le numéro de la dernière personne créée si on l'a dejà fait dans sa session de navigation
+                ==> correction : le menu vers le moteur de recherche sur les sites hébergés pointait sur l'ancienne version du moteur de recherche
+
+Version 6.4
+===========
+Vue_Personnalisee_Rapide.php ==> nouveau : définition de la personne de la vue personnalisée directement depuis la fiche familiale de la personne
+Edition_Union.php ==> nouveau : possibilité d'avoir des unions unisexe (prise en compte du "mariage pour tous")
+Init_Sosa.php ==> nouveau : fonction permettant d'effacer en masse tous les numéros sosa de la base (préservation possible du decujus)
+Ajout_Rapide.php ==> amélioration : possibilité de demander à Généamania de calculer automatiquement les sosas des parents si la personne a elle-même un sosa numérique
+Fiche_Ville.php ==> amélioration : possibilité de visualiser les documents attachés
+Import_Sauvegarde.php ==> amélioration : import d'un script de sauvegarde d'un site hébergé sans modification préalable du script (script généré à partir de la 6.4)
+Verif_Sosa.php ==> correction : message "Fatal error: Allowed memory size of ... bytes exhausted" sur les bases avec beaucoup de générations ; diminution de la mémoire utilisée
+Liste_Pers_Gen.php ==> amélioration : il est désormais possible d'avoir 1 ligne par personne manquante dans l'export CSV
+index.php ==> changement : optimisation : pas de recherche des anniversaires si on l'a dejà fait dans sa session de navigation
+          ==> correction : les images sur les boutons "Rechercher", "Connexion" et "Deconnexion" ne s'affichaient pas
+Import_Gedcom.php ==> correction : dans certains cas, une date non renseignée pouvait ressortir à 000001XL
+                  ==> correction : plantage dans le lien source-personne lorsque la source contenait une apostrophe (Requête en erreur : INSERT INTO concerne_source VALUES(...)
+Ajout_Contribution.php ==> correction : sur internet, un utilisateur non privilégié pouvait appeler la page de contribution des personnes non publiques
+                       ==> changement : demande aux moteur de ne pas indexer la page
+Recherche_Personne_Archive.php ==> correction : les mariages étaient précédés à tort d'un caractère + et non x
+Export.php ==> changement : sur les sites hébergés, le seul type d'export possible est la sauvegarde
+Edition_Personne.php ==> changement : il n'est plus possible de modifier le sexe d'une personne en cas d'union
+Edition_Filiation.php ==> correction : liste trop restrictive des parents si l'une des dates est antérieure à l'an 1000
+Liste_Pers_Gen.php ==> changement : limitation à 20 générations en local pour éviter les plantages dus à la consommation de mémoire
+Liste_Pers.php ==> changement : pour afficher les personnes, il faut que le date de l'union soit renseignée dans le case d'une liste par ville de mariage pour la ville inconnue (date du contrat pour la liste par ville de contrat)
+Liste_Pers2.php ==> changement : pour afficher les personnes, il faut que la date de naissance soit renseignée dans le cas d'une liste par ville de naissance pour la ville inconnue (ou date de décès pour les villes de décès)
+                ==> changement : pour afficher les personnes, il faut que la date de l'union soit renseignée dans le cas d'une liste par ville de mariage pour la ville inconnue (ou date de contrat pour les villes de contrat)
+                ==> changement : l'image indiquant la diffusion internet de la fiche est affichée à partir du profil contributeur
+Arbre_Asc_PDF.php ==> correction : il était possible sur internet de demander directement la page pour une personne non visible sans que l'on ait les autorisations
+plusieurs pages ==> correction : la saisie d'une date avec une année sur 3 caractères est désormais correctement prise en compte
+                ==> amélioration : possibilité de paramétrer la couleur de la police de caractère des états pdf (non disponible sur les site hébergés non Premium)
+                ==> correction : sur les listes de personnes, homogénéisation des tris pour les caractères accentués et correction des liens morts dans le bandeau
+                ==> changement : la police par défaut devient "Verdana" (au lieu de "Trebuchet MS") pour plus de lisibilité
+                ==> correction : compatibilité W3C
+                ==> correction : encodage des caractères sur certains libellés
+                ==> changement : demande aux moteur de ne pas indexer la page ou certains liens
+
+Version 6.3
+===========
+index.php : ==> changement : refonte de la page d'accueil avec une barre d'accès direct aux fonctionnalités courantes
+            ==> amélioration : possibilité de rechercher une ville depuis l'accueil
+            ==> changement GénéGraphe.jar renommé en GeneGraphe.jar pour éviter les problèmes d'accents sur certains environnements
+Fiche_Indiv_txt.php ==> correction : sur le format pdf, le cadre du titre n'était pas fermé pour les personnes n'ayant de numéro
+Recherche_Personne.php ==> amélioration : possibilité d'affiner les critères de recherche sur 2 recherches successives (recherche ==> liste résultat ==> nouvelle recherche ; non disponible sur les site hébergés non Premium)
+                       ==> correction : le critère numéro était affiché 2 fois sur la liste résultat
+Recherche_Personne_Archive.php ==> amélioration : prise en compte des données des mariages
+                               ==> amélioration possibilité de sélectionner les types de dates à prendre en compte (naissances, mariages, décès)
+                               ==> amélioration : possibilité de trier par date ou nom de personne
+                               ==> amélioration : possibilité d'affiner les critères de recherche sur 2 recherches successives (non disponible sur les site hébergés non Premium)
+                               ==> changement : pour une même date, les personnes sont désormais triées par nom et prénoms (auparavant, pas de tri au delà de la date)
+Recherche_Ville.php ==> amélioration : possibilité d'affiner les critères de recherche sur 2 recherches successives (non disponible sur les site hébergés non Premium)
+Stat_Base.php ==> amélioration : affichage d'un indicateur de respect de la charte des sites gratuits pour les sites hébergés non Premium
+Stat_Base_Generations.php ==> correction : libellé au survol des icônes "+" et "-"
+Export.php ==> correction :l'export pouvait être incorrect pour des tables ayant des noms longs (> 25 caractères compte tenu du préfixe)
+Edition_Image.php ==> sous Internet Explorer la modification renvoyait une erreur si on ne re-sélectionnait pas l'image
+                  ==> correction : un accent dans le nom du fichier empêchait l'image d'être prise en compte sur certains environnements
+Liste_Evenements.php ==> amélioration : accès direct à la liste des actualités et des professions
+Fiche_Ville.php ==> correction : le lien vers le moteur de recherche du serveur Généamania n'est plus proposé en dehors des sites hébergés Premium
+Fiche_NomFam.php ==> correction : le lien vers le moteur de recherche du serveur Généamania n'est plus proposé en dehors des sites hébergés Premium
+Fiche_Fam_Pers.php ==> correction : les enfants nés en dehors d'une union mais pour la personne n'étaient pas retournés
+Arbre_Desc_Pers.php ==> correction : contrôle que la personne demandée existe au lieu d'afficher une erreur technique
+Edition_Lier_Nom.php ==> correction : message d'erreur en cas de modification sur un lien de nom secondaire
+plusieurs pages ==> amélioration : possibilité d'avoir une feuille de style personnelle
+                ==> amélioration : les documents peuvent être de type texte (txt, rtf, doc, docx, odt)
+
+Sur GénéGraphe :
+================
+Version 6.1, compatible Linux
+
+Version 6.2 :
+=============
+Pyramide_Ages_Mar_Histo.php ==> nouveau : historique de l'âge du 1er mariage
+Histo_Ages_Mariage.php ==> nouveau : répartition des âges de premier mariage pour une période donnée (appelable à partir de l'historique des âges de mariage ; page d'info incluse)
+Recherche_Nom_Heberges.php ==> nouveau : recherche des personnes portant ce nom dans les sites hébergés (non disponible en dehors des sites hébergés ; et réservé aux Premium)
+Recherche_Ville_Heberges.php ==> nouveau : recherche des villes portant ce nom dans les sites hébergés (non disponible en dehors des sites hébergés ; et réservé aux Premium)
+Fiche_Fam_Pers.php ==> correction : la possibilité de saisir les enfants avec le conjoint n'était possible que pour le premier conjoint
+                   ==> correction : compatibilité W3C lorsqu'il y a plusieurs images
+                   ==> changement : la fiche couple au format texte est désormais disponible sur les sites hébergés non Premium
+Fiche_Indiv_txt.php ==> nouveau : fiche individuelle au format texte ou pdf (cette dernière possibilité n'étant pas accessible sur les sites hébergés non Premium)
+Fiche_Couple_txt.php ==> amélioration : la fiche présente l'image par défaut de la femme et du mari si présente
+                     ==> amélioration : les commentaires du mari, de la femme et de l'union sont présentés
+                     ==> correction : les apostrophes étaient mal rendues dans les sorties pdf
+Ajout_Rapide.php ==> amélioration : sélection en 1 clic du nom d'un parent lorsque celui-ci est le même que celui de l'enfant
+Edition_Lier_Eve.php ==> amélioration : possibilité de débrancher sur la fiche de l'évènement lors de la modification du lien avec une personne
+Edition_Union.php ==> correction : le clic pour ajouter une ville de mariage ne donnait pas le focus sur la zone de saisie de ville
+Histo_Prenoms.php ==> amélioration : le tri des occurrences peut être ascendant ou descendant
+Liste_Pers.php ==> correction : la liste par noms ne distinguait pas les noms avec et sans accents
+Liste_Pers2.php ==> correction : la rupture sur les initiales ne fonctionnait pas sur Internet en mode non connecté
+index.php : changement ==> la fiche de l'actualité n'est cliquable que s'il y a un lieu
+Import_Gedcom.php ==> amélioration : les évènements Gedcom sur les unions sont désormais pris en compte dans l'import
+                  ==> correction : une apostrophe dans un nom de dépôt lors de la création d'une source pouvait provoquer une erreur
+exp_Gedcom.php ==> amélioration : les évènements Gedcom sur les unions et leurs commentaires sont désormais exportés
+export.php ==> correction : le dépôt générique n'était pas exporté (absent de Export_Initialisation.sql)
+Recherche_Personne_Archive.php ==> correction : le bouton "Nouvelle recherche" n'était pas au design de la V6
+Stat_Base_Villes.php ==> correction : l'affichage de la première ligne dans le tableau n'était pas correct
+Recherche_Cousinage.php ==> amélioration : affichage de la parenté en droit civil et droit canon
+Plusieurs pages ==> correction : les dates révolutionnaires étaient mal affichées pour les personnes connectées sur Internet
+                ==> correction : le fait d'ajouter un nom de personne déjà existant (e.g. lors de l'ajout d'une personne) ne crée plus de doublon
+                ==> amélioration : possibilité de paramétrer la police de caractère des états pdf
+                ==> amélioration : lors de l'ajout d'une ville dans une liste déroulante, la ville est ajoutée à sa place dans l'autre liste liée (e.g. ville mariage vs. ville contrat)
+                ==> changement : les contraintes de taille des images sont alignées sur le Premium pour les sites locaux ou hébergés hors de la plateforme Généamania
+                ==> changement : forçage d'une localisation par défaut pour la date : paris (pour éviter certains messages techniques)
+                ==> changement : compatibilité PHP 5.4 ; spécification de l'encodage par défaut pour htmlentities et la fonction inverse (paramétrable)
+
+Version 6.1.1 :
+===============
+Edition_Filiation.php ==> correction : liste trop restrictive des parents si la date de naissance n'est pas renseignée (correction dans fonctions_maj.php)
+Liste_Pers_Gen.php ==> correction : les personnes non visibles sur Internet étaient exportées en csv quel que soient le profil et l'indicateur de visibilité
+                   ==> changement : le nom du fichier de l'export csv comporte désormais le modificateur de nom de fichier
+index.php ==> correction : les dates des actualités prenaient en compte à tort l'année pivot de masquage des dates sur Internet et n'étaient pas affichées en entier pour les personnes connectées si l'indicateur d'affichage de l'année seule était positionné
+Import_Gedcom.php ==> correction : mauvaise prise en compte des guillemets sur certaines configurations entrainant un plantage de l'import
+
+Version 6.1 :
+=============
+Liste_Patro.php ==> nouveau : possibilité de sortir la liste au format PDF (non disponible pour les sites hébergés non Premium)
+appelle_chronologie_personne.php ==> correction : la date de décès était égale à la date de naissance
+install.php ==> correction : mauvaise prise en compte du préfixe sur la table des dépôts
+Gestion_Pages.php ==> correction : faille de sécurité
+Edition_Filiation.php ==> amélioration : les liste des personnes sont restreintes pour éliminer certaines personnes manifestement non "compatibles"
+                      ==> amélioration : ajout d'un bouton pour ne garder que les pères ou les mères du même nom
+                      ==> correction : libellé erroné pour l'ajout de source
+Edition_Union.php ==> amélioration : les liste des personnes sont restreintes pour éliminer certaines personnes manifestement non "compatibles"
+                  ==> correction : suppression de l'union par la référence pour ne pas être dépendant du sexe des personnes unies
+Arbre_Asc_Pers.php ==> correction : message 'Warning: getimagesize(...' lorsque l'image n'est pas présente
+Pyramide_Ages_Histo.php ==> correction : message "Warning: substr() expects parameter 3 to be long, ..." et pas de retour
+Verif_Internet_Absente.php ==> correction : le bouton "Annuler" ne ramenait pas sur la page précédente
+                           ==> correction : message "Notice: Uninitialized string offset: 0 " si l'utilisateur clique sur "Rectifier" sans faire de sélection
+Stat_Base_Villes.php ==> amélioration : affichage des totaux pour les villes renseignées
+                     ==> correction : affichage "?" lorsque la ville est inconnue
+Arbre_Asc_Pers.php ==> amélioration : nouveau gabarit d'arbre ascendant imprimable, façon parchemin
+Stat_Base_Depart.php ==> amélioration : affichage des totaux pour les départements renseignés
+image_depart.php ==> correction : plantage lorsque le code du département n'était pas un de ceux référencés pour la France
+Plusieurs pages ==> correction : les sauts de lignes étaient mal pris en compte sur les sorties pdf
+                ==> correction : non prise en compte des commentaires sous IE9 en mode non retro-compatible
+                ==> correction : les mois révolutionnaires comportent au maximum 30 jours (et non 31)
+                ==> correction :  message "Notice: Undefined index: estCnx ...' si on ne passe pas par la page d'accueil
+                ==> nouveau : possibilité de masquer sur Internet les dates postérieures ou égales à une année (non disponible sur les sites hébergés non Premium)
+
+Sur GénéGraphe :
+================
+Version 6.0
+- correction d'une erreur dans la génération des fichiers PDF ;
+- correction d'une erreur dans l'affichage de date du calendrier républicain ;
+- correction de la conversion de dates quand il n'y avait pas de format d'affichage saisi ;
+- correction : quand on demandait l'affichage de l'âge au décès, un "G" parasité était affiché ;
+- modification du nombre de générations pour l'ajout de l’ascendance d'une personne.
+
+
+Version 6.0 :
+=============
+Ajout_Rapide.php ==> correction : la saisie d'un baptême provoquait une erreur : Column count doesn't match value count at row 1
+                 ==> changement : l'onglet "Conjoint" est présenté par défaut
+Completude_Nom.php ==> nouveau : export CSV de la liste
+color_picker.php ==> correction : bug de sélection de la couleur sous FireFox V7 (correction partielle en attendant de remplacer le composant)
+exp_Gedcom.php ==> amélioration : le code postal est exporté en tant que code lieu
+               ==> amélioration : ajout de l'export du surnom d'une personne
+               ==> correction : les villes sans département sont mieux exportées
+               ==> changement : le mail présent dans l'entête du fichier Gedcom est celui du gestionnaire du site
+exp_Gedcom_Personne.php ==> amélioration : le code postal est exporté en tant que code lieu
+                        ==> amélioration : ajout de l'export du surnom d'une personne
+                        ==> correction : les villes sans département sont mieux exportées
+                        ==> changement : le mail présent dans l'entête du fichier Gedcom est celui du gestionnaire du site
+                        ==> correction : forçage du niveau requis à privilégié au minimum
+Import_Gedcom.php ==> nouveau : prise en compte des dépôts de sources, des sources et des références à des sources pour les personnes (niveau 1 Gedcom)
+                  ==> amélioration : import des surnoms des personnes
+                  ==> correction : les unions ne sont plus créées si l'un des conjoints est inconnu
+                  ==> correction : les codes postaux non numériques sont désormais acceptés et éventuellement tronqués à 10 caractères
+                  ==> correction : pour certaines configurations techniques les apostrophes étaient mal protégées (se traduisant par des "\" parasites à l'affichage)
+                  ==> correction : mauvaise détermination du titre de certains évènements Gedcom
+                  ==> correction : plantage lorsque le nom d'une image comporte une apostrophe
+                  ==> correction : message d'erreur 'Warning: strpos() [function.strpos]: Offset not contained in string in...' quand le tag NAME est vide
+Import_CSV.php ==> nouveau : import de personnes depuis un tableur (non disponible pour les sites hébergés non Premium)
+Stat_Base_Generations.php ==> nouveau : Complétude des personnes par génération (contribution de Christophe G)
+Fiche_Fam_Pers.php ==> amélioration : affichage des dates de participation pour les évènements profession (de quelle date à quelle date une personne a exercé une profession)
+                   ==> amélioration : affichage des frères et soeurs
+                   ==> amélioration : lien vers l'ajout rapide pour les profils habilités
+                   ==> amélioration : lien vers l'ajout rapide d'enfants pour un couple pour les profils habilités (non disponible pour les sites hébergés non Premium)
+Ajout_Enfants.php ==> nouveau : ajout rapide d'enfants (depuis la fiche familiale ; non disponible pour les sites hébergés non Premium)
+Edition_Ville.php ==> correction : en création, pas de lien vers la fiche en lecture simple et la fiche de gestion des images associées
+Edition_Personne.php ==> amélioration : ajout du surnom d'une personne
+                     ==> changement : on peut désormais supprimer une personne si son sexe n'est pas connu
+                     ==> correction : il était possible de supprimer une personne alors qu'elle était parent
+Fiche_Fam_Pers.php ==> amélioration : ajout du surnom d'une personne
+Fiche_Couple_txt.php ==> amélioration : ajout du surnom d'une personne
+Recherche_Personne.php ==> amélioration : ajout du critère de recherche surnom d'une personne
+                       ==> amélioration : affichage des informations de naissance et décès
+                       ==> changement : colonnes à exporter lors de l'export CSV pour standardisation avec nouveaux exports CSV
+Export.php ==> amélioration : possibilité de masquer les dates récentes (paramétrable)
+Liste_Pers2.php ==> correction : les personnes ne s'affichaient pas en venant de la liste des personnes vivantes
+Conv_Romain.php ==> amélioration : nouveau design
+Calc_So.php ==> amélioration : nouveau design
+Arbre_Desc_Pers.php ==> amélioration : nouveau design
+Fiche_Role.php ==> correction : contrôle du niveau d'autorisation
+Fiche_Actualite.php ==> amélioration : ajout d'un lien vers la modification de l'actualité
+Liste_Actualites.php ==> amélioration : ajout d'un lien vers la modification de l'actualité si le contexte le permet
+                     ==> amélioration : ajout d'un lien vers la création d'une actualité
+Edition_Evenement.php ==> correction : en création, pas de lien vers l'appel des images liées
+Recherche_Ville.php ==> nouveau : fonction de recherche de villes
+Fiche_Homonymes.php ==> amélioration : lien vers la ficher familiale pour les 2 personnes à comparer
+                    ==> correction ; corrections diverses d'affichage
+Edition_Union.php ==> correction : en création, pas de lien vers l'ajout de documents
+                  ==> correction : plantage en modification si le nom pour les enfants contient une apostrophe
+Liste_Liens.php ==> amélioration : alignements
+Edition_Lien.php ==> correction : affichage à tort d'un commentaire en création
+                 ==> correction : mauvaise assignation de la référence du lien si saisie d'un commentaire en création
+                 ==> changement : la desription et le lien sont désomais sur 255 caractères maximum
+Edition_Region.php ==> correction : plantage si le code région n'était pas numérique
+Verif_Homonymes.php ==> amélioration : nouveau design
+Glossaire_Sosa.php ==> amélioration : nouveau design
+Liste_Eclair.php ==> nouveau : possibilité de sortir la liste au format PDF (non disponible pour les sites hébergés non Premium)
+Liste_Pers_Gen.php ==> nouveau : export CSV de la liste (non disponible pour les sites hébergés non Premium)
+Recherche_Commentaire.php ==> nouveau : export CSV du résultat de la recherche (non disponible pour les sites hébergés non Premium)
+Verif_Personne.php ==> correction : sécuisation des variables postées
+                   ==> correction : 'Le code de diffusion Internet n'est pas valid&eacute;' ==> 'Le code de diffusion Internet n'est pas validé.'
+                   ==> correction : Undefined variable: dNais
+                   ==> correction : Undefined variable: nomPers
+Edition_Utilisateur.php ==> amélioration : ajout d'une adresse mail
+                        ==> amélioration : possibilité d'envoyer un mail suite à la création d'un utilisateur
+                        ==> amélioration : ajout d'un bouton pour copier le mot de passe généré dans les champs ad-hoc
+                        ==> correction : message d'erreur 'Notice: Undefined variable: motPasse1...'
+                        ==> changement : la saisie d'un mot de passe n'est plus obligatoire en mise à jour
+Fiche_Utilisateur.php ==> correction : message d'erreur 'Warning: Cannot modify header information' lorsque l'on revenait sur la page après la suppression la suppression
+Fusion_Evenements.php ==> amélioration : débranchement possible vers l'évènement
+                      ==> amélioration : page d'information sur la fusion des évènements
+                      ==> changement : modification de l'affichage pour plus de clarté
+                      ==> changement : la liste des évènements à fusionner est affichée dès l'arrivée sur l'écran
+Fiche_Depot.php ==> nouveau : affichage d'un dépôt de sources
+Edition_Depot.php ==> nouveau : création / modification d'un dépôt de sources
+chronologie_personne.php ==> changement : les dates 'Environ' de la personnes sont considérées comme exactes pour afficher les repères des enfants et unions
+                         ==> changement : décalage de l'image vers la droite lorque la personne a vécu mons de 80 ans (diminution des risques de recouvrement)
+                         ==> changement : modification des symboles
+Ajout_Contribution.php ==> changement : suppression des accents dans le titre du mail (mesure conservatoire anti-black listage)
+Fiche_NomFam.php ==> changement : pas d'appel de la liste des personnes portant ce nom et de la complétude s'il n'y a pas de personnes
+Edition_Lier_Pers.php ==> amélioration : ajout d'une valeur 'Indifférent' pour l'indicateur de personnage principal d'une relation
+                      ==> correction : mauvaise prise en compte de l'indicateur de personnage principal d'une relation en fonction de la personne dont on venait
+Edition_Source.php ==> nouveau : création / modification d'une source
+Fiche_Source.php ==> nouveau : visualisation d'une source
+Liste_Sources.php ==> nouveau : liste des sources ((non disponible pour les sites hébergés non Premium)
+Edition_Filiation.php ==> correction : faute d'orthographe ("Choix par un collatéral")
+Edition_Lier_Source.php ==> nouveau : affectation d'une source à une personne, filiation, union, ville ou évènement
+Edition_Lier_Doc.php ==> correction : le nom de la femme n'était pas affiché pour un lien avec une union
+                     ==> correction : message d'erreur 'Warning: include() [function.include]: Failed opening 'jscripts/Edition_Lier_Doc.js'...
+Edition_Image.php ==> correction : la liaison d'une image n'entrainait pas sa copie (message d'erreur Image (...) non trouvée)
+Edition_Lier_Eve.php ==> changement : sélection du rôle 'Défaut' qui apparait en premier par défaut
+Edition_NomFam.php ==> correction : demander la modification du nom sans rien modifier provoquait un plantage sur les noms se prononçant avec des "é" ou "è"
+Liste_Utilisateurs.php ==> amélioration : possibilité de filtrer les utilisateurs par profil
+Mail_Ut.php ==> Nouveau : possibilité d'envoyer des mails aux utilisateurs du site (non disponible pour les sites hébergés non Premium)
+appelle_chronologie_personne.php ==> correction : le nom des conjoints n'apparaissait pas pour les invités ou non connectés
+                                 ==> correction : troncature des dates de la personne si elle n'a pas vécu suffisamment longtemps
+Verif_Homonymes.php ==> changement : affichage d'un message si aucun homonyme n'est détecté
+Calendriers.php ==> nouveau : calculatrice pour ajouter ou retrancher des mois/années à une date
+                ==> correction : dans le pavé "Conversions de calendrier républicain", le mois et l'année étaient sur une autre ligne
+Pers_Isolees.php ==> amélioration : amélioration de la performance
+Edition_Lier_Objet.php ==> correction : la suppression ne fontionnait pas
+                       ==> correction : message d'erreur 'Notice: Undefined variable: lib_sup...'
+Verif_Internet.php ==> changement : le formulaire de revérification est affiché même si aucune personne n'est trouvée
+Verif_Internet_Absente.php ==> changement : le formulaire de revérification est affiché même si aucune personne n'est trouvée
+                           ==> correction : message d'erreur 'Notice: Undefined variable: annuler... lorsque la liste était vide
+Verif_Internet_Absente_Info.php ==> correction : aide en ligne modifiée
+plusieurs pages ==> amélioration : nouveau design des boutons
+                ==> amélioration : Saisie rapide d'une date grégorienne
+                ==> changement : la date complète est affichée pour les utilisateurs connectés si le paramètre " Affichage de l'année seule dans les dates sur Internet" est validé
+                ==> correction : les périodes de dates n'étaient pas affichées si la date de début n'est pas présente
+                ==> correction : compatibilité W3C
+                ==> amélioration : ajout d'un bouton 'Retour'
+                ==> correction : meilleure gestion des enchainements ; dans certains cas, on restait à tort sur la même page
+                ==> nouveau : ajout du profil 'Contributeur', autorisé à faire des mises à jour sur le site mais pas à l'administrer
+                ==> correction : affichage de la date complète en fonction de la connexion
+
+Version 5.0.1 :
+===============
+Import_Gedcom.php ==> correction : plantage "Column count doesn't match value count at row 1 Requête en erreur : INSERT INTO participe..."
+
+Sur GénéGraphe :
+================
+Version 4.O.1
+- correction d'un bug dans la fenêtre de personnalisation des étiquettes
+
+Version 5.0 :
+=============
+recup_sources.php ==> nouveau : système de récupération automatique des sources
+Fiche_Fam_Pers.php ==> nouveau : possibilité de sortir les fiches couple au format PDF (à partir du profil privilégié, non disponible pour les sites hébergés non Premium)
+                   ==> correction : plantage si le sexe de la personne initiale n'était pas connu
+                   ==> amélioration : ==> l'export Gedcom prend en compte les images de la personne
+                   ==> correction : les personnes de profil privilégié ne pouvaient plus visualiser les fiches non diffusables
+                   ==> correction : compatibilité W3C en cas de présence d'un arbre personnalisé GénéGraphe
+                   ==> correction : l'affichage des documents était conditionné par l'autorisation d'affichage du commentaire sur la personne.
+                   ==> correction : l'affichage des documents n'était pas fonction du profil
+                   ==> correction : les nom et prénoms d'un conjoint était affichés quel que soit le profil de l'utilisateur
+                   ==> correction : message "Notice: Undefined index: mem_pers ... on line 2318" en cas d'accès direct à la fiche sans passer par l'accueil
+                   ==> correction : compatibilité W3C en cas de plusieurs documents sur la page
+                   ==> changement : l'export Gedcom n'est plus disponible pour les invités (plus de génération de la page par les robots qui ne respectent pas les directives)
+Export.php ==> correction : un nom de base avec un tiret (trait d'union) faisait planter l'export
+Recherche_Personne.php ==> amélioration : nouveau critère sur la catégorie
+                       ==> amélioration : ajout de la calculette sosa pour le numéro
+Edition_Personne.php ==> correction : la calculette sosa pour le numéro ne fonctionnait pas
+Liste_Nom_Pop.php ==> nouveau : statistique des noms les plus portés (10 pour les sites gratuits, 15 pour les Premium ou autres)
+Liste_Pers_Mod.php ==> nouveau : liste des dernières personnes modifiées (10 pour les sites gratuits, 15 pour les Premium ou autres)
+Stat_Base_Villes.php ==> amélioration : débranchement possible sur les fiches ville
+                     ==> amélioration : ajout d'un bouton 'Retour' pour revenir sur la page globale des statistiques
+                     ==> correction : pas de libellé de ville sur le débranchement si la ville n'est pas connue (libellé ? par défaut)
+Stat_Base_Depart.php ==> amélioration : ajout d'un bouton 'Retour' pour revenir sur la page globale des statistiques
+Stat_Base.php ==> nouveau : nombre de sosa directs (numéro sosa numérique)
+Naissances_Mariages_Deces_Mois.php ==> amélioration : ajout d'un bouton 'Retour' pour revenir sur la page globale des statistiques
+Pyramide_Ages_Histo.php ==> amélioration : ajout d'un bouton 'Retour' pour revenir sur la page globale des statistiques
+Pyramide_Ages.php ==> amélioration : ajout d'un bouton 'Retour' pour revenir sur la page globale des statistiques
+Verif_Personne.php ==> correction : l'info-bulle ne s'affichait pas sur les icônes de modification de la personne et sur celle de la fiche familiale
+                   ==> correction : prise en compte de l'état potentiellement vivant pour le contrôle des dates de décès
+Verif_Personne_Info.php ==> correction : aide en ligne
+Arbre_Asc_Pers.php ==> correction : la possibilité de voir la liste des enfants était ouverte même si les parents n'étaient pas connus
+                   ==> correction : sous FireFox, les images ne s'affichaient plus (constaté sous FF 13)
+Arbre_Asc_PDF.php ==> correction : affichage de la précision des dates
+Liste_Pers.php ==> correction : sur les listes au format texte pour les villes de mariage et de contrat de mariage, le prénom du mari était à tort celui de sa femme
+Utilisations_Document.php ==> nouveau : liste des utilisations d'un document
+Edition_Ville.php ==> nouveau : possibilité de lier des documents
+                  ==> correction : comptabilité W3C
+Liste_Pers_Gen.php ==> nouveau : possibilité de sortir la liste au format PDF (non disponible pour les sites hébergés non Premium)
+                   ==> correction : comptabilité W3C en mode texte
+                   ==> correction : message "Notice: Undefined index: decujus_defaut ... on line 89" en cas d'accès direct à cette liste sans passer par l'accueil
+Liste_Pers.php  ==> nouveau : possibilité de sortir la liste au format PDF (non disponible pour les sites hébergés non Premium)
+                ==> nouveau : débranchement vers le saisie rapide de personnes par ville de naissance ou de décès
+                ==> correction : sur les listes par ville de naissance ou de décès au format texte, le nom et les prénoms étaient collés
+                ==> correction : compatibilité W3C pour les noms présentant des espaces
+Liste_Pers2.php ==> nouveau : possibilité de sortir la liste au format PDF (non disponible pour les sites hébergés non Premium)
+                ==> amélioration : si le nombre de personnes portant un nom est supérieur à 20, présentation d'un bandeau avec initiales des prénoms cliquables
+                ==> correction : compatibilité W3C pour les noms présentant des espaces
+                ==> correction : pour la liste des personnes par date de mariage, présence de l'identifiant de la ville au lieu de la date de l'union entre parenthèses
+                ==> changement : saut de ligne supplémentaire plus plus de clarté
+                ==> correction : message "Undefined index: mem_pers ... on line 144" en cas d'accès direct à la liste patronymique sans passer par l'accueil puis à cette liste
+Import_Gedcom.php ==> amélioration : import des images sur les naissances et les décès
+                  ==> amélioration : import des images des personnes de type jpg en plus des jpeg (ou extensions en majuscules) ; extension à la norme
+                  ==> amélioration : possibilité de paramétrer globalement la visibilité des images importées des personnes
+                  ==> correction : l'import des images des personnes ne fonctionnait plus depuis la 4.2
+                  ==> correction : message "Notice: Undefined offset: 2 ... on line 1103" lorsque la balise "SEX" ne comporte pas d'informations
+                  ==> correction : le commentaire général du site et les commentaires des actualités étaient supprimés à tort
+                  ==> correction : compatibilité W3C lors de l'affichage des résultats de l'import
+Edition_Type_Document.php ==> correction : en création, pas de lien vers la fiche en lecture simple
+Anniversaires.php ==> amélioration : possibilité de ne pas afficher les personnes décédées ou présumées décédées (sur les anniversaires de naissance ou de mariage)
+Liste_Eclair.php ==> correction : compatibilité W3C
+Liste_Patro.php ==> amélioration : lien vers les personnes portant un nom
+                ==> correction : les lieux de naissance et décès étaient collés aux dates
+Fiche_Document.php ==> amélioration : possibilité de visualiser le document (les images sont pré-affichées et cliquables)
+                   ==> correction : les données du documents étaient accessibles quel que soit le profil de l'utilisateur
+Import_Docs.php ==> correction : saut de ligne manquant dans la liste des images
+                ==> correction : message d'erreur "Notice: Undefined variable: chemin_interne ... on line 194"
+                ==> correction : l'import n'était pas possible pour les documents de type image (par opposition à image pure) n'était pas possible
+                ==> correction : le nom du fichier subit désormais le même traitement que lors de Edition_Document.php (cohérence)
+Liste_Nom_Evenement.php ==> nouveau : liste des noms pour un évènement (triée par nombre de personnes par nom)
+Edition_Rangs.php ==> amélioration : affichage de l'écart calculé entre les naissances
+Histo_Prenoms.php ==> nouveau : statistique des prénoms au cours du temps (non disponible pour les sites hébergés non Premium)
+exp_Gedcom.php ==> nouveau : possibilité d'avoir un export gedcom "léger" (sans les notes et évènements)
+               ==> amélioration : l'export Gedcom prend en compte les images de la personne
+               ==> changement : le fichier d'export est ouvert dans un nouvel onglet (ou fenêtre) lorsque l'on clique sur le lien du fichier généré
+exp_Gedcom_Personne.php ==> changement : le fichier d'export est ouvert dans un nouvel onglet (ou fenêtre) lorsque l'on clique sur le lien du fichier généré
+Edition_Union.php ==> amélioration : les villes de naissance et décès des enfants sont saisissables
+                  ==> changement : la visibilité internet est à 'O' pour les enfants ajoutés (était à vide avec problèmes potentiels)
+                  ==> changement : les lignes de saisie des enfants sont pré-affichées (3 lignes pour les sites gratuits non Premium ; 6 pour toutes les autres configurations)
+Recherche_Cousinage.php ==> correction : compatibilité W3C lorsque l'ancêtre commun fait partie des personnes recherchées (1 seule branche)
+                        ==> correction : compatibilité W3C une fois la recherche affichée
+Verif_Homonymes.php ==> correction : l'appel des personnes portant un nom donnait une liste vide
+Fiche_Homonymes.php ==> correction : compatibilité W3C
+                    ==> amélioration : nouveau design
+Verif_Sosa.php ==> correction : protection des variables postées
+               ==> correction : limitation de la mémoire consommée
+Vue_Personnalisee.php ==> amélioration : nouvelle ergonomie plus intuitive
+Liste_Utilisateurs.php ==> correction : l'info-bulle ne s'affichait pas sur l'icône d'ajout
+Fiche_Couple_txt.php ==> correction : compatibilité W3C
+Edition_Personnes_Ville ==> nouveau : saisie rapide de personnes par ville de naissance ou de décès
+phonetique.php ==> correction : nouvelle version de la classe, plus robuste (développée par Gérard)
+appelle_chronologie_personne.php ==> correction : compatibilité W3C
+Edition_Depart.php ==> correction : compatibilité W3C
+Admin_Tables.php ==> nouveau : réparation et optimisation des tables depuis Généamania
+index.php ==> nouveau : formulaire de recherche rapide
+          ==> changement : ouverture de la documentation de GénéGraphe dans un nouvel onglet / une nouvelle fenêtre
+Edition_Lien.php ==> correction : message "Warning: Cannot modify header information..." en création sur certains environnements
+                 ==> correction : compatibilité W3C
+Ajout_Rapide.php ==> correction : compatibilité W3C
+Edition_Lier_Eve.php ==> amélioration : affichage du libellé du type dans la liste déroulante des évènements
+                     ==> correction : l'info-bulle ne s'affichait pas sur les icônes de liste de lieu et de copie de date
+Completude_Nom.php ==> nouveau : complétude des informations des personnes portant un nom
+plusieurs pages ==> correction : compatibilté W3C sur les liens d'affichage des villes sur une carte OpenStreetMap
+                ==> correction : faille de sécurité : mise à jour de données possible sans autorisation dans certains contextes
+                ==> correction : lors d'un changement de site, on ne conserve plus la mémorisation des personnes accédées
+                ==> correction : le contenu prend toute la page et l'écran ne présente plus de blanc
+                ==> amélioration : sur les fiches en lecture (fiche ville, évènement...), nouveau design
+
+Sur GénéGraphe :
+================
+Version 4.O
+- prise en compte des évènements liés aux personnes dans les étiquettes.
+- possibilité de définir un format d'affichage des dates.
+- révision de la documentation :
+       - nouvelle présentation,
+       - corrections diverses,
+       - ajout des nouvelles fonctionnalités de GénéGraphe,
+       - réorganisation de certaines pages,
+- corrections de petites erreurs.
+
+
+Version 4.3 :
+=============
+Edition_Union.php ==> correction : suppression warning suite à un message de debug (variable : ...) sur certaines configurations
+                  ==> correction : suppression warning 'Undefined variable: LesPrenoms'
+                  ==> correction : dans l'ajout rapide d'enfants, seul le dernier était pris en compte
+                  ==> correction : un évènement pouvait être créé avec un titre à blanc
+                  ==> correction : dans l'ajout rapide d'enfants ou d'évènements, les ' étaient mal gérés dans certaines configurations
+Edition_NomFam.php ==> nouveau : possibilité de spécifier un commentaire
+                   ==> correction : présentation sous Internet Explorer
+                   ==> correction : normalisation des balises PHP
+                   ==> correction : le message de confirmation sur la fusion des noms était affiché même pour les boutons "Annuler" et "Supprimer"
+                   ==> correction : fusion des noms
+Fiche_NomFam.php ==> nouveau : visualisation du commentaire
+                 ==> correction : normalisation des balises PHP
+controle_nomFam.php ==> correction : normalisation des balises PHP
+                    ==> amélioration : sécurisation des variables postées (sécurité)
+chronologie_personne.php ==> amélioration : ajout des unions
+Stat_Base.php ==> changement : largeur du tableau des statistiques
+Pyramide_Ages.php ==> amélioration : affichage des nom et prénom de la doyenne et du doyen
+                  ==> amélioration : affichage des âges moyens des hommes et des femmes
+                  ==> correction : compatibilité W3C
+cal.php ==> amélioration : bouton "Aujourd'hui'
+        ==> amélioration : nouveau design
+        ==> correction : blocage de la saisie à 4 caractères maximum sur 1'année grégorienne
+Edition_Lier_Pers.php ==> amélioration : présence d'un bouton pour sélectionner directment la dernière personne à lier
+Edition_Personne.php ==> correction : lors de la modification du decujus, l'ancien n'était pas effacé
+                     ==> correction : compatibilité W3C
+                     ==> correction : un évènement pouvait être créé avec un titre à blanc
+                     ==> correction : dans l'ajout rapide d'enfants ou d'évènements, les ' étaient mal gérés dans certaines configurations
+Recherche_Personne.php ==> amélioration : possibilité de sauvegarder et rappeler une reqûete (non disponible pour les sites hébergés non Premium)
+                       ==> correction : compatibilité W3C
+Edition_Requete.php ==> nouveau : possibilité de sauvegarder et rappeler une reqûete de recherche de personnes
+Fiche_Requete.php ==> nouveau : possibilité de sauvegarder et rappeler une reqûete de recherche de personnes
+Liste_NomFam.php ==> changement : harmonisation et réorganisation du bandeau haut (avec nouveau design)
+Liste_Pers.php ==> nouveau : liste par ville de contrat de mariage
+               ==> changement : harmonisation et réorganisation du bandeau haut (avec nouveau design)
+Liste_Pers2.php ==> nouveau : liste par ville de contrat de mariage
+                ==> changement : harmonisation du bandeau haut
+Liste_Villes.php ==> amélioration : sur la liste des pays, accès direct à la liste des régions pour chaque pays
+                 ==> amélioration : appel possible de la carte lorsque les coordonnées sont renseignées
+                 ==> changement : harmonisation du bandeau haut + dernier nom de ville (ou départ ou région selon le cas) en clair et lien direct
+Liste_Pers_Gen.php ==> correction : info-bulle sur l'oeil du bandeau
+                   ==> correction : une balise image n'était pas fermée
+                   ==> changement : tout le monde peut désormais afficher les lieux
+Arbre_Asc_Pers.php ==> amélioration : possibilité de se débrancher sur tous les enfants d'un couple
+                   ==> amélioration : signalisation des personnes sur lesquelles des images par défaut sont disponibles
+                   ==> amélioration : possibilité de voir les images en pleine taille
+                   ==> correction : sous Internet Explorer, les lignes horizontales étaient des rectangles avec un fond blanc
+Desc_Directe_Pers.php ==> correction : une balise n'était pas fermée, entrainant l'affichage d'un lien parasite entre les images d'arbres ascendant et descendant
+Arbre_Agnatique_Cognatique.php ==> nouveau : arbre agnatique et cognatique d'une personne accessible à partir de sa fiche faimiliale
+Edition_Evenement.php ==> correction : compatibilité W3C
+                      ==> correction : l'icône vers la fiche d'un évènement n'est plus disponible en création
+Fiche_Evenement.php ==> changement : affichage direct du commentaire si l'utilisateur en a les droits (plus de nécessité de cliquer ou survoler le trombonne)
+Fiche_Ville.php ==> nouveau : fiche ville avec image par défaut, commentaire, lien vers la carte et lien direct vers les personnes nées, mariées ou décédées dans la ville
+Edition_Ville.php ==> amélioration : débranchement sur les listes de la ville
+exp_Gedcom_Personne.php ==> correction : meilleure prise en compte des sauts de ligne dans l'export Gedcom
+Fiche_Fam_Pers.php ==> correction : meilleure prise en compte des sauts de ligne dans l'export Gedcom
+Recherche_Commentaire.php ==> nouveau : affichage des commentaires de noms
+                          ==> nouveau : débranchement possible vers la fiche ville
+                          ==> correction : le type "Lien" n'était pas géré et ne permettait pas le débranchement vers les fiches considérées
+                          ==> correction : fautes d'orthographe sur les restitutions
+                          ==> correction :compatibilité W3C
+                          ==> correction : le débranchement sur une fiche union ne fonctionnait pas
+                          ==> correction : le débranchement sur une fiche personne ne fonctionnait pas
+                          ==> correction : idem sur les variables Mari et Femme
+Histo_Ages_Deces.php ==> nouveau : répartition des âges de décès pour une période donnée (appelable à partir de l'historique des âges de décès ; page d'info incluse)
+                     ==> correction : compatibilité W3C
+appelle_image_france_dep.php ==> amélioration : ajout d'un bouton 'Retour' pour revenir sur le tableau des statistiques
+Edition_Lier_Doc.php ==> amélioration : quand il n'y a pas (ou plus) de documents à lier, suppression de la liste déroulante et du bouton OK
+glossaire_gen.php ==> amélioration : ajout d'une icône pour remonter en haut de la page sur chaque initiale
+                  ==> correction : compatibilité W3C
+                  ==> changement : nouvelle présentation du bandeau haut avec les initiales
+Liste_Liens.php ==> changement : appel des liens dans un autre onglet ou une autre fenêtre
+Edition_Parametres_Site.php ==> nouveau : possibilité de spécifier un commentaire général sur le site (affichable à partir de l'accueil)
+Edition_Parametres_Graphiques.php ==> amélioration : nouvelles couleurs de dégradés (non disponible pour les sites hébergés non Premium)
+exp_Gedcom.php ==> amélioration : export des date et lieu de contrat de mariage dans le Gedcom
+Import_Gedcom.php ==> amélioration : import des date et lieu de contrat de mariage
+Import_Sauvegarde.php ==> correction : le champ de l'import est limité aux tables portant le même préfixe
+                      ==> correction : sites gratuits : l'import échouait si les tables de la base locale avaient un préfixe
+                      ==> changement : sites gratuits : contrôle de cohérence entre la version locale et la version actuelle
+Edition_Contribution.php ==> correction : plantage sur l'insertion d'un conjoint
+Recherche_Personne_Archive.php ==> correction : compatibilité W3C
+                               ==> correction : pas de création du fichier d'export si les résultats sont vides
+                               ==> changement : le pluriel est appliqué en fonction du nombre de personnes trouvés (auparavant s entre parenthèses)
+Fiche_Role.php ==> correction : compatibilité W3C
+Calendriers.php ==> correction : mauvais nom pour une couleur sur les conversions de calendrier républicain
+Fiche_Type_Document.php ==> correction : compatibilité W3C
+Fiche_Type_Evenement.php ==> correction : compatibilité W3C
+Pyramide_Ages_Histo.php ==> correction : compatibilité W3C
+Calc_So.php ==> correction : compatibilité W3C
+Naissances_Mariages_Deces_Mois.php ==> correction : compatibilité W3C
+Edition_Parametres_Arbre_Asc.php ==> correction : compatibilité W3C
+Stat_Base_Depart.php ==> correction : compatibilité W3C
+install.php ==> amélioration : ajout d'un lien vers la page d'export dans le conseil avant migration
+plusieurs pages ==> amélioration : affichage des années avant / après dans les listes déroulantes de personnes
+                ==> nouveau : ajout d'un lien direct vers la recherche de personnes sur les sites gratuits
+                ==> correction : sur les formulaires, lorsqu'une zone saisie était trop longue, on en perdait le contenu en base
+                ==> correction : erreur dans le CSS
+                ==> correction : faille de sécurité sur les sites gratuits
+                ==> changement : suppression du javascript sur les pages d'information
+                ==> la taille maximum des documents HTML passe de 30 à 50 Ko (sur les Premium, la limite est multipliée par 4)
+
+Sur GénéGraphe :
+================
+Version 3.O
+- nouveau : mode chronologie pour afficher les personnes sur un frise du temps
+- corrections diverses
+
+
+Version 4.2.2 :
+===============
+Edition_Personne.php ==> correction : l'affichage des images liées en tant que document ne fonctionnait pas
+                     ==> amélioration rapprochement des icones de modification et visualisation
+Fiche_Fam_Pers.php ==> correction : l'affichage des images liées en tant que document ne fonctionnait pas
+                   ==> correction : un lien vers la mise à jour des documents liés était proposé quel que le soit le profil de l'utilisateur (ne pouvait déboucher sur une mise à jour)
+                   ==> correction : faute de français : "documents liés à la personne" (manquait "à la")
+                   ==> amélioration rapprochement des icônes de modification et visualisation
+Edition_Union.php ==> correction : l'ajout rapide d'enfants ne fonctionnait pas
+                  ==> correction : message d'avertissement maj_date n'existe pas si pas de mise à jour
+                  ==> correction : compatibilité W3C
+plusieurs pages ==> correction : tentative de suppression d'un commentaire inexistant
+
+
+Version 4.2.1 :
+===============
+Arbre_Asc_Pers.php ==> correction : repositionnement des icônes en bas de page
+                    ==> correction : erreurs dans le CSS
+Fiche_Fam_Pers.php ==> correction : si la profession n'apporte pas de renseignement complémentaire, elle n'est pas affichée dans les évènements
+                   ==> amélioration : affichage des données du contrat de mariage
+Fiche_Couple_txt.php ==> correction : affichage des données du contrat plus propre lorsque le notaire n'est pas connu
+                     ==> correction : l'icone vers la carte n'est plus affichée sur les données de la personne (mode texte)
+Edition_Image.php ==> correction : rémanence d'un message d'erreur éventuel sur la liste des images
+plusieurs pages ==> correction : robustesse du calcul de l'âge en mois
+                ==> correction : les listes de types d'évènements n'étaient pas triées dans les listes déroulantes
+
+Sur GénéGraphe :
+================
+Version 2.3
+- gestion de références de personnes négatives ;
+- affichage d'une barre de progression lors de la génération de fichier PDF ;
+- prise en compte des documents PDF dans les fichiers PDF générés ;
+- possibilité de ne pas gérer les liens PDF dans chaque arbre ;
+- correction d'une mauvaise gestion des formats de page dans la définition des arbres.
+
+
+Version 4.2 :
+=============
+Export.php ==> amélioration : possibilité de spécifier un modificateur de nom de fichier
+           ==> correction : les valeurs d'auto-incrément sur les tables de références sont désormais exportées à null (erreur dans certaines configurations)
+           ==> changement : le fichier d'export est ouvert dans un nouvel onglet (ou fenêtre) lorsque l'on clique sur le lien du fichier généré
+           ==> changement : plus d'export de la valeur de l'auto-incrément (technique)
+Liste_Pers.php ==> nouveau : sur la liste par ville de mariage : possibilité de trier par date de l'union
+               ==> amélioration : affichage du nom et du prénom de la dernière personne saisie (idem sur Liste_pers2.php)
+exp_Gedcom.php ==> amélioration : possibilité de spécifier un modificateur de nom de fichier
+               ==> amélioration : affichage du chemin du fichier d'export dans le lien de téléchargement
+               ==> correction : le lien vers le fichier d'export ne tenait pas compte du paramétrage possible du chemin du répertoire des exports Gedcom
+               ==> correction : suppression des messages d'erreur sous certaines configurations de PHP lorsque la date n'est pas complète
+Ajout_Rapide.php ==> correction : un avertissement survenait quand aucun nom n'avait été mémorisé auparavant
+Edition_Personne.php ==> nouveau : catégories à positionner sur les personnes ; les catégories sont identifiées par des "gommettes" de couleur
+                     ==> correction : suppression de la personne dans la liste des personnes mémorisées en cas de suppression de la personne
+                     ==> correction : en création, la personne n'était pas mémorisée dans la liste des personnes
+Recherche_Personne_Archive_Info.php ==> correction : aide incomplet
+Desc_Directe_Pers.php ==> nouveau : possibilité d'afficher la descendance directe vers le decujus (format HTML et texte) (accessible via Fiche_Fam_Pers.php en cliquant sur la signalisation [flèche de part et d'autre du nom] d'un ascendant)
+Fiche_Fam_Pers.php ==> changement : balise NOFOLLOW pour que les robots ne suivent pas les liens de la page (notamment les exports Gedcom avec génération de fichiers inutiles)
+                   ==> correction : compatibilité W3C
+                   ==> correction : pas de lien vers la fiche du conjoint quand celui-ci n'est pas connu (scories d'unions d'anciennes versions ?)
+Edition_Categorie.php ==> nouveau : catégories à positionner sur les personnes
+Fiche_Categorie.php ==> nouveau : fiche en lecture simple des catégories à positionner sur les personnes
+Edition_Role.php ==> amélioration : lien vers la fiche en lecture simple
+index.php ==> amélioration : lorsque l'utilisateur est connecté, affichage d'un bouton de déconnexion  et suppression du formulaire de connexion pour plus de clarté
+          ==> compatibilité W3C lorsqu'il n'y a pas d'anniversaire
+Stat_Base_Villes.php ==> amélioration : affichage pour le gestionnaire du pourcentage de personnes visibles sur le net
+appelle_chronologie_personne.php ==> nouveau : appel de la chronologie d'une personne
+chronologie_personne.php ==> nouveau : chronologie d'une personne
+Edition_Lien.php ==> correction : augmentation de la largeur du formulaire pour éviter un décalage dans l'affichage
+                 ==> correction : plus de lien vers la fiche du nom en création
+Fiche_Lien.php ==> correction : lorsque l'utilisateur effaçait un lien, on revenait sur cette page, vide, si on en était parti ; retour automatique vers la page précédente (à priori la liste)
+Liste_Liens.php ==> correction : l'info-bulle ne s'affichait pas sur l'icône d'insert (+ remontée de l'icône en haut pour être homogène avec les autres listes	)
+Recherche_Commentaire.php ==> nouveau : recherche dans les commentaires
+Recherche_Commentaire_Info.php ==> nouveau : aide de la recherche dans les commentaires
+Edition_Utilisateur.php ==> amélioration : bouton pour générer un mot de passe aléatoire
+                        ==> amélioration : lien vers la fiche en lecture simple
+                        ==> changement : en modification, plus besoin de resaisir le mot de passe à attribuer si l'on ne veut pas le changer
+Edition_Document.php ==> nouveau : prise en compte des pdf
+                     ==> amélioration : lien vers la fiche en lecture simple
+                     ==> correction : les erreurs étaient affichées en double
+                     ==> correction : le fichier n'était pas effacé en suppression
+                     ==> correction : incohérence base-fichier physique du nom du fichier s'il comportait des caractères interdits
+                     ==> correction : compatibilité W3C
+                     ==> correction : sous Opera, on était obligé de resaisir le nom du fichier
+Import_Sauvegarde.php ==> amélioration : possibilité de ré-initialiser la base au préalable (permet notamment de migrer d'une autonome vers une autre autonome)
+                      ==> amélioration : nouveau design
+Import_Gedcom.php ==> correction : compatibilité W3C
+                  ==> amélioration : suppression des blancs de fin sur les lignes du fichier (gênaient le traitement, e.g. gedcom généré par BASGEN VR)
+                  ==> correction : la création des noms ne fonctionnait correctement que si les familles étaient en fin de fichier dans le gedcom
+                  ==> correction : non prise en compte d'une date lorsqu'il y a le tag mais pas de date ! (e.g. gedcom généré par GENJ)
+                  ==> correction : la date de mise à jour du site n'était pas modifiée en sortie d'import
+                  ==> changement : suppression de l'option de masquage des fiches pour les sites gratuits non Premium (respect de la charte)
+style_onglets.css ==> correction : 2 fichiers inexistants
+Imports_Docs.php ==> nouveau : prise en compte des pdf
+Liste_Documents.php ==> amélioration : possibilité de visualiser le document directement depuis la liste
+Edition_Union.php ==> amélioration : possibilité de spécifier le sexe lors de l'ajout rapide d'enfants
+Edition_Ville.php ==> nouveau : possibilité de spécifier les coordonnées géographiques de la ville pour la situer sur une carte OpenStreetMap
+Edition_Image.php ==> nouveau : possibilité de masquer les images sur Internet
+                  ==> correction : compatibilité W3C
+Edition_Contribution.php ==> correction : suppression du message d'erreur sur absence de message saisi par un contributeur
+                         ==> correction : plantage lorsque le nom n'était pas modifié pour une personne
+                         ==> correction : les villes nouvelles n'étaient pas créées
+install.php ==> correction : accès à la possibilité de refaire le fichier de connexion lorsque la base n'est pas reconnue
+            ==> changement : affichage en premier accès des données du fichier de connexion sur le formulaire de saisie
+Liste_Patro.php ==> correction : compatibilité W3C
+Liste_Eclair.php ==> correction : compatibilité W3C
+Liste_Pers_Gen.php ==> changement : bridage du nombre de générations affichées pour alléger la mémoire utilisée (nombre différent pour les sites gratuits Premium ou non)
+Arbre_Desc_Pers.php ==> changement : bridage du nombre de générations affichées pour alléger la mémoire utilisée (nombre différent pour les sites gratuits Premium ou non)
+                    ==> correction : compatibilité W3C
+Edition_Lier_Pers.php ==> correction : compatibilité W3C
+                      ==> correction : l'info-bulle ne s'affichait pas sur l'icône de copie de date de début
+                      ==> correction : l'insertion d'un lien déjà créé plantait
+fonctions.php ==> changement : sur l'export gedcom, le titre des évènements est maintenant systématiquement exporté
+			  ==> changement : sur les listes déroulantes de personnes et dans les arbres les années "aux environ de" sont désormais affichées (sous la forme ~année)
+              ==> amélioration : sur l'export gedcom, les commentaires des évènements liés aux personnes sont exportés
+              ==> correction : suppression du message d'erreur sur extraction du premier prénom lorsqu'il n'y a pas de prénom
+plusieurs pages ==> nouveau : les images masquées sur Internet ne sont pas affichées
+                ==> nouveau : affichage des villes sur une carte OpenStreetMap
+                ==> changement : le manuel général est accessible depuis toute aide en ligne
+
+Version 4.1 :
+=============
+Import_Gedcom.php ==> nouveauté : import des liens des images vers les personnes (tags 1 OBJE, puis 2 FORM jpeg, puis 2 FILE)
+                  ==> amélioration : prise en compte des mois en minuscules dans les dates
+                  ==> amélioration : message sur les lieux ne comportant pas le nombre de zones attendues
+                  ==> amélioration : message sur les codes postaux non numériques (masque un problème dans le format du lieu)
+                  ==> amélioration : affichage des dates étendues et non au format interne lors de la lecture d'un Gedcom
+                  ==> amélioration : taille plus importante de la zone contenant le nom du fichier à charger
+                  ==> amélioration : attribution du nom "?" lorsque la personne n'a pas de nom
+                  ==> amélioration : suppression des blancs initiaux sur les lignes du fichier (gênaient le traitement, e.g. indentation, vue sur Généatique 2006)
+                  ==> correction : un import de lieu avec une structure différente de celle demandée (sic !) faisait planter l'insertion des villes (code postal non numérique si une chaine de caractère est dans la zone)
+                  ==> correction : prise en compte des jours sur 2 caractères dont un blanc initial (au lieu de zéro ; e.g. export par Elie 3.4)
+                  ==> correction : le bouton "Effacer les lieux" ne fonctionnait pas
+Liste_Pers_Gen.php ==> amélioration : possibilité d'afficher les noms de lieux
+                   ==> amélioration : possibilité d'avoir les personnes manquantes dans la liste (Il manque le père de xx, Il manque la mère de YY ; développé par Gérard Kester)
+                   ==> amélioration : icône pour masquer / afficher toutes les générations
+                   ==> changement : plus de détection d'implex lorsque le decujus n'est pas celui par défaut
+Recherche_Cousinage.php ==> correction : la valeur de la case "Sauver" n'était pas ré-affichée dans l'état tel qu'il avait été demandé par l'utilisateur
+Recherche_Personne_Archive.php ==> amélioration : possibilité d'avoir le résultat dans un CSV suffixé par le nom de la ville
+                               ==> amélioration : bouton "Nouvelle recherche"
+                               ==> amélioration : pas de bouton rechercher s'il n'y a pas de ville en base
+                               ==> correction : compatibilité W3C
+Liste_Patro.php ==> amélioration : possibilité de limiter la liste au nom du decujus
+                ==> amélioration : possibilité d'afficher les noms de lieux
+                ==> amélioration : nouveau design présentant les informations sur moins d'espace
+                ==> amélioration : icône pour masquer / afficher toutes les filiations
+Liste_Eclair.php ==> nouveau : sortie au format texte
+                 ==> amélioration : icône pour masquer / afficher toutes les noms
+Liste_Nom_Vivants.php ==> amélioration : icône pour masquer / afficher toutes les noms
+Edition_NomFam.php ==> amélioration : en création, une phonétique est automatiquement calculée si aucune n'a été donnée par l'utilisateur
+                   ==> correction : plus de lien vers la fiche du nom en création (ce lien renvoyait vers une page vide)
+Liste_Liens.php ==> correction : compatibilité W3C
+Edition_Depart.php ==> correction : la création d'un département ne fonctionnait pas
+Edition_Region.php ==> amélioration : possibilité de saisir des commentaires
+                   ==> amélioration : design à onglets
+                   ==> correction : la liste déroulante des pays était précédée du libellé 'Région' !
+exp_GenWeb.php ==> amélioration : possibilité d'avoir le résultat dans un fichier suffixé par le nom du département
+Fiche_Type_Evenement.php ==> correction : lorsque l'utilisateur effaçait un type, on revenait sur cette page, vide, si on en était parti ; retour automatique vers la page précédente (à priori la liste)
+Fiche_Role.php ==> correction : lorsque l'utilisateur effaçait un rôle, on revenait sur cette page, vide, si on en était parti ; retour automatique vers la page précédente (à priori la liste)
+Ajout_Rapide.php ==> amélioration : possibilité d'ajouter des nouveaux noms de famille
+                 ==> amélioration : possibilité de reprise d'un nom précédemment saisi en un clic
+                 ==> correction : problèmes d'alignement
+                 ==> correction : compatibilité W3C
+Edition_Lier_Eve.php ==> correction : pas de création du lien si la personne n'est pas sélectionnée
+Edition_Union.php ==> nouveau : documents liés (développé par Gérard)
+                  ==> amélioration : nom du père ou de la mère par défaut pour les enfants
+                  ==> amélioration : saisie possible des dates de naissance et décès des enfants
+                  ==> correction : contrôle de la longueur du nom sur l'ajout rapide d'une ville
+                  ==> correction : la gestion des noms de famille lors de la création des enfants n'était pas complète
+Edition_Evenement.php ==> nouveau : documents liés (développé par Gérard)
+Fiche_Evenement.php ==> nouveau : documents liés (développé par Gérard)
+Edition_Type_Evenement.php ==> correction : le code obligatoire n'était pas contrôlé
+Fiche_Fam_Pers.php ==> nouveau : documents liés
+                   ==> amélioration : si le numéro d'un enfant est numérique, on considère qu'il s'agit d'un ascendant et on le signale (avec génération et côté)
+                   ==> correction : le signalement de l'ascendance (Cf. supra) ne fonctionnait pas correctement pour la personne
+Export.php ==> correction : certains retours charriot dans les commentaires faisaient planter l'import des sites gratuits
+Edition_Personne.php ==> nouveau : possibilité de supprimer une personne si elle n'a ni union ni filiation et que son sexe est connu
+                     ==> nouveau : documents liés
+                     ==> correction : certaines info-bulles n'apparaissaient pas
+                     ==> correction : contrôle de la longueur du nom sur l'ajout rapide d'une ville
+Edition_Filiation ==> nouveau : documents liés
+Arbre_Desc_Pers.php ==> amélioration : possibilité d'afficher les conjoints
+Anniversaires.php ==> amélioration : affichage des images par défaut des personnes ou unions
+Liste_Referentiel.php ==> nouveau : liste des types de documents (développé par Gérard)
+Fiche_Type_Document.php ==> nouveau : fiche d'un type de document (développé par Gérard)
+Edition_Type_Document.php ==> nouveau : édition d'un type de document (développé par Gérard)
+Liste_Documents.php ==> nouveau : liste des documents (développé par Gérard)
+Edition_Document.php ==> nouveau : édition d'un document (développé par Gérard)
+Fiche_Document.php ==> nouveau : fiche d'un document (développé par Gérard)
+Edition_Lier_Doc.php ==> nouveau : fait le lien entre un document et un objet (développé par Gérard)
+Edition_Image.php ==> amélioration : changement de la taille du champ contenu le chemin et le nom du fichier
+Voir_Document.php ==> nouveau : affiche le contenu d'un document HTML (pour l'instant).
+Import_Docs.php ==> nouveau : possibilité d'importer des documents et des images sans passer par la liaison
+Edition_Parametres_Site.php ==> correction : compatibilité W3C
+Import_Sauvegarde.php ==> amélioration : taille plus importante de la zone contenant le nom du fichier à charger
+Verif_Sosa.php ==> correction : compatibilité W3C
+divers_styles.css ==> correction : normalisation des balises PHP
+Liste_NomFam.php ==> correction : l'info-bulle sur l'insertion d'un nom n'était pas correcte
+Liste_Villes.php ==> correction : l'info-bulle sur l'insertion ne s'affichait pas sur FireFox
+                 ==> correction : l'icône d'insertion ne fonctionnait plus suite à la correction de l'info-bulle
+                 ==> correction : compatibilité W3C
+fonctions.php ==> correction : sur l'export gedcom, les évènements avec une date de début = date de fin étaient exportés sous une forme qui générait un problème de date lors de l'import
+Liste_Evenements.php ==> correction : les info-bulles pour l'insertion et la modification ne s'affichaient pas sur FireFox
+Edition_Rangs.php ==> correction : erreur sur les rangs des jumeaux avec impossibilité d'utiliser les images plus et moins
+                  ==> correction : compatibilité W3C
+Liste_Utilisateurs.php ==> correction : compatibilité W3C
+Fiche_Utilisateur.php ==> correction : si on vient d'une fiche édition pour laquelle on a supprimé la fiche, on retourne vers la page précédente
+Edition_Utilisateur.php ==> changement : suppression de la classe sha256.php pour utiliser la fonction standard hash de PHP5
+Cal.php ==> correction : l'appui sur OK renvoyait sur la page d'accueil
+Index.php ==> changement : suppression de la classe sha256.php pour utiliser la fonction standard hash de PHP5
+
+Plusieurs pages : ==> amélioration : les listes présentent des alternances de couleur afin de mieux distinguer les lignes
+                  ==> amélioration : formulaires bicolores (pour les formulaires sans onglets) pour un design plus clair
+                  ==> amélioration : optimisations diverses
+                  ==> correction : protection des variables postées sur certaines pages oubliées en V4
+
+Nouvelles images de barres
+
+Sur GénéGraphe :
+================
+Version 2.0 :
+- la fenêtre arbre affiche la dates de création et la date de dernière modification ;
+- le menu Fichier affiche les 10 derniers arbres modifiés avec la possibilité de les ouvrir ;
+- une apostrophe dans un nom de famille provoquait une erreur ;
+- il y avait une erreur de calcul de la dimension des étiquettes de famille quand elle ne contenait qu'une ligne ;
+- les fiches individuelles au format PDF ont la référence de la personne dans le nom du fichier ;
+- prise en compte de la réorganisation de la base : suppression des tables zones_geographiques et niveaux_zones ;
+- prise en compte des documents dans les fiches individuelles ;
+- la création d'une étiquette de texte se fait au point de coordonnées (100,100) dans la fenêtre affichée au lieu du document ;
+- dans la fenêtre de gestion des modèles d'étiquettes, le bouton "Quitter" est mal orthographié
+- mise à jour de la documentation.
+
+Version 4.0.1 :
+===============
+Stat_Base_Villes.php ==> correction : la liste des personnes renvoyait toutes les personnes et pas uniquement celles de la ville sélectionnée
+Liste_Liens.php ==> correction : l'appel à l'édition ne fonctionne pas sur le net
+Liste_Pers.php ==> correction : en mode invité sur Internet, requête en erreur sur les listes par villes de naissance ou de décès
+Import_Gedcom.php ==> correction : les notes comportant une apostrophe provoquaient une erreur (correction également dans fonctions_maj.php)
+
+Version 4.00 :
+==============
+Fiche_Couple_txt.php ==> correction : message d'erreur "Warning: session_start(): Cannot send session cache limiter..."
+                     ==> changement : inversion des noms et prénoms dans la liste des enfants (cohérence)
+Export.php ==> correction : fichiers créés dans le répertoire "exports" (ou équivalent) par soucis de cohérence
+           ==> correction : le filtre sur le préfixe n'était pas assez restrictif (sécurité)
+index.php ==> nouveauté : affichage d'actualités définie par l'utilisateur (en gratuit non Premium, les actualités sont centralisées)
+          ==> amélioration : possibilité de verrouiller la connexion à un site (développé pour les sites gratuits)
+          ==> amélioration : ajout de la date de dernière modification sur le site
+          ==> amélioration : détection de l'incohérence des versions du code et de la base
+          ==> correction : la vérification de la version échouait
+		  ==> correction : les droits étaient conservés entre des sous-sites d'un même site (sécurité)
+Edition_Type_Evenement.php ==> correction : possibilité de créer un type pour les personnes
+Fiche_Type_Evenement.php ==> correction : affichage du libellé "personne" pour les types liés à des personnes
+Edition_Evenement.php ==> nouveau : possibilité de lier directement une filiation ou une union
+Edition_Lier_Objet.php ==> nouveau : possibilité de lier directement une filiation ou une union
+Edition_Filiation.php ==> correction : non prise en compte des modifications impliquant la suppression finale des 2 parents (fiche fantôme résultante)
+                      ==> correction :les commentaires n'étaient pas pris en compte lors de la création de la filiation
+parametres.php ==> changement : plus d'écriture dans la table des compteurs par défaut (statistiques externes)
+Import_Gedcom.php ==> changement : diffusion internet des personnes par défaut
+                  ==> changement : plus de limite de temps en local ; limite différente pour les sites gratuits et Premium
+Edition_Personne.php ==> nouveau : ajout rapide d'évènements (création de l'évènement et du lien)
+                     ==> nouveau : noms multiples pour une personne
+                     ==> amélioration : mémorisation des noms, villes de naissance et de décès lors de l'édition (création, modification) d'une personne ; ces informations peuvent être rappelées sur la fiche éditée ensuite
+                     ==> amélioration : icône pour passer le nom en majuscules
+                     ==> correction : erreur JavaScript sur le clic d'ajout d'une ville dans la liste (le curseur ne se positionnait pas sur la zone)
+                     ==> correction : l'aide en ligne ne s'affichait pas en création
+                     ==> changement : diffusion internet des personnes par défaut
+Edition_Union.php ==> nouveau : ajout rapide de nouveaux enfants (création des enfants et des liens)
+                  ==> nouveau : ajout rapide d'évènements (création de l'évènement et du lien)
+                  ==> correction : compatibilité W3C
+Edition_Filiation.php ==> nouveau : ajout rapide d'évènements (création de l'évènement et du lien)
+                      ==> amélioration : icône +/- pour modifier les rangs
+Edition_Role.php ==> ajout de la notion de symétrie sur les rôles (pour les liens entre personnes)
+Fiche_Role.php ==> ajout de la notion de symétrie sur les rôles (pour les liens entre personnes)
+Edition_Lier_Pers.php ==> amélioration : ajoute les dates des personnes dans la liste de sélection d'une personne
+                      ==> correction : la suppression de lien ne fonctionnait pas
+Verif_Internet_Absente.php ==> nouveau : détection et rectification sur demande des personnes non diffusables sur Internet et nées il y a plus de 100 ans (1) ou décédées il y a plus de 100 ans (1) + 130 ans (1 : la valeur 100 ans est modifiable)
+Ajout_Contribution.php ==> correction : filtrage des données du formulaire public (sécurité)
+                       ==> amélioration : pas d'envoi de mail si la contribution est vide
+                       ==> amélioration : proposition du nom de la personne par défaut sauf pour le conjoint
+install.php ==> amélioration : possibilité de spécifier un préfixe sur l'intialisation
+            ==> correction : reprise des commentaires depuis la table évènements (oublié lors de la migration 2.2 en 2.3)
+Edition_Depart.php ==> correction : erreur sur le champ code département en mise à jour
+Edition_Image.php ==> amélioration : commentaire passé à plus de 65 000 caractères, saisissable via un éditeur HTML, ajout d'un titre
+Edition_Lien.php ==> amélioration : saisie du type désormais possible parmi les types existants
+                 ==> amélioration : saisie possible d'un commentaire, saisissable via un éditeur HTML
+Fiche_Lien.php ==> nouveau : fiche de visualisation des informations d'un lien
+Edition_Parametres_Graphiques.php ==> nouveau : possibilité de choisir un fond personnalisé (sauf sites gratuits non Premium)
+                                  ==> amélioration : design à onglets
+                                  ==> amélioration : intégration d'un color picker évolué
+                                  ==> correction : compatibilité W3C
+Edition_Rangs.php ==> amélioration : icône +/- pour modifier les rangs
+                  ==> correction : la saisie d'un rang non numérique faisait planter la mise à jour
+Edition_Region.php ==> correction : la saisie d'un code non numérique faisait planter la mise à jour
+Edition_Role.php ==> correction : contrôle que le code saisi n'est pas utilisé, ceci provoquait une erreur (+ relivraison du javascript associé)
+Liste_Referentiel.php ==> amélioration : affichage du code sur la liste
+Edition_Type_Evenement.php ==> correction : contrôle que le code saisi n'est pas utilisé, ceci provoquait une erreur (+ javascript associé)
+Edition_Utilisateur.php ==> correction : compatibilité W3C
+                        ==> changement : en création, il est désormais interdit de créer un utilisateur avec un code déjà existant (auparavant il y avait  un contrôle code / mot de passe identique)
+                        ==> changement : le mot de passe doit faire au moins 6 caractères
+Edition_Ville.php ==> correction : compatibilité W3C
+Export.php ==> amélioration : possibilité de spécifier un suffixe pour le nom du fichier (par défaut, la date du jour) (sauf sites gratuits non Premium)
+Import_Sauvegarde.php ==> amélioration : affichage de la liste des fichiers disponible dans le répertoire export et possibilité d'en choisir un
+                      ==> changement : plus de limite de temps en local ; limite différente pour les sites gratuits et Premium
+Recherche_Personne.php ==> nouveau : recherche orthographique ou phonétique (exacte ou approchée)
+                       ==> amélioration : possibilité de spécifier une date + ou - n années (approximation) pour les naissances ou les décès
+                       ==> amélioration : bouton "Nouvelle recherche"
+                       ==> correction : plantage si le statut fait partie des critères avec une sortie csv
+Liste_NomFam.php ==> nouveau : liste des noms de famille avec phonétique associée
+Fiche_NomFam.php ==> nouveau : fiche d'un nom de famille
+Edition_NomFam.php ==> nouveau : fiche édition d'un nom de famille
+Ajout_Rapide.php ==> amélioration : le nom proposé par défaut pour les colattéraux est le même que celui de la personne
+                 ==> amélioration : le sexe proposé par défaut pour les conjoints est inverse de celui de la personne
+                 ==> correction : la saisie d'un baptême plantait
+                 ==> changement : diffusion internet des personnes par défaut
+Edition_Contribution.php ==> amélioration : checkbox pour passer les noms en majuscules
+                         ==> correction : la création d'un conjoint se soldait par une erreur
+Edition_Lier_Nom.php ==> nouveau : gestion des noms secondaires pour une personne
+Fiche_Fam_Pers.php ==> amélioration : affichage des noms secondaires de la personne
+                   ==> amélioration : si le numéro de la personne est numérique, on considère qu'il s'agit d'un ascendant et on le signale (avec génération et côté)
+                   ==> amélioration : villes de naissance et de décès des enfants
+                   ==> correction : l'icone des images ne s'affichait pas pour le couple
+                   ==> correction : suppression du libellé "à" pour la ville de mariage si celle-ci n'est pas connue
+Anniversaires.php ==> amélioration : possibilité de choisir le mois
+Liste_Pers.php ==> nouveau : lien vers les 3 dernières personnes consultées ou modifiées (idem sur Liste_pers2.php)
+               ==> correction : dans la liste des noms, la lettre précédent ceux commençant par une lettre accentuée était "&" à tort
+Liste_Actualites.php ==> nouveau : liste des actualités
+Fiche_Actualites.php ==> nouveau : fiche d'une actualité
+exp_Gedcom.php : ==> correction : les filiations des personnes sans mère connue étaient mal exportées
+                 ==> correction : les notes sur plusieurs lignes étaient mal exportées
+                 ==> correction : les notes longues sur les unions étaient mal exportées
+                 ==> changement : temps illimité en local
+exp_Gedcom_Personne.php : correction : Cf. corrections sur exp_Gedcom.php
+exp_GenWeb.php ==> amélioration : possibilité de cliquer sur le nom du fichier pour le visualiser ou l'enregistrer
+               ==> correction : retour chariot dans le fichier paramétrable en fonction de la plate-forme
+               ==> changement : nouveau nom du fichier d'export et localisation dans le répertoire des exports (cohérence)
+
+Plusieurs pages ==> nouveau : gestion de la date de dernière mise à jour du site
+                ==> amélioration : contrôle des zones obligatoires par l'interface
+                ==> amélioration : sécurisation des variables du formulaire (sécurité)
+                ==> amélioration : accès rapide aux création les plus fréquentes (personne, ville, évènement...)
+                ==> amélioration : éditeur de texte HTML en français (+ dernière version en date de l'éditeur)
+                ==> changement : sur les pages présentant des plages de dates, si la date de fin = date de début, elle n'est plus affichée
+                ==> amélioration : affichage d'un message d'erreur lorsque le fichier téléchargé est trop gros
+                ==> amélioration : meilleure sécurité sur les chargements de fichiers
+                ==> correction : présence de caractères \ sur les environnements avec magic_quote_gpc à "on"
+
+Nouveaux graphismes (fonds, barres, lettres)
+
+Intégration de GénéGraphe 1.1
+
+Sur GénéGraphe :
+================
+Version 1.1 :
+- Affichage du nom de l'arbre et de son code dans le titre de la fenêtre
+- Ajout des fiches individuelles au format PDF
+- Révision de la gestion des caractères de fin de ligne dans les descriptifs HTML pour faciliter l'exportation des bases
+- Révision de la documentation
+
+
+Version 3.0.2 :
+===============
+Arbre_Asc_PDF.php ==> correction : libellé incorrect pour les mois présentant des accents
+Import_Sauvegarde.php ==> amélioration : possibilité pour l'utilisateur en local d'outrepasser la limite de temps autorisée
+exp_Gedcom.php ==> amélioration : passage à 120 secondes maxi (hors local où le débridage total possible en local)
+install.php ==> correction : migration depuis une 2.2 ; la migration s'arrêtait à la 2.3 et ne passait pas à la 3.0
+            ==> correction : lors de la migration en 3.0, certains répertoires n'étaient pas créés
+Intégration de GénéGraphe 1.0.4
+
+Sur GénéGraphe :
+================
+Version 1.0.2 :
+- meilleure gestion de la mémoire.
+Version 1.0.3 :
+- réécriture d'une procédure utilisée au démarrage ==> réduction drastique du temps de démarrage.
+Version 1.0.4 :
+- correction d'une erreur lors de l'appel des fenêtres de choix de lien entre personnes et de lien familial, la fenêtre apparaissait en dehors de la fenêtre visible quand on avait utilisé l'ascenseur ;
+- correction du calcul de pages lors de l'ajout d'ascendance.
+
+Version 3.0.1 :
+===============
+Edition_Utilisateur.php ==> correction : lors de la modification du mot de passe de l'utilisateur connecté, le niveau était perdu
+                        ==> correction : problème d'écrasement du niveau chez Free
+Fiche_Utilisateur.php ==> correction : casse du nom de la page sur l'appel de la fiche en modification
+Ajout_Contribution.js ==> correction : l'appel des dates et lieux ne fonctionnait pas pour les contributions
+index.php ==> correction : passage en mode invité sur erreur d'identification après première identification OK
+          ==> amélioration : pas d'affichage du bouton OK après 5 tentatives de connexion infructueuses (lutte contre le brute force)
+Pers_Isolees.php ==> correction : la page n'était pas accessible sur Internet, même au gestionnaire
+install.php ==> amélioration : possibilité de choisir l'environnement cible (local ou internet)
+
+Sur GénéGraphe 1.0.1 :
+======================
+- ajout d'un bouton "?" dans la barre de menus pour afficher des informations sur la version et l'environnement ;
+- meilleure gestion de la mémoire ;
+- dans les rubriques des étiquettes des personnes, ajout du numéro Sosa ;
+- dans les préférences, ajout du choix de ne pas faire de recherche de personne ni d'import de cousinage (permet un gain de place mémoire sur les très grosses bases) ;
+- correction d'un bug, quand on ouvrait un arbre et qu'une photo n'était plus disponible.
+
+Version 3.0 :
+=============
+Nouveau ==> Intégration de GénéGraphe, dessin d'arbres personnalisés ; vous en avez révé, Gérard Kester l'a fait...
+            La documentation est accessible dans le répertoire documentation
+Arbre_Asc_PDF.php ==> nouveau : arbres ascendants au format PDF ; une réalisation d'Eric Lallement
+fonctions.php ==> correction : présence de 2 chemins "en dur" pour les images
+Export.php ==> correction : problème d'affichage sur les tables non exportées
+           ==> amélioration : possibilité de cliquer sur le nom du fichier pour le visualiser ou l'enregistrer
+           ==> correction : sauvegarde possible uniquement sur les tables répondant au préfixe
+Import_Sauvegarde.php ==> correction d'un message d'erreur sur l'import de sauvegardes de type txt
+                      ==> correction : espace manquant dans un affichage
+Edition_Lier_Eve.php ==> correction : absence de préfixe sur la table participe
+Import_gedcom ==> correction : prise en compte du codage Ansel dans les évènements
+              ==> correction : prise en compte des majuscules lors de la conversion Ansel-Ansi
+              ==> correction : prise en compte du calendrier julien (considéré comme équivalent du grégorien pour plus de facilité)
+              ==> correction : prise en compte des jours complémentaires (alignement sur les sansculotides qui étaient déjà gérés)
+              ==> amélioration : ajout d'un bouton pour effacer le format des lieux en cas d'erreur de sélection
+              ==> amélioration : prise en compte automatique du tag PLAC dans le HEAD définissant l'arborescence des lieux
+              ==> amélioration : prise en compte des balises CONT et CONC sur les notes
+              ==> amélioration : prise en compte des notes sur les naissances et les décès
+              ==> amélioration : possibilité pour l'utilisateur en local d'outrepasser la limite de temps autorisée
+Gestion_Pages.php ==> correction : message d'erreur sur les boutons "retour" ou "Annuler"
+Verif_Sosa.php ==> amélioration : rappel des boutons rectifier et annuler en haut de la page
+               ==> amélioration : possibilité de visualiser ou éditer la fiche personne
+Verif_Internet.php ==> nouveau : possibilité de changer la limite de vérification
+                   ==> amélioration : rappel des boutons rectifier et annuler en haut de la page
+                   ==> amélioration : possibilité de visualiser ou éditer la fiche personne
+Edition_Ville.php ==> nouveau : possibilité de saisir des commentaires sur une ville (avec éditeur HTML)
+                  ==> amélioration : nouveau design à onglets
+Edition_Depart.php ==> nouveau : possibilité de saisir des commentaires sur un département (avec éditeur HTML)
+                  ==> amélioration : nouveau design à onglets
+Verif_Homonymes.php ==> nouveau : liste des homonymes (avec la collaboration de Gérard Kester)
+Recherche_Personne.php ==> nouveau : sorties au format texte ou CSV (pour tableur, séparateur ";", à partir du profil privilégié)
+Vue_personnalisee.php ==> nouveau : possibilité pour un utilisateur de choisir temporairement un decujus différent de celui du gestionnaire du site
+Liste_Patro.php ==> nouveau : affichage de la liste à partir d'un decujus personnalisé (Cf. vue personnalisée)
+Liste_Pers_Gen.php ==> nouveau : affichage de la liste à partir d'un decujus personnalisé (Cf. vue personnalisée)
+Naissances_Mariages_Deces_Mois.php ==> nouveau : statistiques de mariage par mois en plus des naissances et des décès
+Stat_Base_Villes.php ==> amélioration : agrégation des 3 tableaux de naissance, mariage et décès
+Stat_Base_Depart.php ==> amélioration : agrégation des 3 tableaux de naissance, mariage et décès
+Verif_Personne.php ==> amélioration : ajout d'un bouton retour pour revenir sur la liste
+Recherche_Personne_Archive.php ==> nouveau : sortie au format CSV (pour tableur, séparateur ;)
+                               ==> correction : la borne de date ne fonctionnait pas pour les décès
+Liste_Eclair.php ==> correction : la protection internet ne fonctionnait pas pour la naissance
+Edition_Filiation.php ==> correction : le choix par colattéral générait un plantage sur les noms avec des apostrophes
+Liste_Pers2.php ==> correction : titre de la fenêtre incorrect sur les noms avec des apostrophes (présence de \)
+Liste_Images.php ==> amélioration : affichage d'un message d'erreur explicatif si l'image n'a pas pu être chargée
+Edition_Evenement.php ==> nouveau : possibilité de lier des images aux évènements ; l'image par défaut est affichée sur la fiche édition
+Fiche_Evenement.php ==> nouveau : possibilité de lier des images aux évènements ; l'image par défaut est affichée sur la fiche
+Fiche_Fam_Pers.php ==> amélioration : appel en 1 clic des différents types d'arbres
+Recherche_Cousinage.php ==> nouveau : sauvegarde de la recherche pour être importé dans GénéGraphe et mis en forme.
+Edition_Image.php ==> amélioration : chmod du fichier image une fois chargé
+exp_Gedcom_Personne.php ==> amélioration : prise en compte des commentaires longs
+exp_Gedcom.php ==> amélioration : prise en compte des commentaires longs
+Edition_Personne.php ==> amélioration : icône pour positionner le numéro correspondant au decujus
+
+Toutes les pages : nouveau ==> ajout d'un menu rapide
+                   nouveau ==> ajout d'un système d'authentification par niveau : Gestionnaire (tous droits), Privilégié (visibilité sur toute la base sans modif), Invité  (visibilité uniquement sur les personnes publiques)
+Plusieurs pages ==> amélioration : passage des commentaires à plus de 65 000 caractères (au lieu de 255).
+                ==> correction : l'ajout rapide de ville, pays, département, pays plantait si une apostrophe était présente dans le nom
+
+Arbre_Asc_Plus, bv.jpg, GeneGraphe.png, arrow_divide
+
+Version 2.3 :
+=============
+Ajout_Contribution.php ==> nouveau : possibilité pour un utilisateur du net de proposer des informations (outil collaboratif)
+Liste_Contributions.php ==> nouveau : permet de lister les collaborations proposées
+Edition_Contribution.php ==> nouveau : permet de prendre en compte une contribution
+index.php ==> correction : caractères accentués au format HTML
+          ==> correction : compatibilité W3C
+          ==> nouveau : appel de la liste des contributions
+Liste_Pers_Gen.php ==> correction le masquage / Affichage d'une génération ne suivait pas le comportement clic / survol
+Liste_Patro.php ==> correction le masquage / Affichage d'un nom ne suivait pas le comportement clic / survol
+Liste_Eclair.php ==> correction le masquage / Affichage d'un nom ne suivait pas le comportement clic / survol
+glossaire_gen.php ==> correction le masquage / Affichage d'un nom ne suivait pas le comportement clic / survol
+                  ==> correction : l'initiale "V" renvoyait sur le "U"
+Import_gedcom ==> amélioration : prise en compte de l'arborescence des zones géographiques
+              ==> amélioration : prise en compte des commentaires des personnes et des unions
+              ==> correction : chevauchement potentiel sur les identifiants de zone géographique
+exp_Gedcom_Personne.php ==> amélioration : ajout des commentaires de la personne et de l'union dans l'export
+exp_Gedcom.php ==> amélioration : ajout des commentaires de la personne et de l'union dans l'export
+               ==> correction : chemin de l'export erroné
+Export.php ==> amélioration : ajout du préfixe dans le fichier d'export
+           ==> nouveau : format d'export pour les sites gratuits
+Edition_Personne.php ==> nouveau : intégration d'un éditeur HTML pour les commentaires
+                     ==> correction : ajout des commentaires manquants sur les images
+Edition_Union.php ==> nouveau : intégration d'un éditeur HTML pour les commentaires
+Edition_Filiation.php ==> nouveau : possibilité de saisir des commentaires sur une filiation (avec éditeur HTML)
+Edition_Evenement.php ==> nouveau : intégration d'un éditeur HTML pour les commentaires
+                      ==> nouveau : affichage, lien vers modification ou ajout de personne
+                      ==> amélioration : nouveau design avec des onglets
+                      ==> amélioration : lien vers la fiche évènement
+Liste_Evenements.php ==> amélioration : possibilité de choisir le type des évènements à lister
+                     ==> amélioration : affichage des prénoms et nom des personnes liées
+cal.php ==> correction : la saisie des dates révolutionnaires était impossible (régression)
+        ==> amélioration : sécurisation de la récupération des variables
+        ==> amélioration : précision "Le" et type de date grégorienne par défaut
+Edition_Lier_Eve.php ==> nouveau : ajout du lieu sur la participation
+					 ==> nouveau : lien bidirectionnel personne - évènement
+					 ==> amélioration : les évènements sont proposées listés par type puis libellé dans le select
+					 ==> correction : mauvais type sur le rôle pouvant entraîner des dysfonctionnements
+Edition_Lier_Objet.php ==> nouveau : lien bidirectionnel évènement - filiation ou union
+Fiche_Evenement.php ==> amélioration : nouveau design sans tableau sur les listes de liens
+sel_zone_geo.php ==> correction : normalisation des balises PHP (avec la collaboration de Gérard Kester)
+Recherche_Personne.php ==> correction : le recherche ramenait la personne de référence 0
+Pers_Isolees.php ==> correction : le recherche ramenait la personne de référence 0
+Aide_Geneamania.php ==> nouveau : lien vers le manuel Généamania
+Liste_Nom_Vivants.php ==> nouveau : liste des personnes vivantes pour un nom ou l'ensemble des noms
+Stat_Base_Depart.php ==> nouveau : possibilité d'obtenir les statistiques des villes du département (avec la collaboration d'Eric Lallement)
+Stat_Base_Villes.php ==> nouveau : possibilité d'obtenir les statistiques des villes d'un département (Cf. supra avec la collaboration d'Eric Lallement)
+
+contribuer.png/contribuer2.png/star.png/ pour la contrib
+book_open.png / book_open.png
+
+Plusieurs pages : ==> nouveau : commentaires formattés ; portés à 255 caractères
+                  ==> correction : libellé du rôle : caractères protégés à l'affichage
+                  ==> correction : l'insertion d'une valeur "0" revenait à insérer une valeur nulle
+
+Version 2.2 :
+=============
+Ajout_Rapide.php ==> nouveau : ajout rapide d'une soeur ou d'un frère, des parents, ou d'un conjoint (création automatique des liens associés)
+Import_Gedcom.php ==> correction : amélioration de la prise en charge des dates révolutionnaires (années numériques ou non)
+                  ==> amélioration : prise en charge des périodes de dates (BET)
+Arbre_Desc_Pers.php ==> correction : tri si plus de 9 enfants pour un couple
+Arbre_Asc_Pers.php ==> nouveau : affichage des images par défaut des personnes au survol de la souris
+                   ==> amélioration : contrôle de la largeur du nom provoquant un décalage dans l'affichage
+				   ==> de nouveaux modèles d'arbres imprimables
+Edition_Personne.php ==> nouveau : affichage, si elle existe, de l'image par défaut de la personne
+                     ==> amélioration : nouveau design avec des onglets
+Edition_Union.php ==> nouveau : possibilité de supprimer une union si elle n'est pas utilisée (image ou évènement associé)
+                  ==> amélioration : nouveau design avec des onglets
+                  ==> correction : blocage de la modification de la personne depuis laquelle on a appelé l'union
+Edition_Filiation.php ==> nouveau : possibilité de supprimer une filiation si elle n'est pas utilisée (image ou évènement associé)
+                  ==> amélioration : nouveau design avec des onglets
+                  ==> amélioration : ajout des boutons de dernières personnes saisies si le père ou la mère est indéfini
+Edition_Lier_Eve.php ==> amélioration : rappel de la personne à laquelle l'évènement doit être lié
+Liste_Pers_Gen.php ==> nouveau : matérialisation des implexes
+                   ==> amélioration : nouveau design et possibilité de cacher/montrer chaque génération à l'affichage
+Liste_Patro.php ==> amélioration : nouveau design et possibilité de cacher/montrer chaque nom à l'affichage
+Liste_Eclair.php ==> amélioration : nouveau design et possibilité de cacher/montrer chaque nom à l'affichage
+glossaire_gen.php ==> amélioration : nouveau design et possibilité de cacher/montrer chaque lettre à l'affichage
+Liste_Liens.php ==> amélioration : nouveau design et possibilité de cacher/montrer chaque type de lien à l'affichage
+                ==> correction : compatibilité W3C
+Edition_Parametres_Graphiques.php ==> nouveau : possibilité de choisir l'image de fond des lignes de rupture
+cal.php ==> correction : normalisation php
+plusieurs pages ==> amélioration : ajout des années de naissance et de décès sur les listes déroulantes de personnes
+                ==> amélioration : nouveau design sur les entêtes de ligne
+				==> amélioration : matérialisation des zones obligatoires  par une couleur de fond
+
+Version 2.1 :
+=============
+Import_Gedcom.php ==> correction : prise en charge des dates révolutionnaires
+                  ==> correction : sur certaines versions de PHP, message d'avertissement sur la lecture d'un fichier (sans mise à jour)
+Import_Sauvegarde.php ==> nouveau : possibilité de recharger une sauvegarde sur une base distante (directement sur le site web ; si l'hébergeur le permet)
+Edition_Personne.php ==> amélioration : mini calculette sosa sur le champ numéro (père, mère, enfant, conjoint en ligne directe)
+Conv_Romain.php ==> nouveau : convertisseur de nombre romains <=> arabes
+Calc_So.php ==> amélioration : nouveau design, bouton conjoint et aide en ligne
+Liste_Pers.php ==> améliorations : - découpage en 2 pages afin de diminuer les temps de traitement et d'affichage
+                                   - homogénéisation des types de listes (plus d'infos)
+               ==> nouveau : sur la liste par ville de mariage : * possibilité de trier par femmes ou par hommes
+                                                                 * débranchement possible sur l'édition de la fiche mariage
+Stat_Base_Depart.php ==> nouveau : visualisation sur une carte de France de la répartition des naissances, mariages et décès
+                     ==> nouveau : mariages par département
+Edition_Parametres_Graphiques.php ==> nouveau : paramétrage de la couleur des dégradés (notamment pour les cartes)
+Export.php ==> amélioration : possibilité de choisir les tables à exporter
+Fiche_Fam_Pers.php ==> amélioration : nouveau design au niveau de la liste des enfants
+                   ==> correction : les enfants de la personne n'étaient pas affichés si l'autre parent était inconnu
+                   ==> correction : suppression du libellé "marié à" si ni la date ni le lieu de mariage ne sont connus
+Recherche_Personne.php ==> amélioration : possibilité de rechercher les personnes nées, décédées ou vivantes pour une année
+image_arbre_asc.php ==> correction : suppression d'un chemin "en dur"
+Plusieurs pages ==> correction : les icones ne s'affichaient pas
+                ==> correction : affichage d'un message d'erreur applicatif lorsqu'une image n'existe pas
+                ==> amélioration : changement du schéma de navigation et suppression des pages intermédiaires après saisie
+                ==> création d'un répertoire spécial pour les fichiers Gedcom
+                ==> détection automatique du répertoire d'installation en local
+
+Version 2.0 :
+=============
+index.php ==> correction : ajout de la ligne body manquante avec l'image de fond éventuelle
+          ==> nouveau : possibilité d'afficher un message de maintenance sur la page d'accueil
+Edition_Depart.php ==> correction : suppression de messages d'erreur ou d'avertissement (en log ou à l'écran) sur création
+Edition_Region.php ==> correction : suppression de messages d'erreur ou d'avertissement (en log ou à l'écran) sur création
+                   ==> correction : la création d'une région ne fonctionnait pas
+Edition_Personne.php ==> amélioration : ajout rapide d'une ville
+                     ==> nouveau : ajout des évènements et faits
+                     ==> modification : transformation du baptême et de la profession en évènements
+Edition_Union.php ==> amélioration : ajout rapide d'une ville
+                  ==> correction : ajout d'une balise fermante manquante pouvant provoquer un décalage à l'affichage
+                  ==> correction : compatibilité W3C
+				  ==> correction : le bouton ajout d'URL ne fonctionnait pas
+Edition_Parametres_Graphiques.php ==> correction : le bouton radio "Pas de fond de page" n'était pas coché lorsqu'il n'y avait pas de fond de page
+Edition_Parametres_Site.php ==> amélioration : possibilité de n'afficher que les années au lieu des dates exactes sur Internet
+                            ==> amélioration : comportement clic ou survol sur certaines icones
+Edition_Filation.php ==> correction : rectification de la casse sur une requête provoquant une erreur sous Linux
+Fiche_Fam_Pers.php ==> amélioration : les notes sont affichées directement sur la page et masquables
+                   ==> amélioration : décodage du BBCode dans les notes
+                   ==> correction : compatibilité W3C
+                   ==> correction : formattage du tableau des enfants si non affichables sur Internet
+Recherche_Personne.php ==> amélioration : dans l'affichage des critère, le libellé de la ville remplace le numéro
+                       ==> correction : compatibilité W3C
+Arbre_Asc_Pers.php ==> amélioration : nouveau design de l'arbre au format HTML
+                   ==> amélioration : nouveau design de l'arbre au format imprimable
+                   ==> correction : balise fermante HTML dans l'appel d'un arbre ascendant
+Liste_Villes.php ==> nouveau : ajout de la liste des pays
+Recherche_Personne_Archive.php ==> nouveau : liste de dates à vérifier aux archives (par ville et pour une plage de dates)
+Stat_Base.php ==> amélioration : ajout du nombre d'évènements
+Liste_Referentiel.php ==> nouveau : liste des rôles
+                      ==> nouveau : liste des types d'évènements
+Liste_Evenements.php ==> nouveau : liste des évènements
+Fiche_Evenement.php ==> nouveau : affichage d'un évènement
+Edition_Evenement.php ==> nouveau : édition d'un évènement
+Edition_Lier_Eve.php ==> nouveau : lien d'un évènement à une personne
+Edition_Lier_Pers.php ==> nouveau : gestion de liens entre deux personnes
+Export.php ==> amélioration : affichage du nombre de lignes exportées à l'écran et numéro de la version dans le fichier
+exp_Gedcom.php ==> nouveau : export des évènements de type Gedcom
+               ==> amélioration : ajout de la hiérarchie des zones géographiques pour les villes (ville, département, région, pays)
+import_Gedcom.php ==> amélioration : import de évènements Gedcom
+exp_Gedcom_Personne.php ==> correction : suppression de messages d'erreur en log ou à l'écran pour les personnes isolées
+Import_Sauvegarde.php ==> nouveau : restauration d'une sauvegarde
+Pers_Isolees.php ==> nouveau : liste des personnes isolées, i.e. non référencées dans les unions, filiations ou liens personnes
+Edition_Parametres_Arbre_Asc.php ==> nouveau : choix du modèle d'arbre ascendant imprimable avec année de mariage facultative
+Plusieurs pages ==> amélioration : possibilité sur Internet de n'afficher que les années des dates
+                ==> amélioration : sur les champs Divers, possibilité de cliquer sur une icone pour ajouter des balises de début / fin d'URL
+                ==> amélioration : possibilité de modifier le nom des tables de l'application (par exemple pour s'insérer dans une base existante)
+                ==> amélioration : les variables paramètres sont désormais dans un fichier à part
+                ==> amélioration : centralisation des noms des icones ; thèmes graphiques facilités
+                ==> amélioration : homogénéisation des icones par l'utilisation quasi systématique de la bibliothèque libre famfamfam
+Plusieurs pages avec la collaboration de Gérard Kester
+
+Version 1.5 :
+=============
+Aide_monSSG.php ==> nouveau : aide en ligne succint de monSSG
+Premiers_Pas_Genealogie.php ==> nouveau : quelques conseils pour les débutants en généalogie
+Recherche_Personne.php ==> nouveau : recherche multi-critère de personnes (avec page d'informations)
+Recherche_Cousinage.php ==> nouveau : recherche s'il existe une filiation commune entre deux personnes de la base (avec page d'informations)
+Verif_Internet.php ==> nouveau : détection et rectification sur demande des personnes diffusables sur Internet et nées ou décédées il y a moins de 100 ans (1)
+Verif_Personne.php ==> nouveau : contrôles multiples sur une personne, ses parents, unions et enfants (1)
+Liste_Pers.php ==> nouveau : liste des personnes par ville de mariage
+               ==> amélioration : en local, affichage dans la d'une icone matérialisant le statut de la fiche et sa diffusabilité
+Edition_Image.php ==> nouveau : propriété "Par défaut" pour une image pour une personne, une ville...
+                  ==> amélioration : suppression de la case à cocher "avec image" à l'utilité douteuse...
+                  ==> correction : sur certaines versions de PHP, le lien par rapport à la référence de départ était erroné (-1)
+Liste_Images.php ==> amélioration : matérialisation de l'image par défaut dans la liste
+                 ==> correction : les images dont le nom comportaient un blanc ne pouvaient pas être agrandies
+Liste_Liens.php ==> correction : les images dont le nom comportaient un blanc ne pouvaient pas être agrandies
+Fiche_Fam_Pers.php : ==> nouveau : affichage des images s'il en existe par défaut pour les personnes et leurs enfants
+                     ==> amélioration : affichage des unions multiples
+                     ==> amélioration : suppression du cadre vide lorsqu'il n'y a pas d'enfants trouvés
+Arbre_Asc_Pers.php ==> amélioration : navigation descendante dans l'arbre
+Arbre_Desc_Pers.php ==> amélioration : navigation ascendante et descendante dans l'arbre
+                    ==> amélioration : présentation indentée
+import_Gedcom.php ==> amélioration : libellés + clair et message de conseil après import
+                  ==> amélioration : optimisation à la marge
+                  ==> amélioration : importation de la date de baptême (BAPM ou CHR)
+                  ==> amélioration : une date Gedcom peut être en minuscules dans la source
+exp_Gedcom_Pesonne.php (anc. exp_Gedcom) ==> amélioration : ajout de la profession de la personne
+                                         ==> ajout des parents et des conjoints
+                                         ==> correction : sauts de ligne en fonction de la version (Windows, Unix...)
+                                         ==> correction : les zones de type caractère était transcrit en caractères HTML
+exp_Gedcom.php ==> nouveau : export de la base au format Gedcom
+Liste_Patro.php ==> correction : rectification du chemin de la page en mode texte
+                ==> correction : suppression des icones en bas de page en mode texte
+Edition_Personne.php ==> correction : décalage de zones en création
+Plusieurs pages ==> correction : suppression de messages d'erreur ou d'avertissement (en log ou à l'écran)
+                ==> amélioration : matérialisation des zones obligatoires en saisie
+                ==> amélioration : en affichage, les dates du type ca 1er janvier nnnn sont affichées ca nnnnn (suppression quantième et mois)
+                ==> amélioration : sur les pages signalant une absence de decujus, affichage d'un lien vers la liste des personnes par nom
+                ==> amélioration : les dates de création et de modification de fiches sont affichées au format français
+Modifications de limite ==> nom, prénoms et profession d'une personne portées à 50 caractères
+                        ==> les images téléchargées passent de 50 Ko à 150 Ko
+De nouvelles pages d'information...
+(1) : avec la collaboration de Gérard Kester
+
+Version 1.4 :
+=============
+index.php ==> nouveau : affichage du nombre d'anniversaires de naissance le jour même et le lendemain
+          ==> amélioration : masquage adresse mail dans le source pour lutter contre le spam
+Edition_Parametres_Site.php ==> nouveau : modification des paramètres du site (nom et adresse mail)
+Edition_Parametres_Graphiques.php ==> nouveau : modification du thème graphique du site
+Anniversaires ==> amélioration : affichage également des anniversaires avec des dates révolutionnaires
+fonctions.php ==> correction : l'affichage de l'année révolutionnaire en romain sur l'année 14 ne fonctionnait pas
+              ==> amélioration : simplification de la gestion des thèmes graphiques
+Edition_Union.php ==> nouveau : ajout d'un champ commentaire sur l'union
+                  ==> nouveau : nouvelle propriété : "diffusion des commentaires sur Internet"
+                  ==> amélioration : augmentation de la longueur d'affichage des champs date
+Edition_Personne.php ==> amélioration : augmentation de la longueur d'affichage des champs date
+                     ==> nouveau : nouvelle propriété : "diffusion des commentaires sur Internet"
+Import_Gedcom.php ==> correction : plus de création des villes si mise à jour non demandée
+Liste_pers_Gen.php ==> amélioration : message d'avertissement sur absence de de cujus
+Liste_Patro.php ==> amélioration : message d'avertissement sur absence de de cujus
+Verif_Sosa.php ==> nouveau : vérification et rectification sur demande des numéros Sosa
+Arbre_Desc_Pers.php ==> nouveau : liste au format texte
+Arbre_Asc_Pers.php ==> nouveau : affichage au format texte
+                   ==> correction : masquage des données dans l'arbre en cas de diffusion Internet interdite
+Edition_Region ==> correction : suppression d'un message de debug
+               ==> correction : compatibilité W3C
+Fiche_Fam_Pers.php ==> nouveau : affichage d'une icone en cas d'incohérence sur les rangs des enfants
+                   ==> nouveau : les commentaires d'une personne peuvent être masqués sur Internet (au choix sur la fiche personne)
+                   ==> nouveau : affichage des commentaires d'une union (masquables sur Internet, au choix sur la fiche union)
+Edition_Rangs.php ==> nouveau : rectification des rangs sur la liste des enfants d'un couple (avec calcul d'un rang théorique)
+Liste_Villes.php ==> nouveau : accès direct à la dernière ville, au dernier département ou à la dernière région saisie
+Liste_Pers.php ==> nouveau : affichage au format texte des listes par ville de naissance ou décès
+               ==> correction : suppression du lien vers dernière personne saisie si liste vide
+Stat_Base.php ==> correction : non prise en compte de la personne de référence 0 dans le nombre de personnes et de patronymes
+              ==> correction : non prise en compte de la ville de référence 0 dans le nombre de villes
+Stat_Base_Villes.php ==> correction : non prise en compte de la personne de référence 0 dans le nombre de personnes par ville
+Stat_Base_Depart.php ==> correction : non prise en compte de la personne de référence 0 dans le nombre de personnes par département
+Pyramide_Ages_Histo.php ==> correction : suppression des lignes vides si aucune personne dans la base
+Glossaire_Sosa.php ==> nouveau : explications sur la numérotation Sosa
+sorties texte ==> amélioration : suppression de l'image de fond d'écran pour faciliter l'impression
+
+Plusieurs pages ==> amélioration : standardisation interdiction de la page sur Internet
+                ==> amélioration : chemin des images dans une variable
+                ==> amélioration : contrôle des paramètres dans l'URL
+                ==> correction : suppression de messages d'erreur ou d'avertissement (en log ou à l'écran)
+
+warning.gif ==> nouveau : icone de warning
+Répertoire fonds, et lettres...
+
+Version 1.3 :
+=============
+Import_Gedcom ==> nouveau : import d'un fichier Gedcom
+Imports_Exports.php ==> nouveau : nouvelle page d'appel des imports/exports
+Pyramide_Ages_Histo.php ==> nouveau : graphique de l'évolution de l'âge au décès dans le temps
+Stat_Base_Villes.php ==> nouveau : statistiques par ville de naissance ou de décès
+Stat_Base_Depart.php ==> nouveau : statistiques par département de naissance ou de décès
+Liste_Pers_Gen.php ==> nouveau : liste au format texte
+Liste_Patro.php ==> nouveau : liste au format texte
+                ==> correction : suppresion de la précision en double à l'affichage
+Edition_Personne.php ==> amélioration : possibilité d'insérer des liens sous la forme [url]lien[/url] (Cf. BBCODE) ;
+                                        ces liens sont ensuite accessibles en cliquant sur la ou les icones à côté du champs divers
+Fiche_Fam_Pers.php ==> amélioration : les notes sur les personnes sont maintenant visibles sur la fiche (icone devant naissance)
+Note_Pers.php ==> nouveau : affichage des commentaires sur une personne avec liens cliquables (Cf. supra)
+Edition_Depart.php ==> correction : compatibilité W3C
+                   ==> correction : libellé "région" au lieu de "département"
+                   ==> correction : retour sur la page origine après OK
+Edition_Union.php ==> correction : mauvais stockage des dates de mariage et de contrat en création
+Fiche_Couple_txt.php ==> correction : la date du contrat affichée était celle du mariage
+Calendriers.php ==> correction : calcul du jour de la semaine (erroné avant 1901)
+                ==> correction : suppression d'un message d'avertissement dans la log sur erreur de type
+Liste_Pers.php ==> correction : suppression du message d'erreur sur liste vide (en log ou à l'écran)
+Liste_Villes.php ==> correction : suppression du message d'erreur sur liste vide (en log ou à l'écran)
+Liste_Liens.php ==> correction : compatibilité W3C
+Pyramide_Ages.php ==> correction : suppression du message d'erreur sur liste vide (en log ou à l'écran)
+Arbre_Asc_Pers.php ==> amélioration : design plus clair (moins de personnes, ajout des années de naissance et de décès)
+Stat_Base.php ==> correction : suppression d'un chemin en dur
+              ==> amélioration : nouvelles statistiques disponibles
+Anniversaires.php ==> correction : article sur les mois commençant par une voyelle
+exp_Gedcom.php ==> correction : une chaine n'était pas codée correctement en HTML (accents)
+Arbre_Desc_Pers.php ==> amélioration : ajout des années de naissance et de décès
+index.php ==> amélioration : les imports / exports sont désormais accessibles depuis la page d'entrée sur le site
+          ==> nouveau : lien vers une page de vérification de la version du site
+cal.php ==> correction : suppression des balises META et image de fond en dur
+*_Info.php ==> nouveau : pages d'informations pour une page donnée (fonctionnalités, règles de gestion...)
+fonctions.php ==> modifications diverses
+              ==> dont possibilité de désactiver les statistiques internes du site (Cf. $Insert_Compteur)
+              ==> dont définition de thèmes graphiques pour le site (parchemin, bois, ciel, pierre...)
+tous ==> amélioration : normalisation PHP
+
+Version 1.2 :
+=============
+Fiche_Couple_txt.php ==> nouveau : fiche familiale d'un couple au format texte
+Anniversaires.php ==> correction : le tri ascendant des dates était incorrect
+Edition_Personne.php ==> correction : suppression d'un message de debug
+                     ==> correction : les dates de baptême et de décès n'étaient pas stockées en création
+cal.php ==> correction : sur l'assistant de saisie de date les mois d'août, septembre, florial et prairial posaient problème
+Fiche_Fam_Pers.php ==> correction : suppresion de la précision en double à l'affichage
+Liste_Pers_Gen.php ==> correction : erreur si base vide
+Edition_Filiation.php ==> amélioration : la liste déroulante frère/soeur est limitée aux personnes de même patronyme
+index.php ==> amélioration : le nom du site apparait désormais dans le titre
+
+Version 1.1.1 :
+===============
+correction message d'erreur "Unknown column 'Preci_Dec' in 'field list'" sur plusieurs pages
+correction problèmes de localhost sur calendrier, glossaire, calculatrice soza
+
+Version 1.1 :
+=============
+Naissances_Deces_Mois.php ==> nouveau : graphique des naissances et décès par mois
+Liste_Images.php ==> nouveau : liste des images d'une personne, union ou ville
+Edition_Image.php ==> nouveau : mise à jour des images d'une personne, union ou ville
+install_1_1.php ==> nouveau : page d'aide à l'installation
+Liste_Liens.php ==> amélioration : limitation automatique de la taille des images
+Edition_Lien ==> amélioration : téléchargement de l'image et suppression du lien
+Pyramide_Ages.php ==> correction : bulle d'aide sur "100 et +"
+Edition_Personne.php ==> correction : compatibilité W3C perdue en 1.0
+                     ==> correction : la date de naissance était mal stockée en création
+exp_Gedcom.php ==> correction : perte des dates en V 1.0
+               ==> amélioration : ajout de la marque de fin de fichier
+Images_Util ==> nouveau : répertoire pour les images utilisateur
+exclamation.png ==> nouveau : icône d'erreur
+connect.inc ==> modification : changement du stockage des paramètres de connexion ; impact sur tous les scripts
+
+Version 1.0 :
+=============
+nouvelle gestion des dates avec assistant de saisie
+Init_base_locale.sql ==> Sexe null sur personne de référence 0
+Init_base_internet.sql ==> Sexe null sur personne de référence 0
+Edition_Filiation.php ==> correction : suppression des messages de développement
+Edition_Union.php ==> correction : suppression des messages de développement
+Edition_Personne.php ==> ajout de l'arbre descendant
+Fiche_Fam_Pers.php ==> ajout de l'âge des personnes
+Pyramide_Ages.php ==> nouveau : pyramide des âges au décès
+correction diverses et prise en compte du nouveau format des dates
+
+Version 0.2 :
+=============
+Arbre_Desc.gif ==> nouveau : icone de l'arbre descendant
+Stat_Base.php ==> ajout de l'appel exp_GenWeb.php
+Calc_So.php ==> amélioration : ajout calcul génération
+Export.php ==> correction : n'exportait que depuis la base "test"
+exp_GenWeb.php ==> nouveau : export Cousins GenWeb
+Liste_Patro.php ==> correction : génèrait un 404 Images
+fonctions.php ==> nouvelles variables
+Edition_Personne.php ==> correction : il manquait la zone diffusion_internet + design
+Fiche_Fam_Pers.php ==> ajout de l'arbre descendant
+Arbre_Desc_Pers.php ==> nouveau : arbre descendant d'une personne
+
