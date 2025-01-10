@@ -3,14 +3,13 @@
 //=====================================================================
 // Contrôle des personnes
 // (c) JLS
-// UTF-8
 //=====================================================================
 
 session_start();
 
 include('fonctions.php');
-$acces = 'L';                          // Type d'accès de la page : (M)ise à jour, (L)ecture
-$titre = $LG_Menu_Title['Check_Pers']; // Titre pour META
+$acces = 'L';                          // Type d'accès de la page : (L)ecture
+$titre = $LG_Menu_Title['Check_Persons']; // Titre pour META
 
 $tab_variables = array('annuler','Horigine','Ignore');
 foreach ($tab_variables as $nom_variables) {
@@ -29,7 +28,7 @@ else $Ignore = false;
 if ($annuler == $lib_Retour) $annuler = $lib_Annuler;
 
 $x = Lit_Env();
-$niv_requis = 'P';				// Page accessible à partir du niveau privilégié
+$niv_requis = 'C';				// Page accessible à partir du niveau contributeur
 include('Gestion_Pages.php');
 
 // Verrouillage sur les gratuits non Premium
@@ -88,7 +87,7 @@ if (! $texte) {
 	}
 else {
     Insere_Haut_texte (my_html($titre));
-	echo '<br />';
+	echo '<br>';
 	$deja = Recup_Variable('deja','S');
 }
 
@@ -107,17 +106,15 @@ $niv_alerte_0 = 'OK';
 $niv_alerte_1 = 'Alerte';
 $niv_alerte_2 = 'Erreur';
 
-$img_vert   = '<img src="'.$chemin_images_icones.$Icones['drapeau_vert'].'" border="0" alt="'.$niv_alerte_0.'" title="'.$niv_alerte_0.'"/>';
-$img_orange = '<img src="'.$chemin_images_icones.$Icones['drapeau_orange'].'" border="0" alt="'.$niv_alerte_1.'" title="'.$niv_alerte_1.'"/>';
-$img_rouge  = '<img src="'.$chemin_images_icones.$Icones['drapeau_rouge'].'" border="0" alt="'.$niv_alerte_2.'" title="'.$niv_alerte_2.'"/>';
-
-$chk = ' checked="checked"';
-
 if (!$controle) {
 	$dem_alerte_0 = true;
 	$dem_alerte_1 = true;
 	$dem_alerte_2 = true;
 }
+
+$img_vert = Affiche_Icone('drapeau_vert',$niv_alerte_0);
+$img_orange = Affiche_Icone('drapeau_orange',$niv_alerte_1);
+$img_rouge = Affiche_Icone('drapeau_rouge',$niv_alerte_2);
 
 if (! $texte) {
 	echo '<form action="'.my_self().'?CT=O" method="post">'."\n";
@@ -125,19 +122,12 @@ if (! $texte) {
 	echo '<table border="0" width="60%" align="center">'."\n";
 	echo '<tr align="center" class="rupt_table">';
 	echo '<td>Afficher&nbsp;:&nbsp;'."\n";
-	echo '<input type="checkbox"';
-	if ($dem_alerte_0) echo $chk;
-	echo ' name="ch_alerte_0" value="1"/>'.my_html($niv_alerte_0).'&nbsp;'.$img_vert;
-	echo '&nbsp;&nbsp;<input type="checkbox"';
-	if ($dem_alerte_1) echo $chk;
-	echo ' name="ch_alerte_1" value="1"/>'.my_html($niv_alerte_1).'&nbsp;'.$img_orange;
-	echo '&nbsp;&nbsp;<input type="checkbox"';
-	if ($dem_alerte_2) echo $chk;
-	echo ' name="ch_alerte_2" value="1"/>'.my_html($niv_alerte_2).'&nbsp;'.$img_rouge;
-	//echo $img_vert.' : '.$niv_alerte_0.' ; '.$img_orange.' : '.$niv_alerte_1.' ; '.$img_rouge.' : '.$niv_alerte_2."\n";
+	aff_cbox('ch_alerte_0', $niv_alerte_0, $img_vert,   $dem_alerte_0);
+	aff_cbox('ch_alerte_1', $niv_alerte_1, $img_orange, $dem_alerte_1);
+	aff_cbox('ch_alerte_2', $niv_alerte_2, $img_rouge,  $dem_alerte_2);
 	echo '</td>'."\n";
 	echo '<td><input type="checkbox" name="Ignore" value="I"';
-	if ($Ignore) echo $chk;
+	if ($Ignore) echo ' checked="checked"';
 	echo '/>&nbsp;Ignorer les personnes valid&eacute;es</td>'."\n";
 	echo '<td><input type="submit" value="Afficher la liste"/></td>'."\n";
 	echo '</tr>'."\n";
@@ -152,7 +142,7 @@ else {
 	O_N($dem_alerte_1);
 	echo '&nbsp;;&nbsp;'.$niv_alerte_2;
 	O_N($dem_alerte_2);
-	echo '<br /><br />';
+	echo '<br><br>';
 }	
 
 echo '<div id="liste">';
@@ -252,6 +242,15 @@ if ($controle) {
 			$dateDP = $enr['DecL1'];
 			$dateNM = $enr['NeL2'];
 			$dateDM = $enr['DecL2'];
+			// Pour PHP 8.1 et supra
+			if (is_null($dateNP)) 
+				$dateNP = '';
+			if (is_null($dateDP)) 
+				$dateDP = '';
+			if (is_null($dateNM)) 
+				$dateNM = '';
+			if (is_null($dateDM)) 
+				$dateDM = '';
 			if (($lgDateN == 10) and ($dateN[9] == 'L')) {
 				// Contrôle que la personne soit née après que le père et la mère aient 15 ans
 				// Pour le père
@@ -292,17 +291,17 @@ if ($controle) {
 				$ligne_P = my_html($enr['Nom0'].' '.$enr['Prenoms0']).'&nbsp;';
 			}
 
-			//echo '$dem_alerte_0 : '.$dem_alerte_0.'/'.$alerte_controle.'<br />';
+			//echo '$dem_alerte_0 : '.$dem_alerte_0.'/'.$alerte_controle.'<br>';
 			
 			switch ($alerte_controle) {
-				case 0 : if ($dem_alerte_0) echo $img_vert.'&nbsp;'.$ligne_P.'<br />'; break;
-				case 1 : if ($dem_alerte_1) echo $img_orange.'&nbsp;'.$ligne_P.'<br />&nbsp;&nbsp;'.$msg_ctrl.'<br />'; break;
-				case 2 : if ($dem_alerte_2) echo $img_rouge.'&nbsp;'.$ligne_P.'<br />&nbsp;&nbsp;'.$msg_ctrl.'<br />'; break;
+				case 0 : if ($dem_alerte_0) echo $img_vert.'&nbsp;'.$ligne_P.'<br>'; break;
+				case 1 : if ($dem_alerte_1) echo $img_orange.'&nbsp;'.$ligne_P.'<br>&nbsp;&nbsp;'.$msg_ctrl.'<br>'; break;
+				case 2 : if ($dem_alerte_2) echo $img_rouge.'&nbsp;'.$ligne_P.'<br>&nbsp;&nbsp;'.$msg_ctrl.'<br>'; break;
 			}
 		}
 	}
 
-	echo '<br />'.Affiche_Icone('tip','Information').' L&eacute;gende :&nbsp;';
+	echo '<br>'.Affiche_Icone('tip','Information').' L&eacute;gende :&nbsp;';
 	echo $img_vert.' : '.$niv_alerte_0.' ; '.$img_orange.' : '.$niv_alerte_1.' ; '.$img_rouge.' : '.$niv_alerte_2."\n";
 }
 		
@@ -324,6 +323,12 @@ function al_controle($niveau,$ctrl) {
 function O_N($demande) {
 	if ($demande) echo ' : oui'; 
 	else echo ' : non';
+}
+
+function aff_cbox($id_n, $lib, $img, $chk) {
+	echo '<input type="checkbox"';
+	if ($chk) echo ' checked="checked"';
+	echo ' name="'.$id_n.'" id="'.$id_n.'" value="1"/><label for="'.$id_n.'">'.$lib.'</label>&nbsp;' . $img . '&nbsp;&nbsp;'."\n";
 }
 ?>
 </body>

@@ -6,9 +6,9 @@
 
 // Entête de document des pages
 function Ecrit_Entete_Page($titre,$contenu,$mots,$index_follow='IF') {
+	global $langue_min;
 	echo '<!DOCTYPE html>';
-	// echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-	echo '<html>';
+	echo '<html lang="'.$langue_min.'">';
 	echo '<head>'."\n";
 	Ecrit_Meta($titre,$contenu,$mots,$index_follow);
 }
@@ -104,6 +104,7 @@ if (isset($Environnement)) {
 
 	// Sur les pages de lecture, on écrit juste l'entête ; et même rien si on n'a pu accéder aux données
 	if ($lect) {
+		$enreg_sel = false;
 		if (!$clic_boutons) {
 			if (!isset($no_entete)) {
 				if (isset($req_sel)) {
@@ -136,11 +137,16 @@ if (isset($Environnement)) {
 		}
 	}
 
-	$courante = $_SERVER['REQUEST_URI'];
-	if (!isset($_SESSION['pages'])) $_SESSION['pages'][] = 'index.php';
-	$ind_max = count($_SESSION['pages']) - 1;
-	$precedente = $_SESSION['pages'][$ind_max];
-	if ($courante != $precedente) $_SESSION['pages'][] = $courante;
+	$memo_page = true;
+	if (isset($not_memo))
+		$memo_page = false;
+	if ($memo_page) {
+		$courante = $_SERVER['REQUEST_URI'];
+		if (!isset($_SESSION['pages'])) $_SESSION['pages'][] = 'index.php';
+		$ind_max = count($_SESSION['pages']) - 1;
+		$precedente = $_SESSION['pages'][$ind_max];
+		if ($courante != $precedente) $_SESSION['pages'][] = $courante;
+	}
 
 	if ($debug) {
 		ecrire($f_log,$dh.' ===== après');
@@ -169,7 +175,7 @@ if (isset($Environnement)) {
 	if (!isset($_SESSION['estPrivilegie'])) $_SESSION['estPrivilegie'] = false;
 	if (!isset($_SESSION['estContributeur'])) $_SESSION['estContributeur'] = false;
 	if (!isset($_SESSION['estGestionnaire'])) $_SESSION['estGestionnaire'] = false;
-	if (!isset($_SESSION['niveau'])) $_SESSION['niveau'] = 'I';
+	if (!isset($_SESSION['estCnx'])) $_SESSION['estCnx'] = false;
 	// Positionnement des droits
 	$est_invite       = ($_SESSION['estInvite'] === true ? true : false);
 	$est_privilegie	  = ($_SESSION['estPrivilegie'] === true ? true : false);

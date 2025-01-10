@@ -205,13 +205,11 @@ if ($_SESSION['estContributeur']) {
 			$nb_champs = count($champs);
 			if ($Sortie == 'c') {
 				// Traiter le cas d'erreur sur l'ouverture du fichier
-				$gz = false;
-				$_fputs = ($gz) ? @gzputs : @fputs;
 				// Ajout du suffixe ville si demandé
 				$nom_fic = 'recherche_archives';
 				if ($ut_suf == 'on') $nom_fic = $nom_fic.'_'.$l_ville;
 				$nom_fic = construit_fic($chemin_exports,$nom_fic.'#','csv');
-				$fp=fopen($nom_fic,'w+');
+				$fp = ouvre_fic($nom_fic,'w+');
 				$ligne = '';
 				for ($nb=0; $nb < $nb_champs-1; $nb++) {
 					$nom_champ = $champs[$nb];

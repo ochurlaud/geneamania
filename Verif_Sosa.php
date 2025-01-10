@@ -67,7 +67,7 @@ $compl = Ajoute_Page_Info(600,200);
 $Ind_Ref = 0;
 
 if ($bt_OK) {
-	Ecrit_Entete_Page(my_html($titre),$contenu,$mots);
+	Ecrit_Entete_Page($titre,$contenu,$mots);
 	include('monSSG.js');
 }
 

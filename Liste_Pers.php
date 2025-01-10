@@ -8,7 +8,6 @@
 session_start();
 include('fonctions.php');
 $acces = 'L';				// Type d'accès de la page : (M)ise à jour, (L)ecture M pour avoir le getXMLHttpRequest pdf
-$acces = 'L';				// Type d'accès de la page : (M)ise à jour, (L)ecture M pour avoir le getXMLHttpRequest 
 
 // Recup de la variable passée dans l'URL : type de liste, texte ou non
 $Type_Liste = Recup_Variable('Type_Liste','C','PNDMCK');
@@ -89,7 +88,7 @@ if (isset($_SESSION['mem_pers'])) {
 					my_html($_SESSION['mem_prenoms'][$nb].' '.$_SESSION['mem_nom'][$nb]).'</a>&nbsp;'."\n";
 			}
 		}
-		if ($_SESSION['mem_pers'][0] != 0) echo '<br />'."\n";
+		if ($_SESSION['mem_pers'][0] != 0) echo '<br>'."\n";
 	}
 }
 
@@ -113,12 +112,14 @@ if ((!$texte) and ($est_contributeur)) {
 	if ($MaxRef > 0) {
 		$aff_nom = UnPrenom($enrmax[2]).' '.$enrmax[1];
 		echo $LG_last_pers.' : <a '.Ins_Ref_Pers($MaxRef).'>'.$aff_nom.'</a>&nbsp;';
-		echo '&nbsp;<a '.Ins_Edt_Pers($MaxRef).'>'.$echo_modif.'<br />'."\n";
+		echo '&nbsp;<a '.Ins_Edt_Pers($MaxRef).'>'.$echo_modif.'<br>'."\n";
 	}
 	$resmax->closeCursor();
 	// Possibilité d'insérer une personne
-	echo $LG_add_pers.' : '.Affiche_Icone_Lien(Ins_Edt_Pers(-1),'ajouter',$LG_add).'<br /><br />'."\n";
+	echo $LG_add_pers.' : '.Affiche_Icone_Lien(Ins_Edt_Pers(-1),'ajouter',$LG_add).'<br><br>'."\n";
 }
+
+$debut = microtime_float();
 
 if (! $texte) {
 	// Constitution de la requête d'extraction
@@ -130,9 +131,8 @@ if (! $texte) {
 					' AND p.Reference = n.idPers'.
 					' AND p.Reference <> 0'.
 					$p_diff_int.
-					' GROUP BY 4 order by 4';
-//					upper(LEFT(first_name ,1))+lower(RIGHT(first_name, len(first_name)-1))
-//					CONCAT(UCASE(SUBSTRING(f.nomFamille, 1, 1)),LCASE(SUBSTRING(f.nomFamille, 2)));
+					' GROUP BY f.nomFamille, f.idNomFam, hex(f.nomFamille) order by hex(f.nomFamille)';
+					// ' GROUP BY 4 order by 4';
 	             break;
 	case 'N' : // Requête pour la liste des personnes par ville de naissance
 	           $sql = 'select count(*), v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) '.
@@ -140,7 +140,8 @@ if (! $texte) {
 					' p.ville_naissance <> 0 '.
 					'and p.ville_naissance = v.identifiant_zone '.
 					$p_diff_int.
-					'group by 6 order by 6';
+					'group by  v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) order by hex(v.Nom_Ville)';
+					// 'group by 6 order by 6';
 	           break;
 	case 'D' : // Requête pour la liste des personnes par ville de décès
 	           $sql = 'select count(*), v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) '.
@@ -148,7 +149,9 @@ if (! $texte) {
 					' p.ville_deces <> 0 '.
 					'and p.ville_deces = v.identifiant_zone '.
 					$p_diff_int.
-					'group by 6 order by 6';
+					'group by v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) order by hex(v.Nom_Ville)';
+					// 'group by v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) order by hex(v.Nom_Ville)';
+					// 'group by 6 order by 6';
 	           break;
 	case 'M' : // Requête pour la liste des personnes par ville de mariage
 	           $sql = 'select count(*), v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) '.
@@ -162,13 +165,14 @@ if (! $texte) {
 	           		  //'and u.Maries_Le <> "" '.
 	                  'and u.Ville_Mariage = v.identifiant_zone '.
 	                  'and u.Conjoint_1 = m.Reference and u.Conjoint_2 = f.Reference '.
-	                  'group by 6 order by 6';
+	                  'group by v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude, hex(v.Nom_Ville) order by hex(v.Nom_Ville)';
+	                  // 'group by 6 order by 6';
 	           break;
 	case 'C' : // Requête pour la liste des personnes par catégorie
 	           $sql = 'select count(*),c.Titre, c.Identifiant, c.Image '.
 					'from '.$n_personnes.' p, '.nom_table('categories').' c'.
 					' where p.Categorie = c.Identifiant '.
-					'group by c.Titre order by c.Titre';
+					'group by c.Titre, c.Identifiant, c.Image order by c.Titre';
 	           break;
 	case 'K' : // Requête pour la liste des personnes par ville de contrat mariage
 	           $sql = 'select count(*),v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude '.
@@ -182,7 +186,7 @@ if (! $texte) {
 	           		  //'and u.Date_K <> "" '.
 	                  'and u.Ville_Notaire = v.identifiant_zone '.
 	                  'and u.Conjoint_1 = m.Reference and u.Conjoint_2 = f.Reference '.
-	                  'group by v.Nom_Ville order by v.Nom_Ville';
+	                  'group by v.Nom_Ville, v.Identifiant_zone, v.Latitude, v.Longitude order by v.Nom_Ville';
 	           break;
 	}
 
@@ -217,8 +221,12 @@ if (! $texte) {
 	}
 	
 	// Partie initiales
-	$res = lect_sql($sql);
-	$nb_lignes = $res->rowCount();
+	$nb_lignes = 0;
+	$count_ok = false;
+	if ($res = lect_sql($sql)) {
+		$nb_lignes = $res->rowCount();
+		$count_ok = true;
+	}
 	if ($Type_Liste != 'C') {
 		if ($nb_lignes > 0) {
 			echo '<table width="100%" border="0" cellspacing="1">'."\n";
@@ -241,11 +249,11 @@ if (! $texte) {
 			}
 		echo '</tr>'."\n";
 		echo '</table>'."\n";
-		echo '<br />'."\n";
+		echo '<br>'."\n";
 		}
 	}
 
-	$echo_haut = Affiche_Icone_Lien('href="#top"','page_haut',my_html($LG_top)).'<br />';
+	$echo_haut = Affiche_Icone_Lien('href="#top"','page_haut',my_html($LG_top)).'<br>';
 
 	$deb_lien = '<a href="'.Get_Adr_Base_Ref().'Liste_Pers2.php?Type_Liste='.$Type_Liste;
 	$deb_lien_crea = 'href="'.Get_Adr_Base_Ref().'Edition_Personnes_Ville.php?evt=';
@@ -256,7 +264,9 @@ if (! $texte) {
 		$echo_calend = Affiche_Icone('calendrier',my_html(LG_ORDER_BY_DATE));
 	}
 
-	$res->closeCursor();
+	if ($count_ok) {
+		$res->closeCursor();
+	}
 	// Affichage principal
 	if ($nb_lignes > 0) {
 		$res = lect_sql($sql);
@@ -270,9 +280,9 @@ if (! $texte) {
 				$Nouv_Lettre = $NomObj[0];
 				// Traitement en rupture sur Initiale
 				if ($Nouv_Lettre != $Anc_Lettre) {
-					if (!$premier) echo "<br />\n";
+					if (!$premier) echo "<br>\n";
 					$premier = false;
-					echo '<a name="'.$Nouv_Lettre.'">'.$Nouv_Lettre.'</a>&nbsp;'.$echo_haut;
+					echo '<a id="'.$Nouv_Lettre.'">'.$Nouv_Lettre.'</a>&nbsp;'.$echo_haut;
 					$Anc_Lettre = $Nouv_Lettre;
 				}
 			}
@@ -302,7 +312,7 @@ if (! $texte) {
 						appelle_carte_osm();
 						echo '&nbsp;';
 					}
-					echo '('.$row[0].')<br />'."\n";
+					echo '('.$row[0].')<br>'."\n";
 					break;
 				case 'M' :
 				case 'K' :
@@ -310,14 +320,14 @@ if (! $texte) {
 					appelle_carte_osm();
 					echo $deb_lien.$params.'&amp;Tri=F">'.$echo_femme.'</a>';
 					echo $deb_lien.$params.'&amp;Tri=H">'.$echo_homme.'</a>';
-					echo $deb_lien.$params.'&amp;Tri=D">'.$echo_calend.'</a><br />'."\n";
+					echo $deb_lien.$params.'&amp;Tri=D">'.$echo_calend.'</a><br>'."\n";
 					break;
 				default:
 					break;
 			}
 		}
+		$res->closeCursor();
 	}
-	$res->closeCursor();
 }
 // Sortie au format texte
 else {
@@ -326,6 +336,7 @@ else {
     	require('html2pdfb.php');
     	$sortie = 'P';
 		$pdf = new PDF_HTML();
+		PDF_AddPolice($pdf);
 		$pdf->SetFont($font_pdf,'',12);
 		$pdf->AddPage();
 		$pdf->SetFont($font_pdf,'B',14);
@@ -425,10 +436,10 @@ else {
     while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
       $Nouv_Nom = $row[$Nom_Rub];
       if ($Nouv_Nom != $Anc_Nom) {
-        if ($premier) HTML_ou_PDF("<br />\n",$sortie);
+        if ($premier) HTML_ou_PDF("<br>\n",$sortie);
         $premier = false;
-       	if ($texte) HTML_ou_PDF("<br />\n",$sortie);
-        HTML_ou_PDF('<b>'.$Nouv_Nom.'</b><br />',$sortie);
+       	if ($texte) HTML_ou_PDF("<br>\n",$sortie);
+        HTML_ou_PDF('<b>'.$Nouv_Nom.'</b><br>',$sortie);
         $Anc_Nom = $Nouv_Nom;
       }
 
@@ -466,7 +477,7 @@ else {
                    break;
         default  : break;
       }
-      HTML_ou_PDF("<br />\n",$sortie);
+      HTML_ou_PDF("<br>\n",$sortie);
     }
   }
   $res->closeCursor();

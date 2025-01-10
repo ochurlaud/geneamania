@@ -202,6 +202,8 @@ if ((!$bt_OK) && (!$bt_An)) {
 	// Police de caractères des fichiers pdf générés
 	col_titre_tab($LG_Site_Param_PDF_Font,$larg_titre);
 	echo '<td class="value">';
+	$list_font_pdf = array_merge($list_font_pdf, $list_font_pdf_plus);
+	sort($list_font_pdf);
 	echo '<select name="Font_PdfG">'."\n";
 	$nb_pol = count($list_font_pdf);
 	for ($nb=0;$nb<$nb_pol;$nb++) {

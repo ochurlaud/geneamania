@@ -20,9 +20,11 @@ function degrade($color1,$color2,$nb_cols) {
 	return $colors;
 }
 
-// Conversion hexadecimal vers RGB
+// Conversion hexadecimale vers RGB
 function HexaToRGB($color){
 	// Init par défaut
+	if (is_null($color))
+		$color = '';
 	$RGB = array("r" => 255, "g" => 255, "b" => 255);
 	if(strlen($color) == 6) {
 		$RGB['r'] = hexdec(substr($color,0,2));
@@ -35,8 +37,9 @@ function HexaToRGB($color){
 function Chapeau_Degrade($couleur) {
 	global $coul_fin, $nb_cols;
 	$col1 = HexaToRGB($couleur);
-	if (! is_array($coul_fin))
+	if (! is_array($coul_fin)) {
 		$coul_fin = HexaToRGB($coul_fin);
+	}
 	$colors = degrade(array($col1['r'],$col1['g'],$col1['b']),array($coul_fin['r'],$coul_fin['g'],$coul_fin['b']),$nb_cols);
 	return $colors;
 }

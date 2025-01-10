@@ -37,20 +37,17 @@ $Refer = Recup_Variable('Refer','N');
 $compl = Ajoute_Page_Info(600,150);
 Insere_Haut($titre,$compl,'Liste_Images','');
 
-$sql = 'select * from '.nom_table('images').
-     ' where Reference = '.$Refer.
-     " and Type_Ref = '".$Type_Ref."'";
-	 
-	 $sql = 'select * from '.nom_table('images').' im, '.nom_table('commentaires').' cmt '
-		. ' where Reference = '.$Refer." and Type_Ref = '".$Type_Ref."'"
-		. ' and cmt.Reference_Objet = im.ident_image ';
-	 
+$sql = 'select * from '.nom_table('images').' im '
+	. 'left outer join '.nom_table('commentaires')." cmt on cmt.Reference_Objet = im.ident_image and Type_Objet = 'I'"
+	. ' where Reference = '.$Refer." and Type_Ref = '".$Type_Ref."'"
+	;
+
 $res = lect_sql($sql);
 
 $presence = false;
 
 while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
-
+	
 	// Entête du tableau sur la première ligne
 	if (!$presence) {
 		echo '<table width="95%" border="0" class="classic" align="center">'."\n";

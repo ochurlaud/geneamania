@@ -1,22 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
+<!DOCTYPE html><html lang="fr"><head>
 <?php
-
-// UTF-8
 
 $cnx = false;
 $msg_cnx_ok = 'Connexion OK';
+$lib_maj_param = 'Mettre à jour les paramètres';
+$lib_tst_param = 'Tester les paramètres';
+$lib_bt_sources = 'Mettre à jour les sources';
 
 function db_connect($host,$dbname,$user,$pswd) {
 	global $msg, $connexion, $msg_cnx_ok;
 	$cnx = false;
-	// echo $host.'/'.$dbname.'/'.$user.'/'.$pswd.'<br />';
-	$msg = $msg_cnx_ok;
+	// echo $host.'/'.$dbname.'/'.$user.'/'.$pswd.'<br>';
+	// $msg = $msg_cnx_ok;
+	$msg = '';
 	$aj_charset = ';charset=utf8';
 	try {
-		// $connexion = new PDO("mysql:host=$host;dbname=$dbname", $user, $pswd);
 		$connexion = new PDO("mysql:host=$host;dbname=$dbname$aj_charset", $user, $pswd);
 		$connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$cnx = true;
@@ -24,7 +22,7 @@ function db_connect($host,$dbname,$user,$pswd) {
 	catch(PDOException $ex) {
 		$msg = 'Echec de la connexion à la base de donnnées !'.$ex->getMessage();
 	}
-	//if ($connexion) echo 'OK<br />'; else echo 'échec<br />';
+	//if ($connexion) echo 'OK<br>'; else echo 'échec<br>';
 	return $cnx;
 }
 
@@ -67,31 +65,31 @@ global 	$db,
         	while ($enreg = $res->fetch(PDO::FETCH_NUM)) {
 				$ref_comment++;
 				$note = $enreg[1];
-				//echo 'Commentaire associé : '.$note.'<br />';
+				//echo 'Commentaire associé : '.$note.'<br>';
 				$Reference = $enreg[0];
 
 				// Transformation du BBCODE avec [url] en lien internet
 				$note = preg_replace("!\[(url)\](.+)\[/(?:url)\]!Ui","<a href=\"$2\">$2</a>",$note);
 
 				if (strlen(addslashes($note)) > 255) {
-					echo 'Attention, commentaire tronqué : '.$note.'<br />';
+					echo 'Attention, commentaire tronqué : '.$note.'<br>';
 				}
 
-	          	// Insertion de l'enregistrement en table commentaires
+				// Insertion de l'enregistrement en table commentaires
 				$req[] = 'INSERT INTO '.$n_commentaires.
 					' (Reference_Objet,Type_Objet,Note,Diff_Internet_Note) values ('.
 					$Reference.',\''.$type_objet.'\',\''.addslashes($note).'\',\''.$enreg[2].'\');';
-        	}
-      	}
+			}
+		}
 }
 
 // Ajout requête modification du numéro de version
 function Ex_Req() {
-global 	$req, $LaVersion, $Num_Gen, $db, $msg;
+global 	$req, $LaVersion, $Num_Gen, $msg;
 	$c_req = count($req);
 	for ($nb = 0; $nb < $c_req; $nb++) {
-		// echo $req[$nb].'<br />';
-		$res = maj_sql($req[$nb]);
+		// echo $req[$nb].'<br>';
+		$res = maj_sql($req[$nb], false);
 	}
 	$req ='';
 }
@@ -115,6 +113,13 @@ function exec_req_vide($req) {
 	return $ret;
 }
 
+function from_to_vers($from, $to) {
+	global $Num_Gen;
+	if  ($Num_Gen == $from) {
+		$Num_Gen = req_maj_vers($to);
+	}
+}
+
 $msgIni = '';
 $msgMod = '';
 $msgMaj = '';
@@ -125,11 +130,100 @@ include_once('fonctions.php');
 // Lit la version contenu dans le fichier de référence
 $LaVersion = lit_fonc_fichier();
 
-$x = Ecrit_Meta('Installation de Généamania','Installation Généamania','');
+echo '<title>Installation de Généamania</title>'."\n";
+echo '<meta name="description" content="Installation Geneamania"/>'."\n";
+echo '<meta name="keywords" content="Généalogie, Geneamania, Généamania, Installation"/>'."\n";
+echo '<meta name="owner" content="support@geneamania.net"/>'."\n";
+echo '<meta http-equiv="content-LANGUAGE" content="French"/>'."\n";
+echo '<meta http-equiv="content-TYPE" content="text/html; charset='.$def_enc.'"/>'."\n";
 
 echo '<style type="text/css">';
 echo '<!--';
-echo 'body {background-color: #a7d8a9;}';
+
+echo 'body {
+			background-color: #e8fbe5;
+			font-family: Verdana,  sans-serif
+		}
+';
+echo '
+.form-style-6{
+	font: 95% Arial, Helvetica, sans-serif;
+	max-width: 400px;
+	margin: 10px auto;
+	padding: 16px;
+	background: #F7F7F7;
+}
+.form-style-6 h1{
+	background: #43D1AF;
+	padding: 20px 0;
+	font-size: 140%;
+	font-weight: 300;
+	text-align: center;
+	color: #fff;
+	margin: -16px -16px 16px -16px;
+}
+.form-style-6 input[type="text"],
+.form-style-6 input[type="date"],
+.form-style-6 input[type="datetime"],
+.form-style-6 input[type="email"],
+.form-style-6 input[type="number"],
+.form-style-6 input[type="search"],
+.form-style-6 input[type="time"],
+.form-style-6 input[type="url"],
+.form-style-6 textarea,
+.form-style-6 select 
+{
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
+	outline: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	background: #fff;
+	margin-bottom: 4%;
+	border: 1px solid #ccc;
+	padding: 3%;
+	color: #555;
+	font: 95% Arial, Helvetica, sans-serif;
+}
+.form-style-6 input[type="text"]:focus,
+.form-style-6 input[type="date"]:focus,
+.form-style-6 input[type="datetime"]:focus,
+.form-style-6 input[type="email"]:focus,
+.form-style-6 input[type="number"]:focus,
+.form-style-6 input[type="search"]:focus,
+.form-style-6 input[type="time"]:focus,
+.form-style-6 input[type="url"]:focus,
+.form-style-6 textarea:focus,
+.form-style-6 select:focus
+{
+	box-shadow: 0 0 5px #43D1AF;
+	padding: 3%;
+	border: 1px solid #43D1AF;
+}
+
+.form-style-6 input[type="submit"],
+.form-style-6 input[type="button"]{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	padding: 3%;
+	background: #43D1AF;
+	border-bottom: 2px solid #30C29E;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;	
+	color: #fff;
+}
+.form-style-6 input[type="submit"]:hover,
+.form-style-6 input[type="button"]:hover{
+	background: #2EBC99;
+}
+';
 echo '-->';
 echo '</style>';
 
@@ -161,45 +255,39 @@ foreach ($tab_variables as $nom_variables) {
 
 $erreur = false;
 $msg = '';
-$lib_bt_sources = 'Mettre à jour les sources';
 
 // L'utilsateur a cliqué sur Tester les paramètres
-if ($tester == 'Tester') {
+if ($tester == $lib_tst_param) {
 	// Essai de connexion à la base avec les paramètres saisis
-	echo '<br />Test de connexion avec les valeurs saisies&nbsp;;&nbsp;';
+	echo '<br>Test de connexion avec les valeurs saisies&nbsp;;&nbsp;';
 	$cnx = db_connect($serveurs,$dbs,$utils,$mdps);
 	if (!$cnx) {
 		$erreur = true;
-		echo 'les param&egrave;tres saisis ne sont pas corrects.<br />';
+		echo 'les param&egrave;tres saisis ne sont pas corrects.<br>';
 	}
 	else {
-		echo 'les param&egrave;tres saisis sont corrects, vous pouvez les enregistrer...<br /><br />';
+		echo 'les param&egrave;tres saisis sont corrects, vous pouvez les enregistrer...<br><br>';
 	}
-	$cnx = false;
 }
 
 // L'utilisateur a cliqué sur Mettre à jour les paramètres
-if ($majparam == 'Mettre à jour') {
-  $gz = false;
-  $nom_fic = 'connexion_inc.php';
-  if ($gz) $fp1 = @gzopen($nom_fic, "wb");
-  else $fp1 = fopen($nom_fic, "wb");
-  if (! $fp1) die("impossible de créer $nom_fic.");
-  else {
-  	$_fputs = ($gz) ? @gzputs : @fputs;
-    //ecriture des paramêtres saisis
-    ecrire($fp1,"<?php");
-    ecrire($fp1,"//--- Paramètres de connexion ---");
-    ecrire($fp1,"\$ndb      = \"".$dbs."\";");
-    ecrire($fp1,"\$nutil    = \"".$utils."\";");
-    ecrire($fp1,"\$nmdp     = \"".$mdps."\";");
-    ecrire($fp1,"\$nserveur = \"".$serveurs."\";");
-    ecrire($fp1,"//------------- fin -------------");
-    ecrire($fp1,"?>");
-    if ($gz) gzclose($fp1);
-    else fclose($fp1);
-    $msgMaj = 'OKMaj';
-  }
+if ($majparam == $lib_maj_param) {
+	$nom_fic = 'connexion_inc.php';
+	$fp1 = fopen($nom_fic, "wb");
+	if (! $fp1) die("impossible de créer $nom_fic.");
+	else {
+		//ecriture des paramêtres saisis
+		ecrire($fp1,"<?php");
+		ecrire($fp1,"//--- Paramètres de connexion ---");
+		ecrire($fp1,"\$ndb      = \"".$dbs."\";");
+		ecrire($fp1,"\$nutil    = \"".$utils."\";");
+		ecrire($fp1,"\$nmdp     = \"".$mdps."\";");
+		ecrire($fp1,"\$nserveur = \"".$serveurs."\";");
+		ecrire($fp1,"//------------- fin -------------");
+		ecrire($fp1,"?>");
+		fclose($fp1);
+		$msgMaj = 'OKMaj';
+	}
 }
 
 // L'utilsateur a cliqué sur Initialisation
@@ -227,10 +315,21 @@ if ($maj == 'Initialisation') {
 	// Ouverture du fichier et exécution des ordres
 	$fic = fopen($chemin_exports.'Export_Initialisation.sql','r');
 	$lig_tot = '';
+	$num_ligne = 0;
+	
 	while (!feof($fic)) {
 		$ligne = trim(fgets($fic));
-		//echo $ligne.'<br />';
-		if (($ligne[0] != '#') and ($ligne != '')) {
+		$num_ligne++;
+		//echo $ligne.'<br>';
+		if (strlen($ligne) >0)
+			$car1 = $ligne[0];
+		else
+			$car1 = '';
+		// La ligne 1 est forcément une ligne de commentaire qui ne sera pas exploitée
+		if ($num_ligne == 1)
+			$car1 = '#';	
+		
+		if (($car1 != '#') and ($ligne != '')) {
 			$lig_tot .= $ligne." ";
 			if ($ligne[strlen($ligne)-1] == ';') {
 				if ($lig_tot == '') {
@@ -300,7 +399,7 @@ if ($maj == 'Migration') {
 			$req[] = 'update '.nom_table('general').' set version=\''.$LaVersion.'\';';
 			$Num_Gen = '1.4';
 			for ($nb = 0; $nb < count($req); $nb++) {
-				//echo $req[$nb].'<br />';
+				//echo $req[$nb].'<br>';
 				$res = maj_sql($req[$nb]);
 				$msg .= $err;
 			}
@@ -315,7 +414,7 @@ if ($maj == 'Migration') {
 			$req[] = 'update '.nom_table('general').' set version=\''.$LaVersion.'\';';
 			$Num_Gen == '1.5';
 			for ($nb = 0; $nb < count($req); $nb++) {
-				//echo $req[$nb].'<br />';
+				//echo $req[$nb].'<br>';
 				$res = maj_sql($req[$nb]);
 				$msg .= $err;
 			}
@@ -485,7 +584,7 @@ if ($maj == 'Migration') {
 			$ref_evt = 0;
 			$sql = 'SELECT Reference, B_Le FROM '.nom_table('personnes').' where B_Le is not null and B_LE <> \'\'';
 			if ($res = lect_sql($sql)) {
-				//echo $res->rowCount().' personnes &agrave; traiter.<br />'
+				//echo $res->rowCount().' personnes &agrave; traiter.<br>'
 				while ($enreg = $res->fetch(PDO::FETCH_NUM)) {
 					$req[] = 'INSERT INTO '.nom_table('evenements').
 								' (Code_Type,Titre,Debut,Fin,Date_Creation,Date_Modification,Statut_Fiche)'.
@@ -502,7 +601,7 @@ if ($maj == 'Migration') {
 			// Passage des professions en évènement
 			$sql = 'SELECT Reference, Profession  FROM '.nom_table('personnes').' where Profession is not null and Profession  <> \'\'';
 			if ($res = lect_sql($sql)) {
-				//echo $res->rowCount().' personnes &agrave; traiter.<br />'
+				//echo $res->rowCount().' personnes &agrave; traiter.<br>'
 				while ($enreg = $res->fetch(PDO::FETCH_NUM)) {
 					$req[] = 'INSERT INTO '.nom_table('evenements').
 								' (Code_Type,Titre,Debut,Fin,Date_Creation,Date_Modification,Statut_Fiche)'.
@@ -531,7 +630,7 @@ if ($maj == 'Migration') {
 			$req[] = 'update '.nom_table('general').' set version=\''.$LaVersion.'\';';
 			$Num_Gen = req_maj_vers('2.1');
 			for ($nb = 0; $nb < count($req); $nb++) {
-				//echo $req[$nb].'<br />';
+				//echo $req[$nb].'<br>';
 				$res = maj_sql($req[$nb]);
 				$msg .= $err;
 			}
@@ -608,7 +707,7 @@ if ($maj == 'Migration') {
 			// gestionnaire/gestionnaire
 			$req[] = 'INSERT INTO '.nom_table('utilisateurs'). ' VALUES (\'\', \'Gestionnaire\',' .
 				'\'gestionnaire\', \'cb5a837679b389074f2cbd407574f31ef5b98ca6d9f4fe3bb8101f62e43b5379\', \'G\');';
-			$msg .= '<font color="green">Gestionnaire de la base : gestionnaire/gestionnaire</font> <br />';
+			$msg .= '<font color="green">Gestionnaire de la base : gestionnaire/gestionnaire</font> <br>';
 
 			$req[] = 'DROP TABLE IF EXISTS '.nom_table('arbre').';';
 			$req[] = 'CREATE TABLE '.nom_table('arbre').' ('
@@ -1635,6 +1734,77 @@ if ($maj == 'Migration') {
 			$Num_Gen = req_maj_vers('2023.03');
 		}
 
+		if  ($Num_Gen == '2023.03') {
+			$Num_Gen = req_maj_vers('2023.12 beta 1');
+		}
+
+		if ($Num_Gen == '2023.12 beta 1') {
+			// Rétablissement de la clé 1aire sur les villes
+			$req[] = "ALTER TABLE ".nom_table('villes'). " DROP INDEX `Reference`";
+			$req[] = "ALTER TABLE ".nom_table('villes'). " ADD PRIMARY KEY(`Identifiant_zone`)";
+			$Num_Gen = req_maj_vers('2023.12 beta 2');
+		}
+
+		if  ($Num_Gen == '2023.12 beta 2') {
+			$Num_Gen = req_maj_vers('2023.12 RC 1');
+		}
+
+		if  ($Num_Gen == '2023.12 RC 1') {
+			$Num_Gen = req_maj_vers('2023.12 RC 2');
+		}
+
+		if  ($Num_Gen == '2023.12 RC 2') {
+			// Harmonisation des dates par défaut et pour régler le problème de mode MySQL NO_ZERO_DATE qui générait des plantage à l'init
+			$req[] = 'ALTER TABLE '.nom_table('arbre').' CHANGE `dateCre` `dateCre` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('arbre').' CHANGE `dateMod` `dateMod` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('arbremodeleetiq').' CHANGE `dateCre` `dateCre` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('arbremodeleetiq').' CHANGE `dateMod` `dateMod` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('compteurs').' CHANGE `date_acc` `date_acc` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('connexions').' CHANGE `dateCnx` `dateCnx` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('contributions').' CHANGE `Date_Creation` `Date_Creation` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('contributions').' CHANGE `Date_Modification` `Date_Modification` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('departements').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('departements').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('documents').' CHANGE `Date_Creation` `Date_Creation` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('documents').' CHANGE `Date_Modification` `Date_Modification` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('evenements').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('evenements').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('filiations').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('filiations').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('general').' CHANGE `Date_Modification` `Date_Modification` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('liens').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('liens').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('liste_diffusion').' CHANGE `Date_Creation` `Date_Creation` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('liste_diffusion').' CHANGE `Date_Modification` `Date_Modification` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('pays').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('pays').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('personnes').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('personnes').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('regions').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('regions').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('subdivisions').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('subdivisions').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('unions').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('unions').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('villes').' CHANGE `Date_Creation` `Date_Creation` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$req[] = 'ALTER TABLE '.nom_table('villes').' CHANGE `Date_Modification` `Date_Modification` DATETIME DEFAULT CURRENT_TIMESTAMP';
+			$Num_Gen = req_maj_vers('2023.12 RC 3');
+		}
+
+		if  ($Num_Gen == '2023.12 RC 3') {
+			$Num_Gen = req_maj_vers('2023.12');
+		}
+		
+		if  ($Num_Gen == '2023.12') {
+			$Num_Gen = req_maj_vers('2024.08 alpha 1');
+		}
+		
+		from_to_vers('2024.08 alpha 1', '2024.08 alpha 2');
+		from_to_vers('2024.08 alpha 2', '2024.08 beta 1');
+		from_to_vers('2024.08 beta 1', '2024.08 beta 2');
+		from_to_vers('2024.08 beta 2', '2024.08 RC 1');
+		from_to_vers('2024.08 RC 1', '2024.08');
+		
 		// Lancement des requêtes
 		Ex_Req();
 
@@ -1664,15 +1834,15 @@ if ($maj == 'Migration') {
 	if ($msg == '') $msg = 'OKMod';
 	$msgMod = $msg;
 }
-
 include_once('connexion_inc.php');
 if (!$cnx) {
 	// Les paramètres de connexion sont-ils OK ?
 	$cnx = db_connect($nserveur,$ndb,$nutil,$nmdp);
-	if ($cnx) echo 'La connexion est OK.<br />';
+	if ($cnx) echo 'La connexion est OK.<br>';
 	else aff_erreur('Echec de la connexion ou de l\'accès à la base de données avec les paramètres enregistrés');
-	echo '<br />';
+	echo '<br>';
 }
+
 // La seule chose que l'on puisse faire si la connexion est KO c'est modifier le fichier de connexion
 if (!$cnx) {
 	// Si rien n'a été saisi, on prend les valeurs du fichier de connexion
@@ -1685,58 +1855,40 @@ if (!$cnx) {
 			$utils    = $nutil;
 			$mdps     = $nmdp;
 		}
-	echo '<b>Constitution du fichier de connexion &agrave; la base de donn&eacute;es :<br /></b>'."\n";
-	echo '<form id="saisie" method="post" ENCTYPE="multipart/form-data" action="'.my_self().'">'."\n";
-	echo "  <table width=\"60%\" border=\"1\">\n";
-	echo "    <tr>\n";
-	echo "      <td>Serveur</td>\n";
-	echo "      <td>\n";
-	echo "        <input type=\"text\" name=\"serveurs\" value=\"".$serveurs."\">";
-	echo "        &nbsp;D&eacute;faut : localhost\n";
-	echo "      </td>\n";
-	echo "    </tr>\n";
-	echo "    <tr>\n";
-	echo "      <td>Base de donn&eacute;es</td>\n";
-	echo "      <td>\n";
-	echo "        <input type=\"text\" name=\"dbs\" value=\"".$dbs."\">";
-	echo "        &nbsp;D&eacute;faut : geneamania\n";
-	echo "      </td>\n";
-	echo "    </tr>\n";
-	echo "    <tr>\n";
-	echo "      <td>Code utilisateur</td>\n";
-	echo "      <td>\n";
-	echo "        <input type=\"text\" name=\"utils\" value=\"".$utils."\">";
-	echo "        &nbsp;D&eacute;faut : root\n";
-	echo "      </td>\n";
-	echo "    </tr>\n";
-	echo "    <tr>\n";
-	echo "      <td>Mot de passe</td>\n";
-	echo "      <td>\n";
-	echo "        <input type=\"text\" name=\"mdps\" value=\"".$mdps."\">";
-	echo "        &nbsp;D&eacute;faut : root (vide si Wampserver)\n";
-	echo "      </td>\n";
-	echo "    </tr>\n";
-	echo "  </table>\n";
-	echo "<p>";
-	echo "<table width=\"60%\">";
-	echo "  <tr align=\"center\">\n";
-	echo "    <td>Tester les param&egrave;tres saisis</td>\n";
-	echo "    <td>Mettre &agrave; jour les param&egrave;tres</td>\n";
-	echo "  </tr>\n";
-	echo '  <tr align="center">'."\n";
-	echo '    <td><input type="submit" name="tester" VALUE="Tester"></td>'."\n";
-	echo '    <td><input type="submit" name="majparam" VALUE="Mettre à jour"></td>'."\n";
-	echo "  </tr>\n";
-	echo "</table>";
+	echo '<b>Constitution du fichier de connexion &agrave; la base de donn&eacute;es :<br></b>'."\n";
+
+	echo '<form id="saisie" method="post" ENCTYPE="multipart/form-data" action="'.my_self().'">'."\n";	
+	
+	echo '<div class="form-style-6">';
+	echo '<h1>Saisissez vos paramètres de connexion</h1>';
+
+	echo 'Nom du serveur (défaut : "localhost")<br>';
+	echo '<input type="text" name="serveurs" value="'.$serveurs.'"/>';
+
+	echo 'Nom de la base de données (défaut : "geneamania")<br>';
+	echo '<input type="text" name="dbs" value="'.$dbs.'"/>';
+
+	echo 'Code utilisateur (défaut : "root")<br>';
+	echo '<input type="text" name="utils" value="'.$utils.'"/>';
+
+	echo 'Mot de passe (défaut : "root", ou vide si Wampserver ")<br>';
+	echo '<input type="text" name="mdps" value="'.$mdps.'"/>';
+
+	echo '<input type="submit" name="tester" value="'.$lib_tst_param.'" /><br><br>';
+	echo '<input type="submit" name="majparam" value="'.$lib_maj_param.'" />';
+	echo '</form>';
+	echo '</div>';
+	
 	echo "</form>";
-	if ($msgMaj == "OKMaj") echo '<br /><font color="green">Cr&eacute;ation du fichier des param&egrave;tres de connexion OK</font><br />';
+	
+	if ($msgMaj == "OKMaj") echo '<br><font color="green">Cr&eacute;ation du fichier des param&egrave;tres de connexion OK</font><br>';
 
 	if (($msg != "") and ($msg != "OKMod") and ($msg != "OKIni")and ($msg != "OKMaj")) {
 		if ($erreur) {
-		  echo "<br /><font color=\"red\">".$msg."</font><br />";
+		  echo "<br><font color=\"red\">".$msg."</font><br>";
 		}
 		else {
-		  echo "<br /><font color=\"green\">".$msg."</font><br />";
+		  echo "<br><font color=\"green\">".$msg."</font><br>";
 		}
 	}
 }
@@ -1746,17 +1898,15 @@ else {
 	echo '<fieldset><legend>R&eacute;cup&eacute;ration de la derni&egrave;re version de r&eacute;f&eacute;rence du logiciel</legend>';
 	if ($is_windows)
 		echo Affiche_Icone('tip','Information').
-			'Si vous utilisez le lanceur Windows, vous pouvez mettre &agrave; jour  G&eacute;n&eacute;amania en 1 clic &agrave; partir de l\'onglet "Versions" du lanceur.<br />Sinon,&nbsp;';
+			'Si vous utilisez le lanceur Windows, vous pouvez mettre &agrave; jour  G&eacute;n&eacute;amania en 1 clic &agrave; partir de l\'onglet "Versions" du lanceur.<br>Sinon,&nbsp;';
 	echo '<a href="recup_sources.php">Cliquez ici</a>';
 	echo '</fieldset>';
 
 	// Recherche de la version éventuelle locale de Généamania
-	//var_dump($connexion);
 	$Version = '';
-    if ($res=lect_sql('select Version from '.nom_table('general'))) {
+	if ($res=lect_sql('select Version from '.nom_table('general'))) {
 		if ($enreg = $res->fetch(PDO::FETCH_ASSOC)) {
 			$Version = $enreg['Version'];
-			//var_dump($Version);
 		}
 	}
 
@@ -1764,38 +1914,38 @@ else {
 	$chLoc = ($envir == 'L') ? 'checked="checked"' : '';
 	$chInt = ($envir == 'I') ? 'checked="checked"' : '';
 
-	echo '<br />';
+	echo '<br>';
 	echo '<fieldset><legend>Initialisation de la base de donn&eacute;es</legend>';
-	echo Affiche_Icone('tip','Information').' Uniquement pour une premi&egrave;re installation de G&eacute;n&eacute;amania :<br />'."\n";
+	echo Affiche_Icone('tip','Information').' Uniquement pour une premi&egrave;re installation de G&eacute;n&eacute;amania :<br>'."\n";
 	echo '<form id="form_modI" method="post" action="'.my_self().'">'."\n";
 	echo '<table width="25%"><tr align="center"><td>'."\n";
 	echo '  <fieldset>'."\n";
 	echo '    <legend>Environnement</legend>'."\n";
 	echo '      <input type="radio" name="envir" value="L"'.$chLoc.'/>Local&nbsp;&nbsp;&nbsp;'."\n";
-	echo '      <input type="radio" name="envir" value="I"'.$chInt.'/>Internet<br />'."\n";
+	echo '      <input type="radio" name="envir" value="I"'.$chInt.'/>Internet<br>'."\n";
 	echo '  </fieldset>'."\n";
 	echo '</td></tr>';
 	echo '<tr><td>&nbsp;</td></tr>';
 	echo '<tr><td>Pr&eacute;fixe des tables : <input type="text" name="prefixe" value="'.$pref_tables.'"/></td></tr>'."\n";
 	echo '</table>'."\n";
-	echo '<br /><input type="submit" name="maj" value="Initialisation"/>'."\n";
+	echo '<br><input type="submit" name="maj" value="Initialisation"/>'."\n";
 	echo '</form>'."\n";
 	if ($msgIni != '') {
 		if ($msgIni == "OKIni") {
-			echo '<br /><font color="green">Initialisation de la base effectu&eacute;e en environnement ';
+			echo '<br><font color="green">Initialisation de la base effectu&eacute;e en environnement ';
 			if ($envir == 'I') echo 'internet';
 			else               echo 'local';
-			echo '</font><br />';
+			echo '</font><br>';
 		}
-		else echo '<br /><font color="red">'.$msgIni.'</font><br />';
+		else echo '<br><font color="red">'.$msgIni.'</font><br>';
 	}
 	echo '</fieldset>';
 
-	echo '<br />';
+	echo '<br>';
 	echo '<fieldset><legend>Migration de la base de donn&eacute;es</legend>';
 	if ($Version != '') {
 		if ($Version != $LaVersion) {
-			echo 'Version '.$Version.' vers '.$LaVersion.' : <br /></b>'."\n";
+			echo 'Version '.$Version.' vers '.$LaVersion.' : <br></b>'."\n";
 			echo '<i>NB : un <a href="Export.php">export</a> complet de la base est conseill&eacute; avant de demander la migration.</i>'."\n";
 			echo '<form id="form_modM" method="post" action="'.my_self().'">'."\n";
 			echo '<input type="submit" name="maj" value="Migration"/>'."\n";
@@ -1804,22 +1954,22 @@ else {
 		else echo 'Pas de migration n&eacute;cessaire.'."\n";
 	}
 	if ($msgMod != '') {
-		if ($msgMod == 'OKMod') echo '<br /><font color="green">Migration de la base effectu&eacute;e</font><br />';
-		else                    echo '<br /><font color="red">'.$msgMod.'</font><br />';
+		if ($msgMod == 'OKMod') echo '<br><font color="green">Migration de la base effectu&eacute;e</font><br>';
+		else                    echo '<br><font color="red">'.$msgMod.'</font><br>';
 	}
 	echo '</fieldset>';
 
-	echo '<br />';
+	echo '<br>';
 	echo '<fieldset><legend>Liens</legend>';
-	echo '<a href="https://forum.geneamania.net/" target="_blank">Forum G&eacute;n&eacute;amania</a><br />'."\n";
+	echo '<a href="https://forum.geneamania.net/" target="_blank">Forum G&eacute;n&eacute;amania</a><br>'."\n";
 	if ($Version != '') {
-		echo '<a href="index.php">Accueil du site</a>';
+		echo '<a href="index.php">Accueil de votre généalogie</a>';
 	}
 	echo '</fieldset>';
 
 	// Message d'avertissement en  environnement internet
 	if ($envir == 'I') {
-		echo '<br />'.Affiche_Icone('tip','Information').'<b> Sur internet, pensez &agrave; supprimer la page install.php une fois que vous avez fini de l\'utiliser.</b><br />';
+		echo '<br>'.Affiche_Icone('tip','Information').'<b> Sur internet, pensez &agrave; supprimer la page install.php une fois que vous avez fini de l\'utiliser.</b><br>';
 	}
 }
 

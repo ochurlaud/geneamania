@@ -166,7 +166,7 @@ function Aff_Filiation($enreg) {
 	$larg = 10;
 	// Père
 
-	col_titre_tab_noClass($LG_Father,$larg);
+	col_titre_tab_noClass(LG_FATHER,$larg);
 	echo "<td>\n";
 	//aff_liste_pers_restreinte($nom_select,$premier,$dernier,$cle_sel,$crit,$order,$oblig, $oc, $pivot_inf, $pivot_sup, $type_ctrl)
 	aff_liste_pers_restreinte('PereP', true, true, $LePere, 'Sexe = "m" or Sexe is Null', 'Nom, Prenoms', false, '', $ne_pers, $dec_pers, 'F');
@@ -176,7 +176,7 @@ function Aff_Filiation($enreg) {
 	echo '</td></tr>'."\n";
 
 	// Mère
-	col_titre_tab_noClass($LG_Mother,$larg);
+	col_titre_tab_noClass(LG_MOTHER,$larg);
 	echo "<td>\n";
 	//aff_liste_pers_restreinte($nom_select,$premier,$dernier,$cle_sel,$crit,$order,$oblig, $oc, $pivot_inf, $pivot_sup, $type_ctrl)
 	aff_liste_pers_restreinte('MereP', true, true, $LaMere, 'Sexe = "f" or Sexe is Null', 'Nom, Prenoms', false, '', $ne_pers, $dec_pers, 'F');

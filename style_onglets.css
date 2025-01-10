@@ -1,0 +1,47 @@
+<style type="text/css">
+html, body {margin: 5px 0px 5px 0px; padding: 0; text-align: center; background-color: white}
+body {height: 100%;}
+body, p, td { font-size: 13px; font-family: "Trebuchet MS", "Century Gothic", Verdana, Arial, sans-serif;}
+h1, h2, h3, h4, h5, h6, i, em { font-family: Georgia, "Book Antiqua", serif; }
+h1 {font-size: 18px; margin: 0}
+h2 {font-size: 16px; margin-bottom: 0px }
+h3 {font-size: 14px; margin-bottom: 0px;}
+th {font-size: 16px; font-weight: bold; text-align: left}
+small {font-size: 11px}
+
+#content {width: 800px; margin-left:auto; margin-right:auto; position: relative; text-align: left}
+#masthead {background: black url(masthead.jpeg) no-repeat; width: 800px;}
+
+#tabs th {padding: 0 12px 0 12px;}
+#tabs a { color: white; text-decoration: none; padding: 0 5px 0 5px}
+#tabs a:hover, #tabs a:active, #tabs a.selected { background-color: #e1eae7; color: black; }
+
+#cols .left {background-color: <?php echo $coul_fond_table;?>; padding: 1px;  }
+#cols .left ul {list-style:disc outside; margin: 0; padding: 2px 23px 0px 23px;}
+#cols .left blockquote, cite  {margin: 5px 10px 5px 10px; padding: 0px 5px 0px 5px; font-size: 12px; border-left: 1px solid #9cb0bb}
+#cols .right blockquote {margin: 5px; font-size: 12px;}
+#cols .right {background-color: #87adcc; padding: 8px; }
+#cols .right ul {list-style:disc outside;margin: 0; padding: 3px 0 0 15px;  text-align: left}
+#cols .right a {color: #03146A;}
+#cols .right a:visited {color: #6A0366}
+#cols .right .meta {font-size: 12px}
+
+tr { vertical-align: top}
+tr td.sep {background-color: #9cb0bb; height: 1px}
+h1 a {color: black; text-decoration: none;}
+h1 a:hover, h1 a:active {color: blue; text-decoration: underline}
+
+.caption {font-size: 12px; font-style: italic; }
+
+blockquote p {font-size: 12px  }
+
+.tabs {position:relative; height: 27px; margin: 0px; padding: 0px; background:url("<?php echo $chemin_images.$Image_Barre;?>") repeat-x; overflow:hidden}
+.tabs li {display:inline;}
+.tabs a:hover, .tabs a.tab-active {background:#fff url("<?php echo $chemin_images;?>bar_on.gif") repeat-x; border-right: 1px solid #fff} 
+.tabs a  {height: 27px; font:12px verdana, helvetica, sans-serif;font-weight:bold;
+    position:relative; padding:5px 10px 10px 10px; margin: 0px -4px 0px 0px; 
+	color:#2B4353;text-decoration:none;border-left:1px solid #fff; border-right:1px solid #6D99B6;}
+.tab-container {background: #fff; border:1px solid #6D99B6;}
+.tab-panes { margin: 3px;}
+
+</style>

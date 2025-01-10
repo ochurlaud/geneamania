@@ -92,6 +92,8 @@ else {
 	echo '</td></tr>'."\n";
 
 	echo '</table>'."\n";
+	
+	echo '<br><a href="Liste_Evenements.php?tev='.$Code.'">'.LG_EVENT_TYPE_EVENTS.'</a>';
 
 	// Formulaire pour le bouton retour
 	Bouton_Retour($lib_Retour,'?'.$_SERVER['QUERY_STRING']);

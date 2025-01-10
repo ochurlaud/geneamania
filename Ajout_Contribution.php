@@ -100,7 +100,7 @@ function ligne_contrib($ligne) {
 }
 
 function Aff_Pers($suffixe,$oblig) {
-	global $enregP,$Icones,$chemin_images,$Nom, $larg_col, $at;
+	global $enregP, $Icones,$chemin_images, $chemin_images_icones, $Nom, $larg_col, $at;
 	if (!$oblig) $style_z_oblig2 = '';
 	else $style_z_oblig2 = ' class = "oblig" ';
 	if (($suffixe == 'pere') or ($suffixe == 'mere')) {

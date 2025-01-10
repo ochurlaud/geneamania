@@ -38,9 +38,7 @@ if ($res->rowCount() > 0) {
 	$row = $res->fetch(PDO::FETCH_NUM);
 	echo $row[0];
 	if ($debug) {
-		$gz = false;
-		$_fputs = ($gz) ? @gzputs : @fputs;
-		$fp = fopen('log_nom.txt', 'wb');
+		$fp = ouvre_fic('log_nom.txt','wb');
 		ecrire($fp,$row[0]);
 		fclose($fp);
 	}

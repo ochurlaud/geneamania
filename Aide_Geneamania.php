@@ -148,7 +148,7 @@ if ($Environnement != 'I') {
 	echo 'il ne faut donc pas oublier de le cr&eacute;er. Vous y &ecirc;tes d\'ailleurs parfois invit&eacute;s par l\'ic&ocirc;ne '.Affiche_Icone('tip','Suggestion');
 	echo ' ; pour cela cr&eacute;ez une personne portant le num&eacute;ro 1.<br />'."\n";
 	echo 'NB 3 : la profession est g&eacute;r&eacute;e comme un &eacute;v&egrave;nement pour la personne. Il est conseill&eacute; de cr&eacute;er un &eacute;v&egrave;nement pour chaque profession ; ';
-	echo 'la personne sera ensuite raccroch&eacute;e &agrave; l\'&eacute;v&egrave;nement en sp&eacute;cifiant &eacute;v&eacute;ntuellement une plage de dates de participation.<br />'."\n";
+	echo 'la personne sera ensuite raccroch&eacute;e &agrave; l\'&eacute;v&egrave;nement en sp&eacute;cifiant &eacute;ventuellement une plage de dates de participation.<br />'."\n";
 }
 
 aide_paragraphe('Gestion des zones g&eacute;ographiques');

@@ -24,7 +24,7 @@ function affiche_image($ref) {
 function aff_cadre_union() {
 	global $cadre_union, $sortie_pdf;
 	if (!$cadre_union) {
-		if(!$sortie_pdf) echo '<fieldset><legend>'.my_html(LG_TARGET_OBJECT_UNION).'</legend>';
+		if(!$sortie_pdf) echo '<fieldset><legend>'.LG_TARGET_OBJECT_UNION.'</legend>';
 		$cadre_union = true;
 	}
 }
@@ -65,19 +65,15 @@ if ($res = lect_sql($sql)) {
 		$sql = $deb_p.' where reference = '.$Conjoint_1.' limit 1';
 		$res = lect_sql($sql);
 		$enr_mari = $res->fetch(PDO::FETCH_ASSOC);
+		rectif_null_pers($enr_mari);
 		$enr2_mari = $enr_mari;
-		// Champ_car($enr2_mari,'Nom'); 
-		// Champ_car($enr2_mari,'Prenoms'); 
-		// Champ_car($enr2_mari,'Surnom');
 
 		// Récupération des informations concernant la femme
 		$sql = $deb_p.' where reference = '.$Conjoint_2.' limit 1';
 		$res = lect_sql($sql);
 		$enr_femme = $res->fetch(PDO::FETCH_ASSOC);
+		rectif_null_pers($enr_femme);
 		$enr2_femme = $enr_femme;
-		// Champ_car($enr2_femme,'Nom'); 
-		// Champ_car($enr2_femme,'Prenoms'); 
-		// Champ_car($enr2_femme,'Surnom');
 
 		$gen = Calc_Gener($enr_mari['Numero']);
 
@@ -86,13 +82,22 @@ if ($res = lect_sql($sql)) {
 			require('html2pdfb.php');
 			$sortie = 'P';
 			$pdf = new PDF_HTML();
+			PDF_AddPolice($pdf);
 			$pdf->SetFont($font_pdf,'',12);
 			$pdf->AddPage();
 			$pdf->SetFont($font_pdf,'B',14);
 			PDF_Set_Def_Color($pdf);
-			$pdf->Cell(0, 5, chaine_pdf($enr_mari['Numero'].' x '.$enr_femme['Numero']) , 'LTR' , 1, 'C');
+			$cadre = '';
+			$pdf->Cell(0, 5, chaine_pdf($enr_mari['Numero'].' x '.$enr_femme['Numero']) , $cadre , 1, 'C');
 			$pdf->SetFont($font_pdf,'',11);
-			$pdf->Cell(0, 5, chaine_pdf($gen) , 'LBR' , 1, 'C');
+			if ($gen != '')
+				$pdf->Cell(0, 5, chaine_pdf($gen) , '' , 1, 'C');
+			
+			if ($gen != '')
+				$haut = 12;
+			else
+				$haut = 7;
+			$pdf->RoundedRectH(10, 9, $pdf->GetPageWidth()-20, $haut, 3.5, 'D');			
 			$pdf->Ln();
 		}
 		// Sortie au format texte
@@ -107,7 +112,7 @@ if ($res = lect_sql($sql)) {
 
 		// Affichage des données du mari et affichage des parents
 		HTML_ou_PDF('<br />',$sortie);
-		if(!$sortie_pdf) echo '<fieldset><legend>'.my_html(LG_COUPLE_REPORT_PERSON).'</legend>';
+		if(!$sortie_pdf) echo '<fieldset><legend>'.LG_COUPLE_REPORT_PERSON.'</legend>';
 		$sur = $enr2_mari['Surnom'];
 		if ($sur != '') $sur = ', '.LG_COUPLE_REPORT_NICK_M.' '.$sur;
 		HTML_ou_PDF('<b>'.$enr2_mari['Prenoms'].' '.$enr2_mari['Nom'].$sur.'</b><br />'."\n",$sortie);
@@ -155,7 +160,7 @@ if ($res = lect_sql($sql)) {
 
 		// Affichage des données de la femme et affichage des parents
 		if($sortie_pdf) HTML_ou_PDF('<br />',$sortie);
-		if(!$sortie_pdf) echo '<fieldset><legend>'.my_html(LG_COUPLE_REPORT_HUSB_WIF).'</legend>';
+		if(!$sortie_pdf) echo '<fieldset><legend>'.LG_COUPLE_REPORT_HUSB_WIF.'</legend>';
 		$sur = $enr2_femme['Surnom'];
 		if ($sur != '') $sur = ', '.LG_COUPLE_REPORT_NICK_F.' '.$sur;
 		HTML_ou_PDF('<b>'.$enr2_femme['Prenoms'].' '.$enr2_femme['Nom'].$sur.'</b><br />'."\n",$sortie);
@@ -170,7 +175,7 @@ if ($res = lect_sql($sql)) {
 		
 		// Récupération des enfants avec le conjoint
 		if($sortie_pdf) HTML_ou_PDF('<br />',$sortie);
-		if(!$sortie_pdf) echo '<fieldset><legend>'.my_html(LG_COUPLE_REPORT_CHILDREN).'</legend>';
+		if(!$sortie_pdf) echo '<fieldset><legend>'.LG_COUPLE_REPORT_CHILDREN.'</legend>';
 		else HTML_ou_PDF(LG_COUPLE_REPORT_CHILDREN.' : <br />'."\n",$sortie);
 		$sql = 'select Enfant from '.nom_table('filiations').
 				' where pere = '.$enr_mari['Reference'].

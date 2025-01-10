@@ -302,11 +302,6 @@ else  {
     	require('html2pdfb.php');
     	$sortie = 'P';
 		$pdf = new PDF_HTML();
-		// $font_pdf = 'LibreBaskerville';
-		// $font_pdf = 'CaslonAntique';
-		// $font_pdf = 'AguafinaScript';
-		// $font_pdf = 'Parisienne';
-		// $font_pdf = 'BLKCHCRY';
 		PDF_AddPolice($pdf);
 		$pdf->SetFont($font_pdf,'',12);
 		$pdf->AddPage();
@@ -397,14 +392,12 @@ if   ($decujus = get_decujus()) {
 	$Personne = $Res->fetch(PDO::FETCH_NUM);
 
 	// Sortie CSV
-    if ($CSV) {
-    	$gz = false;
-    	$_fputs = ($gz) ? @gzputs : @fputs;
-    	$nom_fic = $chemin_exports.'liste_personnes_'.$mod_nom_fic.'gen.csv';
-    	$fp=fopen($nom_fic,'w+');
+	if ($CSV) {
+		$nom_fic = $chemin_exports.'liste_personnes_'.$mod_nom_fic.'gen.csv';
+		$fp = ouvre_fic($nom_fic,'w+');
 
-    	//$req_Pers_d = 'select Reference, Nom, Prenoms, Numero, Ne_le, Decede_Le, Diff_Internet, n.Nom_Ville, d.Nom_Ville, n.Latitude, n.Longitude, d.Latitude, d.Longitude '.
-    	// Ecriture de la ligne d'entête
+		//$req_Pers_d = 'select Reference, Nom, Prenoms, Numero, Ne_le, Decede_Le, Diff_Internet, n.Nom_Ville, d.Nom_Ville, n.Latitude, n.Longitude, d.Latitude, d.Longitude '.
+		// Ecriture de la ligne d'entête
 		$ligne = '';
 		$ligne .= $LG_LPersG_generation.';';
 		$ligne .= $LG_Reference.';';

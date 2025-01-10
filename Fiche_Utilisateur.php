@@ -44,7 +44,7 @@ else {
 	$compl = Affiche_Icone_Lien('href="Edition_Utilisateur.php?code='.$code.'"','fiche_edition','Edition fiche utilisateur') . '&nbsp;';
 
 	Insere_Haut($titre,$compl,'Fiche_utilisateur','');
-	echo '<br />';
+	echo '<br>';
 	//
 	//  ========== Programme principal ==========
 	//
@@ -64,9 +64,10 @@ else {
 		if ($res = lect_sql($sql)) {
 			if ($row = $res->fetch(PDO::FETCH_NUM)) {
 				$Last_cnx = $row[0];
-				echo '<tr><td>'.$LG_Ch_Last_Cnx.' : </td><td>';
+				// echo '<tr><td>'.LG_UTIL_LAST_CNX.' : </td><td>';
+				echo colonne_titre_tab(LG_UTIL_LAST_CNX);
 				if ($Last_cnx != '') echo DateTime_Fr($Last_cnx);
-				else echo $LG_Ch_No_Cnx;
+				else echo LG_UTIL_NO_CNX;
 				echo '</td></tr>'."\n";
 			}
 		}
@@ -75,7 +76,7 @@ else {
 	echo '</table>'."\n";
 
 	if (($Environnement == 'I') and ($Last_cnx != ''))
-		echo '<br /><a href="'.Get_Adr_Base_Ref().'Liste_Connexions.php?Util='.$code.'">'.my_html(LG_UTIL_CONNEXIONS).'</a>';
+		echo '<br><a href="'.Get_Adr_Base_Ref().'Liste_Connexions.php?Util='.$code.'">'.my_html(LG_UTIL_CONNEXIONS).'</a>';
 
 	// Formulaire pour le bouton retour
 	Bouton_Retour($lib_Retour,'?'.$_SERVER['QUERY_STRING']);

@@ -1,7 +1,7 @@
 <?php
 
 // appelé en ajax pour avoir les personnes correspondant à un nom 
-// UTF-8
+
 session_start();
 include_once('fonctions.php');
 
@@ -76,7 +76,8 @@ while ($enreg = $res->fetch(PDO::FETCH_ASSOC)) {
 	$id_maxi = max($enreg['Reference'], $id_maxi);
 }
 
-$maxi = $dom->createElement('maxi', utf8_encode($id_maxi));
+$maxi = $dom->createElement('maxi', $id_maxi);
+// $maxi = $dom->createElement('maxi', utf8_encode($id_maxi));
 $maxi = $message->appendChild($maxi);
 	
 echo $dom->saveXML();
@@ -91,5 +92,4 @@ Donne :
 </message>
 */
 if ($debug) fclose($f_log);
-
 ?>

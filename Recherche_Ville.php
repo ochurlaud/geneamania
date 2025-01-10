@@ -42,8 +42,8 @@ include('Gestion_Pages.php');
 if ($bt_An) Retour_Ar();
 
 // Suite sécurisation des variables postées
-$reprise       = Secur_Variable_Post($reprise,1,'S'); // 1 seul caractère suffit
-$NomV          = Secur_Variable_Post($NomV,80,'S');
+$reprise      = Secur_Variable_Post($reprise,1,'S'); // 1 seul caractère suffit
+$NomV         = Secur_Variable_Post($NomV,80,'S');
 $Code_Postal  = Secur_Variable_Post($Code_Postal,10,'S');
 $Departement  = Secur_Variable_Post($Departement,1,'N');
 $Statut_Fiche = Secur_Variable_Post($Statut_Fiche,1,'S');
@@ -58,7 +58,7 @@ function Ajb_Zone_Req($NomRub,$Rub,$TypRub,&$LaReq,$Zone) {
 		if ($NomRub == 'Zone_Mere')
 			$C_Rub = lib_departement($Rub);
 		$le_crit = $C_Rub;
-		echo '&nbsp;&nbsp;&nbsp;'.$Zone.' = '.$le_crit.'<br />';
+		echo '&nbsp;&nbsp;&nbsp;'.$Zone.' = '.$le_crit.'<br>';
 		$memo_criteres = $memo_criteres.$Zone.' = '.$C_Rub.$separ;
 		if ($LaReq != '') $LaReq = $LaReq.' and ';
 		if ($TypRub == 'A') {
@@ -93,13 +93,11 @@ if ($bt_OK) {
 
 	if ($Sortie == 'c') {
 		// Traiter le cas d'erreur sur l'ouverture du fichier
-		$gz = false;
-		$_fputs = ($gz) ? @gzputs : @fputs;
 		$NomV_fic = $chemin_exports.'recherche_villes.csv';
-		$fp=fopen($NomV_fic,'w+');
+		$fp = ouvre_fic($NomV_fic,'w+');
 	}
     //Init des zones de requête
-    echo 'Crit&egrave;res demand&eacute;s :<br />';
+    echo 'Crit&egrave;res demand&eacute;s :<br>';
     $req = '';
 	$memo_criteres = '';
 	// Constitution de la requête d'extraction
@@ -134,8 +132,8 @@ if ($bt_OK) {
 		$res = lect_sql($req);
 		$nb_lignes = $res->RowCount();
 		// $plu = pluriel($nb_lignes);
-		// echo $nb_lignes.' ville'.$plu.' trouv&eacute;e'.$plu.'<br /><br />';
-		echo $nb_lignes.' '.my_html(LG_TOWN_FOUND).'<br /><br />';
+		// echo $nb_lignes.' ville'.$plu.' trouv&eacute;e'.$plu.'<br><br>';
+		echo $nb_lignes.' '.my_html(LG_TOWN_FOUND).'<br><br>';
 		$champs = get_fields($req,true);
 		$num_fields = count($champs);
 		if ($Sortie == 'c') {
@@ -159,10 +157,10 @@ if ($bt_OK) {
 						if ($est_gestionnaire) {
 							echo '&nbsp;<a href="Edition_Ville.php?Ident='.$ref.'">'.$echo_modif."\n";
 						}
-				        echo '<br />'."\n";
+				        echo '<br>'."\n";
 				        break;
       		case 't' : echo my_html($row[1]);
-      		        	echo '<br />'."\n";
+      		        	echo '<br>'."\n";
 				        break;
       		case 'c' : $ligne = '';
       					for ($nb=0; $nb < $num_fields; $nb++) {
@@ -175,7 +173,7 @@ if ($bt_OK) {
       }
       if ($Sortie == 'c') {
       	fclose($fp);
-      	echo '<br />'.my_html($LG_csv_available_in).' <a href="'.$NomV_fic.'">'.$NomV_fic.'</a><br />'."\n";
+      	echo '<br>'.my_html($LG_csv_available_in).' <a href="'.$NomV_fic.'">'.$NomV_fic.'</a><br>'."\n";
       }
     }
 
@@ -189,34 +187,22 @@ if ($bt_OK) {
 		echo '<input type="hidden" name="Departement" value="'.$Departement.'"/>';
 		echo '<input type="hidden" name="Statut_Fiche" value="'.$Statut_Fiche.'"/>';
 		echo '<input type="hidden" name="New_Window" value="'.$New_Window.'"/>';
-	    echo '<br />';
-       	echo '<div class="buttons">';
-	   	echo '<button type="submit" class="positive"><img src="'.$chemin_images_icones.$Icones['chercher'].'" alt=""/>'.$lib_Nouv_Rech.'</button>';
-       	if ((!$SiteGratuit) or ($Premium)) {
-		   	echo '<button type="submit" onclick="document.forms.nouvelle.reprise.value=\'reprise\'; "'.
-		   	 ' class="positive"><img src="'.$chemin_images_icones.$Icones['chercher_plus'].'" alt=""/>'.$lib_Nouv_Rech_Aff.'</button>';
-       	}
+		echo '<br>';
+		echo '<div class="buttons">';
+		echo '<button type="submit" class="positive"><img src="'.$chemin_images_icones.$Icones['chercher'].'" alt=""/>'.$lib_Nouv_Rech.'</button>';
+		if ((!$SiteGratuit) or ($Premium)) {
+			echo '<button type="submit" onclick="document.forms.nouvelle.reprise.value=\'reprise\'; "'.
+			 ' class="positive"><img src="'.$chemin_images_icones.$Icones['chercher_plus'].'" alt=""/>'.$lib_Nouv_Rech_Aff.'</button>';
+		}
 		echo '</div>';
-	    echo '</form>'."\n";
-    }
+		echo '</form>'."\n";
+	}
 }
 
 // Première entrée : affichage pour saisie
 if ((!$bt_OK) && (!$bt_An)) {
 
-	/*
-	Identifiant_zone 	int(11)
-	Nom_Ville 	varchar(80)
-	Code_Postal 	varchar(10)
-	Date_Creation 	datetime
-	Date_Modification 	datetime
-	Statut_Fiche 	char(1)
-	Zone_Mere 	int(11)
-	Latitude 	float
-	Longitude 	float
-	*/
-
-	echo '<br />';
+	echo '<br>';
 
 	$larg_titre = '20';
 	$checked = ' checked="checked"';
@@ -231,31 +217,33 @@ if ((!$bt_OK) && (!$bt_An)) {
 
 	col_titre_tab(LG_TOWN_SCH_NAME,$larg_titre);
 	echo '<td class="value"><input type="text" size="80" name="NomV"';
-    if ($reprise) echo ' value="'.$NomV.'"';
-    echo '/>';
+	if ($reprise) echo ' value="'.$NomV.'"';
+	echo '/>';
 	echo '</td></tr>'."\n";
 
 	col_titre_tab(LG_TOWN_SCH_ZIP,$larg_titre);
 	echo '<td class="value"><input type="text" name="Code_Postal"';
-    if ($reprise) echo ' value="'.$Code_Postal.'"';
-    echo '/>';
+	if ($reprise) echo ' value="'.$Code_Postal.'"';
+	echo '/>';
 	echo '</td></tr>'."\n";
 
 	col_titre_tab(LG_COUNTY,$larg_titre);
-    echo '<td class="value"><select name="Departement">'."\n";
-    echo '<option value="-1"/>';
-    while ($row = $res->fetch(PDO::FETCH_NUM)) {
+	echo '<td class="value"><select name="Departement">'."\n";
+	echo '<option value="-1"/>';
+	while ($row = $res->fetch(PDO::FETCH_NUM)) {
 		echo '<option value="'.$row[0].'"';
 		if ($reprise) {
 			if ($Departement==$row[0]) echo 'selected="selected"';
 		}
 		echo '>';
-		if ($row[0] == 0) echo 'Non saisi';
-		else              echo my_html($row[1])."\n";
+		if ($row[0] == 0) 
+			echo 'Non saisi';
+		else
+			echo my_html($row[1])."\n";
 		echo '</option>';
-    }
-    echo '</select>'."\n";
-    echo '</td></tr>'."\n";
+	}
+	echo '</select>'."\n";
+	echo '</td></tr>'."\n";
 
     if ($est_gestionnaire) {
 		col_titre_tab(LG_TOWN_SCH_STATUS,$larg_titre);
@@ -291,14 +279,14 @@ if ((!$bt_OK) && (!$bt_An)) {
     if ($reprise) {
 		if ($New_Window=='O') echo $checked;
 	}
-    echo ' value="O"/>';
+	echo ' value="O"/>';
 	echo '</td></tr>'."\n";
 
 	ligne_vide_tab_form(1);
 	bt_ok_an_sup($lib_Rechercher,$lib_Annuler,'','');
 
 	echo '</table>'."\n";
-    echo '</form>';
+	echo '</form>';
 
 }
 

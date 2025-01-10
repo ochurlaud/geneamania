@@ -319,7 +319,7 @@ function libSexe($sexe) {
 	return my_html($lib);
 }
 
-function aff_zones($titre='xx',$nom_rb) {
+function aff_zones($titre, $nom_rb) {
 	global $z1, $z2;
 	if (($z1 == '') and ($z2 == '')) {
 		$classe = 'ligne_absent';

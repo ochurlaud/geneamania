@@ -1,17 +1,35 @@
-<style type="text/css">
-<!--
+<style>
+:root {
+<?php
+	echo '  --Coul_Impaires: '.$Coul_Impaires.';'."\n";
+	echo '  --Coul_Paires: '.$Coul_Paires.';'."\n";
+	echo '  --coul_fond_table:'.$coul_fond_table.';'."\n";
+	echo "  --Chemin_Barre: url('".$Chemin_Barre."');"."\n";
+	echo '  --Coul_Bord: '.$Coul_Bord.';'."\n";
+	echo '  --Coul_Lib: '.$Coul_Lib.';'."\n";
+	echo '  --Coul_Val: '.$Coul_Val.';'."\n";
+	echo "  --Chemin_Nav_Bg: url('".$chemin_images."nav_bg.gif');"."\n";
+	echo "  --Chemin_Ic_Bullet: url('".$chemin_images."bullet_green.png');"."\n";
+?>
+}
 
 html, body {margin: 5px 0px 5px 0px; padding: 0; }
-body {height: 100%; margin: 5px;}
-body, p, td { font-size: 13px; font-family: Verdana, "Trebuchet MS", "Century Gothic", Arial, sans-serif;}
-h1, h2, h3, h4, h5, h6, i, em { font-family: Georgia, "Book Antiqua", serif; }
+
+body {height: 100%; margin: 5px; }
+body, p, td { font-size: 13px; font-family: Verdana, Georgia, "Book Antiqua", "Century Gothic", Arial, sans-serif;}
 h1 {font-size: 18px; margin: 0}
 h1 a {color: black; text-decoration: none;}
 h1 a:hover, h1 a:active {color: blue; text-decoration: underline}
 h2 {font-size: 16px; margin-bottom: 0px; }
 h3 {font-size: 14px; margin-bottom: 0px;}
 
+a:link {color: black;}
+a:visited {color: green;}
+a:hover {color: blue;}
+
 small {font-size: 11px}
+
+img { border: 0; }
 
 #content {width: 800px; margin-left:auto; margin-right:auto; position: relative; text-align: left}
 
@@ -19,7 +37,7 @@ small {font-size: 11px}
 #tabs a { color: white; text-decoration: none; padding: 0 5px 0 5px}
 #tabs a:hover, #tabs a:active, #tabs a.selected { background-color: #e1eae7; color: black; }
 
-#cols .left {background-color: <?php echo $coul_fond_table;?>; padding: 1px;  }
+#cols .left {background-color: var(--coul_fond_table); padding: 1px;  }
 #cols .left ul {list-style:disc outside; margin: 0; padding: 2px 23px 0px 23px;}
 #cols .left blockquote, cite  {margin: 5px 10px 5px 10px; padding: 0px 5px 0px 5px; font-size: 12px; border-left: 1px solid #9cb0bb}
 #cols .right blockquote {margin: 5px; font-size: 12px;}
@@ -33,10 +51,9 @@ small {font-size: 11px}
 
 blockquote p {font-size: 12px  }
 
-.tabs {position:relative; height: 27px; margin: 0px; padding: 0px; background:url("<?php echo $Chemin_Barre;?>") repeat-x; overflow:hidden}
+.tabs {position:relative; height: 27px; margin: 0px; padding: 0px; background:var(--Chemin_Barre) repeat-x; overflow:hidden}
 .tabs li {display:inline;}
 .tabs a:hover, .tabs a.tab-active {background:#fff; border-right: 1px solid #fff}
-/* .tabs a:hover, .tabs a.tab-active {background:#fff url("<?php echo $chemin_images_barres;?>bar_on.gif") repeat-x; border-right: 1px solid #fff} */
 .tabs a  {
 	height: 27px; font:12px verdana, helvetica, sans-serif;font-weight:bold;
 	position:relative; padding:5px 10px 10px 10px; margin: 0px -4px 0px 0px;
@@ -48,43 +65,33 @@ blockquote p {font-size: 12px  }
 .classic tr {
 	border-bottom: 1px solid #ccc;
 }
-
 .classic th {
-	background-image:url('<?php echo $Chemin_Barre; ?>');
+	background-image:var(--Chemin_Barre);
 	background-repeat:repeat-x;
 	border-right: 1px solid #ccc;
 	text-align:center;
 }
-
 .classic td {
 	border-right: 1px solid #ccc;
 	padding-left:10px;
 }
-
 .classic tr:nth-child(odd) {
-	background: <?php echo $Coul_Impaires; ?>;
+	background: var(--Coul_Impaires);
 }
-
 .classic tr:nth-child(even) {
-	background: <?php echo $Coul_Paires; ?>;
+	background: var(--Coul_Paires);
 }
-
 .classic  {
 	border-collapse: collapse;
 }
-
 .classic th {
-	background-image:url('<?php echo $Chemin_Barre; ?>');
+	background-image:var(--Chemin_Barre);
 	background-repeat:repeat-x;
 }
 
 .rupt_table {
-	background-image:url('<?php echo $Chemin_Barre; ?>');
+	background-image:var(--Chemin_Barre);
 	background-repeat:repeat-x;
-}
-
-.fond_metal {
-	background-image: url('<?php echo $chemin_images.$Images['fond_metal']; ?>');
 }
 
 .absent {
@@ -99,10 +106,6 @@ blockquote p {font-size: 12px  }
 	background-color: #FFFFFF;
 }
 
-//th {font-size: 16px; font-weight: bold; text-align: left}
-//tr { vertical-align: top}
-//tr td.sep {background-color: #9cb0bb; height: 1px}
-
 .table_form {
 	border-collapse:separate;
 	border:0;
@@ -111,26 +114,21 @@ blockquote p {font-size: 12px  }
 	border-spacing: 0px;
 }
 
-.label {
-	border:1px solid <?php echo $Coul_Bord; ?>;
+.label, .value {
+	border:1px solid var(--Coul_Bord);
 	padding:5px;
-	background-color: <?php echo $Coul_Lib; ?>;
+}
+.label {
+	background-color: var(--Coul_Lib);
 }
 
 .value {
-	border:1px solid <?php echo $Coul_Bord; ?>;
-	padding:5px;
 	text-align:left;
-	background-color: <?php echo $Coul_Val; ?>;
+	background-color: var(--Coul_Val);
 }
 
-.liste {
-	background-color: <?php echo $Coul_Impaires; ?>;
-}
-
-.liste2 {
-	background-color: <?php echo $Coul_Paires; ?>;
-}
+.liste {background-color: var(--Coul_Impaires);}
+.liste2 {	background-color: var(--Coul_Paires);}
 
 .ligne_no_diff { background-color: #4CFF00; }
 .ligne_diff { background-color: #FF7F7F;}
@@ -154,142 +152,98 @@ blockquote p {font-size: 12px  }
 	padding:5px 10px 6px 7px; /* Links */
 }
 .buttons button{
-    width:auto;
-    overflow:visible;
-    padding:4px 10px 3px 7px; /* IE6 */
+	width:auto;
+	overflow:visible;
+	padding:4px 10px 3px 7px; /* IE6 */
 }
 .buttons button[type]{
-    padding:5px 10px 5px 7px; /* Firefox */
-    line-height:17px; /* Safari */
+	padding:5px 10px 5px 7px; /* Firefox */
+	line-height:17px; /* Safari */
 }
 *:first-child+html button[type]{
     padding:4px 10px 3px 7px; /* IE7 */
 }
 .buttons button img, .buttons a img{
-    margin:0 3px -3px 0 !important;
-    padding:0;
-    border:none;
-    width:16px;
-    height:16px;
+	margin:0 3px -3px 0 !important;
+	padding:0;
+	border:none;
+	width:16px;
+	height:16px;
 }
 button:hover, .buttons a:hover{
-    background-color:#dff4ff;
-    border:1px solid #c2e1ef;
-    color:#336699;
+	background-color:#dff4ff;
+	border:1px solid #c2e1ef;
+	color:#336699;
 }
 .buttons a:active{
-    background-color:#6299c5;
-    border:1px solid #6299c5;
-    color:#fff;
+	background-color:#6299c5;
+	border:1px solid #6299c5;
+	color:#fff;
 }
 button.positive, .buttons a.positive{
-    color:#529214;
+	color:#529214;
 }
 .buttons a.positive:hover, button.positive:hover{
-    background-color:#E6EFC2;
-    border:1px solid #C6D880;
-    color:#529214;
+	background-color:#E6EFC2;
+	border:1px solid #C6D880;
+	color:#529214;
 }
 .buttons a.positive:active{
-    background-color:#529214;
-    border:1px solid #529214;
-    color:#fff;
+	background-color:#529214;
+	border:1px solid #529214;
+	color:#fff;
 }
 .buttons a.negative, button.negative{
-    color:#d12f19;
+	color:#d12f19;
 }
 .buttons a.negative:hover, button.negative:hover{
-    background:#fbe3e4;
-    border:1px solid #fbc2c4;
-    color:#d12f19;
+	background:#fbe3e4;
+	border:1px solid #fbc2c4;
+	color:#d12f19;
 }
 .buttons a.negative:active{
-    background-color:#d12f19;
-    border:1px solid #d12f19;
-    color:#fff;
+	background-color:#d12f19;
+	border:1px solid #d12f19;
+	color:#fff;
 }
 .BoutonCalc_1 {
-    background-color: #767293;
-    border-color: #555555;
-    border-right: 1px outset #555555;
-    border-style: outset;
-    border-width: 1px;
-    color: #CCCCCC;
-    font-family: verdana;
-    font-size: 10pt;
-    font-weight: bold;
-    width: 40px;
+	background-color: #767293;
+	border-color: #555555;
+	border-right: 1px outset #555555;
+	border-style: outset;
+	border-width: 1px;
+	color: #CCCCCC;
+	font-family: verdana;
+	font-size: 10pt;
+	font-weight: bold;
+	width: 40px;
 }
 .BoutonCalc_2 {
-    background-color: #334455;
-    border-color: #7C7C7C;
-    border-right: 1px outset #7C7C7C;
-    border-style: outset;
-    border-width: 1px;
-    color: #AAAAAA;
-    font-family: verdana;
-    font-size: 9pt;
-    font-weight: bold;
-    height: 20px;
-    width: 40px;
-}
-
-#nav2{
-	height: 40px;
-	width: 100%;
-	background: #2F2329 url(<?php echo $chemin_images;?>nav_bg.gif) repeat-x 0px 0px;
-}
-
-#nav2 .menu{
-	height: 40px;
-	width: 980px;
-	overflow: hidden;
-	margin: 0px auto;
-	padding: 0px;
-}
-
-#nav2 .menu li{
-	padding: 0px;
-	margin: 0px 2px 0px 0px;
-	float: left;
-	display: inline;
-}
-
-#nav2 .menu li a{
-	display: block;
-	padding: 0px 25px;
-	background: #FFFAF7 url(<?php echo $chemin_images;?>nav_bg.gif) repeat-x 0px -40px;
-	height: 40px;
-	line-height: 300%;
+	background-color: #334455;
+	border-color: #7C7C7C;
+	border-right: 1px outset #7C7C7C;
+	border-style: outset;
+	border-width: 1px;
+	color: #AAAAAA;
+	font-family: verdana;
+	font-size: 9pt;
 	font-weight: bold;
-	text-decoration: none;
-	color: #000;
-	font-size: 100%;
-	float: left;
-}
-
-#nav2 .menu li a:visited{
-	color: #000;
-}
-
-#nav2 .menu li a:hover{
-	background: #DFD8D5 url(<?php echo $chemin_images;?>nav_bg.gif) repeat-x 0px -80px; text-decoration: underline;
+	height: 20px;
+	width: 40px;
 }
 
 #liste .puces li {
-  display: list-item;
-  list-style-image: url(<?php echo $chemin_images_icones;?>bullet_green.png);
+	display: list-item;
+	list-style-image: var(--Chemin_Ic_Bullet);
 }
 
 .tab_bord_bas {
 	border-bottom:1px solid #6D6569;
 }
-
 .tab_bord_haut_bas {
 	border-top:1px solid #6D6569;
 	border-bottom:1px solid #6D6569;
 }
-
 .tab_bord_gauche_droite {
 	border-left:1px dashed #6D6569;
 	border-right:1px dashed #6D6569;
@@ -326,28 +280,14 @@ a.info:hover span{
 .case_arbre_asc_hom, .case_arbre_asc_fem, .case_arbre_asc_def{
 	position:absolute;
 	border:solid 1px black;
-}
-.case_arbre_asc_hom{
-	background-color:#9999FF;
-}
-.case_arbre_asc_fem{
-	background-color:#FF9999;
-}
-.case_arbre_asc_def{
-	background-color:#FFFFFF;
-}
-
-.case_arbre_asc_hom, .case_arbre_asc_fem, .case_arbre_asc_def{
 	border-radius: 5px;
 }
 .case_arbre_asc_hom{
 	background-color:#5CC3FA;
 }
-
 .case_arbre_asc_fem{
 	background-color:#FFA1FD;
 }
-
 .case_arbre_asc_def{
 	background-color:#FFFFFF;
 }
@@ -388,11 +328,11 @@ input, textarea, select {
 .tableau_imp tr:hover {
 	background-color: #c3e6e5;}
 
-/* pour la page d'accueil ... */	
+/* pour la page d'accueil ... */
 #ex2 {
 	padding-top: 0em;
 }
-  /* premier exemple */
+
 .nav {
 	padding: 0;
 	margin: 1.0em 0;
@@ -410,11 +350,7 @@ input, textarea, select {
 	border: 1px solid #333;
 	border-top-color: #707070;
 	background-color: #5E5E5E;
-	background: -moz-linear-gradient(bottom , #666666 0pt, #5E5E5E 50%, #707070 51%, #808080 100%) repeat scroll 0 0 transparent;
-	background: -webkit-linear-gradient(bottom , #666666 0pt, #5E5E5E 50%, #707070 51%, #808080 100%) repeat scroll 0 0 transparent;
-	background: -ms-linear-gradient(bottom , #666666 0pt, #5E5E5E 50%, #707070 51%, #808080 100%) repeat scroll 0 0 transparent;
-	background: -o-linear-gradient(bottom , #666666 0pt, #5E5E5E 50%, #707070 51%, #808080 100%) repeat scroll 0 0 transparent;
-	background: linear-gradient(bottom , #666666 0pt, #5E5E5E 50%, #707070 51%, #808080 100%) repeat scroll 0 0 transparent;
+	background: linear-gradient(to bottom, #666666 0pt, #5E5E5E 50%, #707070 51%, #808080 100%) repeat scroll 0 0 transparent;
 	text-align: center;
 	height: 36px;
 	box-shadow: 0 1px 3px #999;
@@ -442,11 +378,7 @@ input, textarea, select {
 #ex2 .nav a:hover,
 #ex2 .nav a:focus {
 	background-color: #3E3E3E;
-	background: -moz-linear-gradient(bottom , #444444 0pt, #3E3E3E 50%, #505050 51%, #606060 100%) repeat scroll 0 0 transparent;
-	background: -webkit-linear-gradient(bottom , #444444 0pt, #3E3E3E 50%, #505050 51%, #606060 100%) repeat scroll 0 0 transparent;
-	background: -ms-linear-gradient(bottom , #444444 0pt, #3E3E3E 50%, #505050 51%, #606060 100%) repeat scroll 0 0 transparent;
-	background: -o-linear-gradient(bottom , #444444 0pt, #3E3E3E 50%, #505050 51%, #606060 100%) repeat scroll 0 0 transparent;
-	background: linear-gradient(bottom , #444444 0pt, #3E3E3E 50%, #505050 51%, #606060 100%) repeat scroll 0 0 transparent;
+	background: linear-gradient(to bottom, #444444 0pt, #3E3E3E 50%, #505050 51%, #606060 100%) repeat scroll 0 0 transparent;
 	text-shadow: -1px -1px 0 #000;
 }
 
@@ -533,6 +465,7 @@ input, textarea, select {
 }
 .notcss {font-style: italic; color: #666}
 .notcss a {color: inherit}
+
 em {
 	color: green; font-weight: bold; vertical-align: top; max-width: 95%;
 	display: inline-block; text-indent: 0; overflow: hidden
@@ -592,9 +525,4 @@ animation: marquee 5s linear 1}
 .img-b {
   vertical-align:middle;
 }
-
-
- <?php if (file_exists('divers_styles_part.css')) include('divers_styles_part.css');?>
-
--->
 </style>

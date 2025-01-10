@@ -123,6 +123,8 @@ function Aff_Enfants($Mari,$Femme,$type_aff='E',$exclu=0) {
 
 						$sexe = $enregEnf['Sexe'];
 						$sur = $enregEnf['Surnom'];
+						if (is_null($sur))
+							$sur = '';
 						if ($sur != '') $sur = ', '.lib_sexe_nickname($sexe).' '.$sur;
 						// if ($sur != '') $sur = Lib_sexe(', '.my_html($LG_FFam_alt_name),$sexe).' '.$sur;
 						++$nb_enfants;
@@ -154,7 +156,8 @@ function Aff_Enfants($Mari,$Femme,$type_aff='E',$exclu=0) {
 						$numero_enf = trim($enregEnf['Numero']);
 						if (is_numeric($numero_enf)) $gen = Calc_Gener($numero_enf);
 						if ($gen != '') $icone_encadre = Affiche_Icone_Lien('href="Desc_Directe_Pers.php?Numero='.$numero_enf.'"','fleche_haut',$gen);
-						echo '<td width="'.$w3.'%">'.$icone_encadre.'<a href="'.my_self().'?Refer='.$Enfant.'">'.my_html($enregEnf['Prenoms'].' '.$enregEnf['Nom']).'</a>'.my_html($sur).$icone_encadre.'&nbsp;';
+						echo '<td width="'.$w3.'%">'.$icone_encadre.'<a href="'.my_self().'?Refer='.$Enfant.'">'.$enregEnf['Prenoms'].' '.$enregEnf['Nom'].'</a>'.$sur.$icone_encadre.'&nbsp;';
+						// echo '<td width="'.$w3.'%">'.$icone_encadre.'<a href="'.my_self().'?Refer='.$Enfant.'">'.my_html($enregEnf['Prenoms'].' '.$enregEnf['Nom']).'</a>'.my_html($sur).$icone_encadre.'&nbsp;';
 						
 						$Ne = $enregEnf['Ne_le'];
 						$Date_Nai = Etend_date_2($Ne);
@@ -228,16 +231,18 @@ function Aff_Enfants($Mari,$Femme,$type_aff='E',$exclu=0) {
 $compl = '';
 
 // Personne inconnue, circulez...
-if ((!$enreg_sel) or ($Refer == 0)) Retour_Ar();
-
+if ((!$enreg_sel) or ($Refer == 0)) {
+	echo '</head><body>';
+	echo '<a href="'.Get_Adr_Base_Ref().'index.php">'.$LG_back_to_home.'</a>';
+	echo '<div id="bonus"></div>';
+}
 else {
 
 	$enreg = $enreg_sel;
+	unset($enreg_sel);
+	rectif_null_pers($enreg);
 	$enreg2 = $enreg;
 	$diff_int = $enreg2['Diff_Internet'];
-	// Champ_car($enreg2,'Nom');
-	// Champ_car($enreg2,'Prenoms');
-	// Champ_car($enreg2,'Surnom');
 
 	if (!$est_privilegie and $diff_int != 'O') {
 		echo aff_erreur($LG_Data_noavailable_profile).'<br />' . '<a href="' . Get_Adr_Base_Ref() . '">'.my_html($LG_back_to_home).'</a><br />';
@@ -258,10 +263,12 @@ else {
 	$compl .= Affiche_Icone_Lien('href="Vue_Personnalisee_Rapide.php?Refer='.$Refer.'"','vue_pers',LG_FFAM_SET_AS_DECUJUS)."\n";
 	
 	// Cache la personne ou la montre sur internet
-	if ($diff_int == 'O')
-		$compl .= Affiche_Icone_Lien('href="Cache_Montre_Rapide.php?Refer='.$Refer.'&amp;Diff=N"','internet_non',LG_FFAM_NOSHOW_INTERNET)."\n";
-	else
-		$compl .= Affiche_Icone_Lien('href="Cache_Montre_Rapide.php?Refer='.$Refer.'&amp;Diff=O"','internet_oui',LG_FFAM_SHOW_INTERNET)."\n";
+	if ($est_contributeur) {
+		if ($diff_int == 'O')
+			$compl .= Affiche_Icone_Lien('href="Cache_Montre_Rapide.php?Refer='.$Refer.'&amp;Diff=N"','internet_non',LG_FFAM_NOSHOW_INTERNET)."\n";
+		else
+			$compl .= Affiche_Icone_Lien('href="Cache_Montre_Rapide.php?Refer='.$Refer.'&amp;Diff=O"','internet_oui',LG_FFAM_SHOW_INTERNET)."\n";
+	}
 	
 	$compl .= Lien_Chrono_Pers($Refer)."\n";
 	$compl .= Ajoute_Page_Info(600,150);
@@ -274,7 +281,6 @@ else {
 	if ($est_contributeur) {
 	  $compl .= Affiche_Icone_Lien(Ins_Edt_Pers($Refer),'fiche_edition',$LG_modify). '&nbsp;'.
 				Affiche_Icone_Lien('href="'.Get_Adr_Base_Ref().'Ajout_Rapide.php?Refer='.$Refer.'"','ajout_rapide',$LG_quick_adding) . '&nbsp;';
-
 	}
 
 	if (Presence_ImagesP($Refer)) {
@@ -417,10 +423,6 @@ else {
 			$sql='select * from ' . nom_table('personnes') . ' where reference = '.$Conj.' limit 1';
 			$resP = lect_sql($sql);
 			$enreg2 = $resP->fetch(PDO::FETCH_ASSOC);
-
-			// Champ_car($enreg2,'Nom');
-			// Champ_car($enreg2,'Prenoms');
-			// Champ_car($enreg2,'Surnom');
 			$resP->closeCursor();
 			unset($resP);
 
@@ -478,6 +480,7 @@ else {
 
 				// Affichage des données de la personne et affichage des parents
 				echo "<br />\n";
+				rectif_null_pers($enreg2);
 				$x = Aff_Personne($enreg2,$Conj,true,'H');
 
 				// Affichage des évènements liés à l'union
@@ -507,9 +510,10 @@ else {
 	echo '<a href="Parentees.php?TP=CG&amp;Refer='.$Refer.'"> '.my_html($LG_Menu_Title['Pers_Cousins']).'</a>';
 
 	if ($debug) echo $nb_req_ex.' req';
+	
+	Insere_Bas($compl);
 }
 
-Insere_Bas($compl);
 
 ?>
 

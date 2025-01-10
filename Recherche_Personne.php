@@ -67,11 +67,13 @@ $New_Window      = Secur_Variable_Post($New_Window,1,'S');
 $Categorie       = Secur_Variable_Post($Categorie,1,'S');
 
 function Recup_Lib_Categ($num_categ) {
-	global $db, $def_enc;
+	$ret = '';
 	$sql = 'select Titre from '.nom_table('categories').' where Identifiant = '.$num_categ.' limit 1';
-	$res = lect_sql($sql);
-	$enreg = $res->fetch(PDO::FETCH_ASSOC);
-	return my_html($enreg['Titre']);
+	if ($res = lect_sql($sql)) {
+		if ($enreg = $res->fetch(PDO::FETCH_NUM))
+			$ret = $enreg[0];
+	}
+	return $ret;
 }
 
 function aff_n_dec() {
@@ -146,10 +148,8 @@ if ($bt_OK) {
 	$erreur = 0;
 	if ($Sortie == 'c') {
 		// Traiter le cas d'erreur sur l'ouverture du fichier
-		$gz = false;
-		$_fputs = ($gz) ? @gzputs : @fputs;
 		$nom_fic = $chemin_exports.'recherche.csv';
-		$fp=fopen($nom_fic,'w+');
+		$fp = ouvre_fic($nom_fic,'w+');
 	}
 	// Init des zones de requête
 	echo my_html(LG_PERS_REQ_FIELDS).LG_SEMIC.'<br />';

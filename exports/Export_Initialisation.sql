@@ -1,6 +1,6 @@
-# Export Initialisation de la base geneamania
-# le 8/08/2023 à 22h01
-# version Genemania 2023.03
+﻿# Export Initialisation de la base geneamania
+# le 14/10/2024 à 23h52
+# version Genemania 2024.08
 # prefixe 
 #
 # Traitement de la table arbre;
@@ -14,8 +14,8 @@ CREATE TABLE `arbre` (
   `nbPagesHor` int NOT NULL DEFAULT '0',
   `nbPagesVer` int NOT NULL DEFAULT '0',
   `lienPDF` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
-  `dateCre` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `dateMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `dateCre` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dateMod` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idArbre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -53,8 +53,8 @@ CREATE TABLE `arbremodeleetiq` (
   `nomModele` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `descModele` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `modeleDefaut` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `dateCre` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `dateMod` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `dateCre` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `dateMod` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idModele`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -180,7 +180,7 @@ CREATE TABLE `commentaires` (
 # Traitement de la table compteurs;
 DROP TABLE IF EXISTS `compteurs`;
 CREATE TABLE `compteurs` (
-  `date_acc` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_acc` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
   `origine` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
   `adresse` varchar(32) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '',
@@ -227,7 +227,7 @@ CREATE TABLE `concerne_source` (
 DROP TABLE IF EXISTS `connexions`;
 CREATE TABLE `connexions` (
   `idUtil` int NOT NULL,
-  `dateCnx` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `dateCnx` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Adresse_IP` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idUtil`,`dateCnx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -241,8 +241,8 @@ CREATE TABLE `contributions` (
   `Mail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Statut` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
   `Adresse_IP` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `Date_Creation` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`Contribution`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -253,8 +253,8 @@ CREATE TABLE `departements` (
   `Identifiant_zone` int NOT NULL DEFAULT '0',
   `Departement` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `Nom_Depart_Min` varchar(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Zone_Mere` int NOT NULL DEFAULT '0',
   KEY `Reference` (`Identifiant_zone`)
@@ -361,6 +361,7 @@ INSERT INTO departements values ('368','972','Martinique','0000-00-00 00:00:00',
 INSERT INTO departements values ('369','973','Guyane','0000-00-00 00:00:00','0000-00-00 00:00:00','O','247');
 INSERT INTO departements values ('370','974','Réunion','0000-00-00 00:00:00','0000-00-00 00:00:00','O','248');
 INSERT INTO departements values ('0','','','2004-06-26 16:30:37','2004-06-26 16:30:37','','0');
+INSERT INTO departements values ('371','vvv','nouveau','2024-01-12 14:02:50','2024-01-12 14:02:50','','258');
 #
 # Traitement de la table depots;
 DROP TABLE IF EXISTS `depots`;
@@ -380,8 +381,8 @@ CREATE TABLE `documents` (
   `Titre` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `Nom_Fichier` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `Diff_Internet` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
-  `Date_Creation` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Id_Type_Document` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`Id_Document`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -397,8 +398,8 @@ CREATE TABLE `evenements` (
   `Titre` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '-',
   `Debut` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Fin` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`Reference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -413,8 +414,8 @@ CREATE TABLE `filiations` (
   `Pere` int DEFAULT '0',
   `Mere` int DEFAULT '0',
   `Rang` int DEFAULT '0',
-  `Date_Creation` datetime DEFAULT NULL,
-  `Date_Modification` datetime DEFAULT NULL,
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   UNIQUE KEY `Reference` (`Enfant`,`Pere`,`Mere`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -436,7 +437,7 @@ CREATE TABLE `general` (
   `Comportement` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'C',
   `Degrade` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'R',
   `Image_Barre` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'bar_off_bleu.gif',
-  `Date_Modification` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `Date_Modification` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Coul_Lib` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '#B8A165',
   `Coul_Val` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '#B1A980',
   `Coul_Bord` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '#49453B',
@@ -449,7 +450,7 @@ CREATE TABLE `general` (
   `Base_Vide` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO general values ('L','???','2023.03','B_Gothique.png','-','#92826D','support@geneamania.net','arbre_asc_hor_carre.png', 'O', 'N', 'C', 'R', 'bar_off_rouge.gif', current_timestamp,'#DCDCDC', '#F5F5F5', '#49453B', '#EFEFEF', '#FEFEFE',9999, null, 'Arial','#000000', true);
+INSERT INTO general values ('L','???','2024.08','B_Gothique.png','vert_base.jpg','#92826D','support@geneamania.net','arbre_asc_hor_carre.png', 'O', 'N', 'C', 'V', 'bar_off_vert_fonce.gif', current_timestamp,'#DCDCDC', '#F5F5F5', '#49453B', '#EFEFEF', '#FEFEFE',9999, null, 'Arial','#000000', true);
 #
 # Traitement de la table images;
 DROP TABLE IF EXISTS `images`;
@@ -474,8 +475,8 @@ CREATE TABLE `liens` (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `URL` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `image` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Date_Creation` datetime DEFAULT NULL,
-  `Date_Modification` datetime DEFAULT NULL,
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Sur_Accueil` tinyint(1) NOT NULL DEFAULT '0',
   `Diff_Internet` tinyint(1) NOT NULL DEFAULT '0',
@@ -490,8 +491,8 @@ CREATE TABLE `liste_diffusion` (
   `Adresse_IP` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `Mail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `Diffusion_Active` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `Date_Creation` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Traite` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'O',
   KEY `Adresse_IP` (`Adresse_IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -556,8 +557,8 @@ CREATE TABLE `pays` (
   `Code_Pays_ISO_Alpha3` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `Code_Pays_ISO_Num` int NOT NULL DEFAULT '0',
   `Nom_Pays` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Satut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   KEY `Reference` (`Identifiant_zone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -821,8 +822,8 @@ CREATE TABLE `personnes` (
   `Ville_Naissance` int DEFAULT NULL,
   `Ville_Deces` int DEFAULT NULL,
   `Diff_Internet` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idNomFam` int DEFAULT NULL,
   `Categorie` int NOT NULL DEFAULT '0',
@@ -841,8 +842,8 @@ CREATE TABLE `regions` (
   `Identifiant_zone` int NOT NULL DEFAULT '0',
   `Region` int NOT NULL DEFAULT '0',
   `Nom_Region_Min` varchar(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Zone_Mere` int NOT NULL DEFAULT '0',
   KEY `Reference` (`Identifiant_zone`)
@@ -934,8 +935,8 @@ DROP TABLE IF EXISTS `subdivisions`;
 CREATE TABLE `subdivisions` (
   `Identifiant_zone` int NOT NULL DEFAULT '0',
   `Nom_Subdivision` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '-',
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Zone_Mere` int NOT NULL DEFAULT '0',
   `Latitude` float DEFAULT NULL,
@@ -1019,8 +1020,8 @@ CREATE TABLE `unions` (
   `Date_K` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Notaire_K` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Ville_Notaire` int DEFAULT '0',
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`Reference`,`Conjoint_1`,`Conjoint_2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1048,13 +1049,13 @@ CREATE TABLE `villes` (
   `Identifiant_zone` int NOT NULL DEFAULT '0',
   `Nom_Ville` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '-',
   `Code_Postal` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Date_Creation` datetime DEFAULT '0000-00-00 00:00:00',
-  `Date_Modification` datetime DEFAULT '0000-00-00 00:00:00',
+  `Date_Creation` datetime DEFAULT CURRENT_TIMESTAMP,
+  `Date_Modification` datetime DEFAULT CURRENT_TIMESTAMP,
   `Statut_Fiche` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Zone_Mere` int NOT NULL DEFAULT '0',
   `Latitude` float DEFAULT NULL,
   `Longitude` float DEFAULT NULL,
-  KEY `Reference` (`Identifiant_zone`),
+  PRIMARY KEY (`Identifiant_zone`),
   KEY `Zone_Mere` (`Zone_Mere`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

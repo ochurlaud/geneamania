@@ -121,7 +121,7 @@ function Aff_Ville($enreg2) {
 	
 	$largP = 20;
 
-	echo '<br />';
+	echo '<br>';
 	echo '<div id="content">'."\n";
 	echo '<table id="cols" border="0" cellpadding="0" cellspacing="0" align="center">'."\n";
 	echo '<tr>'."\n";
@@ -225,7 +225,7 @@ function Aff_Ville($enreg2) {
 		echo '<hr/>';
 		$x = Aff_Sources_Objet($Ident, 'V' , 'N');
 		// Possibilité de lier un document pour la ville
-		echo '<br />&nbsp;'.my_html(LG_ICSV_TOWN_LINK_SOURCE).LG_SEMIC
+		echo '<br>&nbsp;'.my_html(LG_ICSV_TOWN_LINK_SOURCE).LG_SEMIC
 			.Affiche_Icone_Lien('href="Edition_Lier_Source.php?refObjet='.$Ident.'&amp;typeObjet=V&amp;refSrc=-1"','ajout','Ajout d\'une source')."\n";
 	}
 		echo '</div>'."\n";
@@ -233,19 +233,19 @@ function Aff_Ville($enreg2) {
 	if ($Ident != -1) {
 		// Liste des personnes sur la ville
 		echo '<div id="pnl_Listes">'."\n";
-		echo '<br />';
+		echo '<br>';
 
 		$deb_lien_visu = '<a href="'.Get_Adr_Base_Ref().'Liste_Pers2.php?Type_Liste=';
 		$deb_lien_crea = 'href="'.Get_Adr_Base_Ref().'Edition_Personnes_Ville.php?evt=';
 		$fin_lien = '&amp;idNom='.$Ident.'&amp;Nom='.$n_ville.'"';
 
-		echo '<br />';
-		echo $deb_lien_visu.'N'.$fin_lien.'>'.my_html(LG_ICSV_TOWN_PERS_BORN).$n_ville_html.'</a>';
+		echo '<br>';
+		echo $deb_lien_visu.'N'.$fin_lien.'>'.LG_LPERS_OBJ_N.' '.$n_ville_html.'</a>';
 		if ($est_gestionnaire) echo '&nbsp;'.Affiche_Icone_Lien($deb_lien_crea.'N'.$fin_lien,'ajouter',LG_ICSV_TOWN_PERS_BORN_CREATE.$n_ville_aff);
-		echo '<br />';
-		echo $deb_lien_visu.'M'.$fin_lien.'>'.my_html(LG_ICSV_TOWN_PERS_MARRIED).$n_ville_html.'</a><br />';
-		echo $deb_lien_visu.'K'.$fin_lien.'>'.my_html(LG_ICSV_TOWN_PERS_CONTRACT).$n_ville_html.'</a><br />';
-		echo $deb_lien_visu.'D'.$fin_lien.'>'.my_html(LG_ICSV_TOWN_PERS_DEAD).$n_ville_html.'</a>';
+		echo '<br>';
+		echo $deb_lien_visu.'M'.$fin_lien.'>'.LG_LPERS_OBJ_M.' '.$n_ville_html.'</a><br>';
+		echo $deb_lien_visu.'K'.$fin_lien.'>'.LG_LPERS_OBJ_K.' '.$n_ville_html.'</a><br>';
+		echo $deb_lien_visu.'D'.$fin_lien.'>'.LG_LPERS_OBJ_D.' '.$n_ville_html.'</a>';
 		if ($est_gestionnaire) echo '&nbsp;'.Affiche_Icone_Lien($deb_lien_crea.'D'.$fin_lien,'ajouter',LG_ICSV_TOWN_PERS_DEAD_CREATE.$n_ville_aff);
 
 		echo '</div>'."\n";
@@ -254,7 +254,7 @@ function Aff_Ville($enreg2) {
 		echo '<div id="pnl_Docs">'."\n";
 		Aff_Documents_Objet($Ident , 'V', 'N');
 		// Possibilité de lier un document pour la personne
-		echo '<br />'.LG_ICSV_TOWN_LINK_DOCUMENT.LG_SEMIC
+		echo '<br>'.LG_ICSV_TOWN_LINK_DOCUMENT.LG_SEMIC
 			.Affiche_Icone_Lien('href="Edition_Lier_Doc.php?refObjet='.$Ident.'&amp;typeObjet=V&amp;refDoc=-1"','ajout',LG_ICSV_TOWN_ADD_DOCUMENT)."\n";
 		echo '</div>'."\n";
 
@@ -282,7 +282,7 @@ if ($bt_Sup) {
 			Retour_Ar();
 		}
 		else {
-			$msg_erreur .= ' ; '.LG_ICSV_TOWN_USED_ERR.'<br />';
+			$msg_erreur .= ' ; '.LG_ICSV_TOWN_USED_ERR.'<br>';
 		}
 	}
 }
@@ -365,7 +365,7 @@ if (($ok=='') && ($annuler=='')) {
 	Insere_Haut($titre,$compl,'Edition_Ville',$Ident);
 
 	if ($msg_erreur != '') {
-		echo $msg_erreur.'<br/ >';
+		echo $msg_erreur.'<br>';
 		$msg_erreur = '';
 	}
 
@@ -389,8 +389,8 @@ if (($ok=='') && ($annuler=='')) {
 
 	// ville inconnue, supprimée entre temps, retour...
 	if ((!$enreg) and ($Ident != -1)) {
-		echo '<br/ >Ville supprim&eacutee<br/ >';
-		echo '<a href="Liste_Villes.php?Type_Liste=V">'.my_html(LG_SUBDIV_LIST).'</a>';
+		aff_erreur(LG_ICSV_TOWN_DELETED);
+		echo '<a href="Liste_Villes.php?Type_Liste=V">'.LG_SUBDIV_LIST.'</a>';
 	}
 	else {
 		include('Insert_Tiny.js');

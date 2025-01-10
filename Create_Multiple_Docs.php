@@ -54,12 +54,12 @@ if ($bt_OK) {
 	foreach ($Natures_Docs as $key => $value) {
 		$l_types_aut .= $key.'/';
 	}
-	echo 'l_types_aut : '.$l_types_aut.'<br />';
+	echo 'l_types_aut : '.$l_types_aut.'<br>';
 	*/
 	
 	for ($nb = 0; $nb < $nb_docs; $nb++) {
-		//echo $nb.'<br />';
-		//echo $_POST['TitreDoc'][$nb].'<br />';
+		//echo $nb.'<br>';
+		//echo $_POST['TitreDoc'][$nb].'<br>';
 		
 		if (isset($_POST['TitreDoc'][$nb])) $TitreDoc = Secur_Variable_Post($_POST['TitreDoc'][$nb],80,'S');
 		else $TitreDoc = '';
@@ -83,7 +83,7 @@ if ($bt_OK) {
 			$type_valide = array_key_exists($type_doc,$Natures_Docs);
 			if ($debug) {
 				echo 'type_doc : '.$type_doc.', ';
-				echo 'type_valide : '.$type_valide.'<br />';
+				echo 'type_valide : '.$type_valide.'<br>';
 			}
 			
 			if (!$type_valide) {
@@ -181,10 +181,10 @@ if ($bt_OK) {
 		}
 		// Si c'est OK pour les fchiers on fait les maj en base 
 		if ($debug) {
-			echo 'erreur : '.$erreur.'<br />';
-			echo 'TitreDoc : '.$TitreDoc.'<br />';
-			echo 'nom_fic : '.$nom_fic.'<br />';
-			echo 'nom_fic : '.$nom_fic.'<br />';
+			echo 'erreur : '.$erreur.'<br>';
+			echo 'TitreDoc : '.$TitreDoc.'<br>';
+			echo 'nom_fic : '.$nom_fic.'<br>';
+			echo 'nom_fic : '.$nom_fic.'<br>';
 		}
 		if ($erreur == '') {
 			// On n'autorise la création que si le nom et la description sont saisis
@@ -225,12 +225,14 @@ if ($bt_OK) {
 		$types_docs .= '<option value="'.$enr_type[0].'">'.$enr_type[1].'</option>';
 	}
 	if ($types_docs == '') {
-		echo my_html($LG_Docs_Error_No_Type).'<br />' . "\n";
 		// On va masquer le bouton OK car pas de création possible
+		echo '<br><br>';
+		Affiche_Warning($LG_Docs_Error_No_Type);
+		echo '<br><br>';
 		$err_td = true;
 	}
 	else {
-		echo '<br />';
+		echo '<br>';
 		echo '<form id="saisie" method="post" enctype="multipart/form-data" action="'.my_self().'">'."\n";
 		echo '<table class="classic" border="0" width="90%" align="center">';
 		echo '<tr>';

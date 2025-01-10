@@ -1,7 +1,6 @@
 <?php
 
 // appelé en ajax pour avoir les documents correspondant à un type
-// UTF-8
 
 include_once('fonctions.php');
 
@@ -64,7 +63,7 @@ $refDoc = $dom->createElement('refDoc', $enreg['Titre'].' ('.$Natures_Docs[$enre
 	$id_maxi = max($enreg['Id_Document'], $id_maxi);
 }
 
-$maxi = $dom->createElement('maxi', utf8_encode($id_maxi));
+$maxi = $dom->createElement('maxi', $id_maxi);
 $maxi = $message->appendChild($maxi);
 	
 echo $dom->saveXML();

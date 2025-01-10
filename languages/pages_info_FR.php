@@ -46,6 +46,7 @@ switch ($aide) {
 	case 'Recherche_Cousinage' : $objet = 'recherche de parenté'; break;
 	case 'Recherche_Personne_Archive' : $objet = 'recherche de personnes aux archives'; break;
 	case 'Recherche_Personne' : $objet = 'recherche de personnes'; break;
+	case 'Recherche_Personne_CP' : $objet = 'recherche de personnes par les conjoints ou les parents'; break;
 	case 'Recherche_Ville' : $objet = 'recherche de villes'; break;
 	case 'Stat_Base_Depart' : $objet = 'statistiques par département'; break;
 	case 'Stat_Base_Villes' : $objet = 'statistiques par ville'; break;
@@ -54,6 +55,7 @@ switch ($aide) {
 	case 'Verif_Personne' : $objet = 'Vérification d\'une fiche personne'; break;
 	case 'Verif_Sosa' : $objet = 'vérification des numéros Sosa'; break;
 	case 'Vue_Personnalisee' : $objet = 'vue personnalisée'; break;
+	case 'Export_Pour_Deces' : $objet = 'export pour recherche des dates de décès sur matchid.io'; break;
 	default : $objet = '';
 }	
 if ($objet != '') $objet = 'Informations '.$objet; 
@@ -359,18 +361,18 @@ switch ($aide) {
 		echo "Le fichier de sauvegarde peut &ecirc;tre t&eacute;l&eacute;charg&eacute; par l'utilisateur ou s&eacute;lectionn&eacute; parmi les fichiers pr&eacute;sents dans le r&eacute;pertoire des exports.";
 		echo "Dans le cas o&ugrave; l'utilisateur t&eacute;l&eacute;charge un fichier et en s&eacute;lectionne un en m&ecirc;me temps, c'est le fichier t&eacute;l&eacute;charg&eacute; qui prime.<br />";
 		echo "Sur un site h&eacute;berg&eacute; gratuit, seuls les fichiers .txt sont autoris&eacute;s ; dans les autres cas, les fichiers .txt et .sql sont autoris&eacute;s.<br />";
-		echo "Attention : les donn&eacute;es pr&eacute;sentes en base sont supprim&eacute;es par le rechargement (en effet,";
+		echo "Attention : les donn&eacute;es pr&eacute;sentes en base sont supprim&eacute;es par le rechargement (en effet, ";
 		echo "la sauvegarde inclue des ordres de suppression et recr&eacute;ation de tables).<br />";
-		echo "La sauvegarde peut &ecirc;tre recharg&eacute;e en local (sur votre ordinateur) ou sur votre site web distant";
+		echo "La sauvegarde peut &ecirc;tre recharg&eacute;e en local (sur votre ordinateur) ou sur votre site web distant ";
 		echo "si votre h&eacute;bergeur le permet (connexion distante possible sur le port 3306 par exemple).";
-		echo "Il faut cependant noter que cette possibilit&eacute; de rechargement distant est consommatrice de ressources ; il est conseill&eacute; de diminuer le nombre de";
+		echo "Il faut cependant noter que cette possibilit&eacute; de rechargement distant est consommatrice de ressources ; il est conseill&eacute; de diminuer le nombre de ";
 		echo "donn&eacute;es &agrave; charger sur votre base distante par exclusion de certaines tables (typiquement celles qui n'ont pas &eacute;volu&eacute; [pays, etc...]).<br />";
 		echo "Sur Internet, l'utilisateur peut demander &agrave; pr&eacute;server la liste des utilisateurs pr&eacute;sents ; cela &eacute;vite par exemple lors d'un rechargement d'&eacute;craser cette liste &agrave; partir des utilisateurs locaux.<br />";
 		echo "Cette page n'est disponible que pour le profil gestionnaire.";
 		break;
 	case 'Liste_Evenements' : 
 		echo "Cette page permet de lister les &eacute;v&egrave;nements.<br />";
-		echo "L'utilisateur peut choisir le type de d'&eacute;v&egrave;nement pour lequel il veut la liste (par d&eacute;faut tous les types sont visualis&eacute;s). Il dispose alors en plus du titre de l'&eacute;v&egrave;nement";
+		echo "L'utilisateur peut choisir le type de d'&eacute;v&egrave;nement pour lequel il veut la liste (par d&eacute;faut tous les types sont visualis&eacute;s). Il dispose alors en plus du titre de l'&eacute;v&egrave;nement ";
 		echo "d'informations sur les personnes concern&eacute;es par l'&eacute;v&egrave;nement (&eacute;ventuellement au travers de la filiation ou de l'union).<br />";
 		echo "Seul le gestionnaire a acc&egrave;s &agrave; la modification de l'&eacute;v&egrave;nement.";
 		break;
@@ -460,7 +462,7 @@ switch ($aide) {
 		echo $auto_contrib;
 		break;
 	case 'Recherche_Personne' : 
-		echo "Cette page permet &agrave; l'utilisateur d'effectuer une recherche multi-crtit&egrave;re sur les personnes de la base.";
+		echo "Cette page permet &agrave; l'utilisateur d'effectuer une recherche multi-crit&egrave;re sur les personnes de la base.";
 		echo "Elle ram&egrave;ne toutes les personnes r&eacute;pondant aux crit&egrave;res demand&eacute;s.";
 		echo "En mode non privil&eacute;gi&eacute;, seules sont prises en compte les personnes dont la visibilt&eacute; Internet n'est pas restreinte.<br />";
 		echo "Les crit&egrave;res portant sur des zones de type &quot;caract&egrave;res&quot; sont automatiquement mis en majuscules ; ainsi les pr&eacute;noms 'jean' et 'Jean' sont &eacute;quivalents.<br />";
@@ -484,8 +486,14 @@ switch ($aide) {
 		echo "La recherche donne alors tous les noms de famille dont la prononciation correspond à celle du nom saisi tout en tenant compte des approximations.<br />";
 		echo "<p>La sortie du résultat de la recherche peut s'effectuer sous liste cliquable (sortie &eacute;cran), sous format destin&eacute; &agrave; &ecirc;tre imprim&eacute; (sortie texte) ou sous forme de fichier CSV (pour un tableur, le s&eacute;parateur &eacute;tant le ";" ; disponible à partir du profil privilégié).</p>";
 		break;
+	case 'Recherche_Personne_CP' : 
+		echo "Cette page permet &agrave; l'utilisateur d'effectuer une recherche multi-crit&egrave;re sur les personnes de la base. ";
+		echo "Les crit&egrave;res s'appliquent aux conjoints ou parents et non &agrave; la personne elle-m&ecirc;me.<br>";
+		echo "Exemple, rechercher les personnes dont un parent femme est n&eacute; &agrave; Paris.<br>";
+		echo "Se r&eacute;f&eacute;rer &agrave; la recherche de personnes pour l'utilisation des crit&egrave;res.";
+		break;
 	case 'Recherche_Ville' : 
-		echo "Cette page permet &agrave; l'utilisateur d'effectuer une recherche multicrit&egrave;res sur les villes de la base.";
+		echo "Cette page permet &agrave; l'utilisateur d'effectuer une recherche multi-crit&egrave;res sur les villes de la base.";
 		echo "Elle ram&egrave;ne toutes les villes r&eacute;pondant aux crit&egrave;res demand&eacute;s.<br />";
 		echo "Le nom de la ville recherch&eacute;e est automatiquement mis en majuscules ; ainsi les villes 'paris' et 'Paris' sont &eacute;quivalentes.<br />";
 		echo "Par d&eacute;faut, le nom de la ville recherch&eacute; doit &ecirc;tre &eacute;quivalent au champ saisi (sans consid&eacute;ration de casse) ;";
@@ -506,16 +514,16 @@ switch ($aide) {
 		echo "En mode Internet, seules sont prises en compte les personnes dont la diffusion Internet est autoris&eacute;e si l'utilisateur n'a pas un profil privil&eacute;gi&eacute;.";
 		break;
 	case 'Verif_Internet_Absente' : 
-		echo "Cette page permet de visualiser les personnes non visibles sur Internet mais n&eacute;es il y a plus ".$Lim_Diffu." ou d&eacute;c&eacute;d&eacute;es il y a plus de ".$Lim_Diffu_Dec." ans.";
-		echo "L'utilisateur peut rectifier les incoh&eacute;rences en cliquant sur le bouton &quot;Rectifier&quot;.";
-		echo "Seules sont modifi&eacute;es les lignes que l'utilisateur a coch&eacute;es.";
+		echo "Cette page permet de visualiser les personnes non visibles sur Internet mais d&eacute;c&eacute;d&eacute;es il y a plus ".$Lim_Diffu." ou n&eacute;es il y a plus de ".$Lim_Diffu_Dec." ans.<br>";
+		echo "L'utilisateur peut rectifier les incoh&eacute;rences en cliquant sur le bouton &quot;Rectifier&quot;. ";
+		echo "Seules sont modifi&eacute;es les lignes que l'utilisateur a <u>coch&eacute;es</u>.";
 		echo "La visibilit&eacute; Internet des personnes coch&eacute;es passe alors &agrave; Oui, tout le monde pourra alors les visualiser.";
 		break;
 	case 'Verif_Internet' : 
 		echo "Cette page permet de visualiser les personnes visibles sur Internet mais n&eacute;es ou d&eacute;c&eacute;d&eacute;es il y a moins de ".$Lim_Diffu." ans.";
 		echo "Cela peut mettre en lumi&egrave;re des probl&egrave;mes de confidentialit&eacute; de donn&eacute;es.<br />";
 		echo "L'utilisateur peut rectifier les incoh&eacute;rences en cliquant sur le bouton &quot;Rectifier&quot;.";
-		echo "Seules sont modifi&eacute;es les lignes que l'utilisateur a d&eacute;coch&eacute;es.";
+		echo "Seules sont modifi&eacute;es les lignes que l'utilisateur a <u>d&eacute;coch&eacute;es</u>.";
 		echo "La visibilit&eacute; Internet des personnes d&eacute;coch&eacute;es passe alors &agrave; Non et ces personnes ne sont visibles que des utilisateurs ayant un profil au minimum privil&eacute;gi&eacute;.";
 		break;
 	case 'Verif_Personne' : 
@@ -585,6 +593,21 @@ switch ($aide) {
 		echo "Cette fonctionnalit&eacute; permet de lister toutes les personnes situ&eacute;es dans l'ascendance directe du de cujus. La liste est tri&eacute;e par g&eacute;n&eacute;ration. A chaque g&eacute;n&eacute;ration, une rupture est effectu&eacute;e afin d'afficher le num&eacute;ro de la g&eacute;n&eacute;ration. On peut ensuite se d&eacute;brancher sur la personne en cliquant sur le lien nom / pr&eacute;nom de la personne.<br />";
 		echo "Il est &agrave; noter que le de cujus peut &ecirc;tre temporairement diff&eacute;rent de celui positionn&eacute;e par le gestionnaire de la base. On parle alors de &laquo;&nbsp;vue personnalis&eacute;e&nbsp;&raquo;.<br />";
  		echo "La visibilit&eacute; des personnes est restreinte par le profil de l'utilisateur connect&eacute;. La case &laquo;&nbsp;Simulation acc&egrave;s invit&eacute;&nbsp;&raquo; permet de voir les g&eacute;n&eacute;rations telles que les verraient des personnes non connect&eacute;es (typiquement un utilsateur lambda sur Internet).";
+		break;
+	case 'Export_Pour_Deces' :
+		echo "L'INSEE met à disposition les d&eacute;c&egrave;s survenus depuis 1970. Le site $url_matchid permet de faire des recherches unitaires ou par lot dans ces d&eacute;c&egrave;s. ";
+		echo "MatchId dispose d’une recherche intelligente qui peut renvoyer des personnes qui correspondent « &agrave; peu pr&egrave;s » aux crit&egrave;res demand&eacute;s.<br>";
+		echo "<br>Cette fonctionnalit&eacute; permet soit :<br>";
+		echo "&nbsp;-&nbsp;De lister à l’&eacute;cran les personnes concern&eacute;es en vue d’effectuer un appel unitaire &agrave; matchId.<br>";
+		echo "&nbsp;-&nbsp;De constituer un fichier pour faire une recherche par lot sur ce site, dans la rubrique « Appariement ». En retour, matchId fournira un fichier dans lequel on retrouvera les dates et lieux de d&eacute;c&egrave;s des personnes fournies dans le fichier en entr&eacute;e.<br>";
+		echo "<br>Les personnes list&eacute;es ou export&eacute;es sont celles dont la ville de naissance est connue, la date de naissance connue exactement avec une ann&eacute;e post&eacute;rieure ou &eacute;gale &agrave; l&rsquor;ann&eacute;e saisie par l’utilisateur.<br>";
+		break;
+	case 'Recherche_MatchId_Unitaire' :	
+		echo "Cette fonctionnalit&eacute; permet d'interroger matchId pour r&eacute;cup&eacute;rer une liste de personnes correspondant « &agrave; peu pr&egrave;s » aux crit&egrave;res envoy&eacute;s par Geneamania.<br>";
+		echo "MatchId va renvoyer une liste de personnes correspondant « &agrave; peu pr&egrave;s » aux crit&egrave;res envoy&eacute;s par Geneamania. Les informations de ces personnes sont affich&eacute;es sous celles connues dans Geneamania. "
+			."<br>Un bouton pr&eacute;sent sur la ligne de d&eacute;c&egrave;s de chaque personne permet de copier la date de d&eacute;c&egrave;s dans le presse-paier. "
+			."Cette date pourra ensuite &ecirc;tre copi&eacute;e dans la fen&ecirc;tre de saisie de date de d&eacute;c&egrave;s de la personne (Ctrl+V sous Windows, champ « Saisie rapide d'une date gr&eacute;gorienne »).<br>";
+		echo "<br>Attention : il faut imp&eacute;rativement &ecirc;tre connect&eacute; &agrave; Internet pour obtenir un r&eacute;sultat.<br>";
 		break;
 	default :
 		echo "D&eacute;sol&eacute;, mais il n'y a pas d'aide en ligne pour cette page...";

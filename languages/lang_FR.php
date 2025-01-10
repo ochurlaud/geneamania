@@ -56,6 +56,7 @@ if ($nom_page == 'index.php') {
 	$LG_index_hosted_free = 'site hébergé gratuit';
 	$LG_index_hosted_premium = 'site hébergé Premium';
 	$LG_index_psw_forgoten = 'mot de passe oublié';
+	$LG_index_psw_show = 'Montrer / cacher le mot de passe';
 }
 
 // Spécifique Liste des personnes 1/2
@@ -77,8 +78,14 @@ if ($nom_page == 'Liste_Pers.php') {
 	define('LG_LPERS_NOTARIES', 'Notaires'); 
 }
 
-// Spécifique Liste des personnes 2/2
-if (($nom_page == 'Liste_Pers2.php') or ($nom_page == 'Fiche_NomFam.php')) {
+// Spécifique Liste des personnes 2/2 ou fiche ville
+// if (($nom_page == 'Liste_Pers2.php') or ($nom_page == 'Fiche_NomFam.php') or ($nom_page == 'Fiche_Ville.php')) {
+if (in_array($nom_page,array('Liste_Pers2.php'
+							,'Fiche_NomFam.php'
+							,'Fiche_Ville.php'
+							,'Edition_Ville.php'
+							))
+	) {
 	define('LG_LPERS_OBJ_P', 'Personnes s\'appelant');
 	define('LG_LPERS_OBJ_PC', 'Personnes [avec leur conjoints] s\'appelant');
 	define('LG_LPERS_OBJ_N', 'Personnes nées à');
@@ -252,8 +259,7 @@ if (($nom_page == 'Edition_Lier_Doc.php')
 	$LG_Link_Source_Title_End = 'Pas de source à lier';
 }
 
-if (($nom_page == 'Fiche_Actualite.php') or ($nom_page == 'Fiche_Evenement.php') or ($nom_page == 'Edition_Evenement.php')
-		) {
+if (in_array($nom_page,array('Fiche_Actualite.php','Fiche_Evenement.php', 'Edition_Evenement.php','Liste_Evenements.php'))) {
 	$LG_Event_Title = 'Titre';
 	$LG_Event_Type = 'Type d\'évènement';
 	$LG_Event_Where = 'A eu lieu à';
@@ -264,6 +270,27 @@ if (($nom_page == 'Fiche_Actualite.php') or ($nom_page == 'Fiche_Evenement.php')
 	$LG_Event_Event_Copy_Date = 'Copier la date de début';
 	$LG_Event_Event_This = 'cet évènement';
 	$LG_Event_New_This = 'cette actualité';
+}
+
+if (($nom_page == 'Edition_Type_Evenement.php') or ($nom_page == 'Fiche_Type_Evenement.php')){
+	define('LG_EVENT_TYPE_CODE', 'Code'); 	 
+	define('LG_EVENT_TYPE_LABEL', 'Libellé'); 	
+	define('LG_EVENT_TYPE_UNIQ' ,'Unicité des évènements du type');
+	define('LG_EVENT_TYPE_IS_MOD', 'Type modifiable');
+	define('LG_EVENT_TYPE_GEDCOM', 'Type Gedcom');
+	define('LG_EVENT_TYPE_THIS', "ce type d'évènement");
+	define('LG_EVENT_TYPE_DELETED', "Type d'évènement supprimé");
+	define('LG_EVENT_TYPE_EVENTS', ' Liste des évènements du type');
+}
+
+if ($nom_page == 'Liste_Evenements.php') {
+	define('LG_EVENT_LIST_lAST', 'Dernier évènement saisi');
+	define('LG_EVENT_LIST_TYPE', 'Type');
+	define('LG_EVENT_LIST_BEG_PREC', 'Précision Début');
+	define('LG_EVENT_LIST_BEG_CAL', 'Calendrier Début');
+	define('LG_EVENT_LIST_END_PREC', 'Précision Fin');
+	define('LG_EVENT_LIST_END_CAL', 'Calendrier Fin');
+	define('LG_EVENT_LIST_TYPE_LABEL', 'Libellé type');	
 }
 
 if ($nom_page == 'Import_CSV.php') {
@@ -308,15 +335,13 @@ if (in_array($nom_page,array('Import_CSV_Villes.php',
 	define('LG_ICSV_TOWN_LINK_DOCUMENT', 'Lier un document existant à la ville');
 	define('LG_ICSV_TOWN_LINK_SOURCE', 'Lier une source à la ville');
 	define('LG_SUBDIV_LIST', 'Liste des villes');
+	define('LG_ICSV_TOWN_DELETED', 'Ville supprimée');
 	define('LG_ICSV_TOWN_NAME', 'Nom de la ville');
-	define('LG_ICSV_TOWN_PERS', 'Liste des personnes ');
 	define('LG_ICSV_TOWN_PERS_CREATE', 'Création de personnes ');
-	define('LG_ICSV_TOWN_PERS_BORN', LG_ICSV_TOWN_PERS.'nées à ');
 	define('LG_ICSV_TOWN_PERS_BORN_CREATE', LG_ICSV_TOWN_PERS_CREATE.'nées à ');
-	define('LG_ICSV_TOWN_PERS_CONTRACT', LG_ICSV_TOWN_PERS.'dont le contrat de mariage est à ');
-	define('LG_ICSV_TOWN_PERS_DEAD', LG_ICSV_TOWN_PERS.'décédées à ');
 	define('LG_ICSV_TOWN_PERS_DEAD_CREATE', LG_ICSV_TOWN_PERS_CREATE.'décédées à ');
-	define('LG_ICSV_TOWN_PERS_MARRIED', LG_ICSV_TOWN_PERS.'mariées à ');
+	define('LG_ICSV_TOWN_PERS', 'Personnes ');
+	define('LG_ICSV_TOWN_PERS_BORN', LG_ICSV_TOWN_PERS.'nées à ');
 	define('LG_ICSV_TOWN_PERS_EVENT', LG_ICSV_TOWN_PERS.'avec un évènement à ');
 	define('LG_ICSV_TOWN_SEARCH', 'Recherche de la ville dans la base des villes Généamania (coordonnées géographiques, code postal)');
 	define('LG_ICSV_TOWN_SEARCH_CLOUD', 'Recherche de cette ville sur les sites hébergés');
@@ -375,15 +400,6 @@ if (($nom_page == 'Edition_Role.php') or ($nom_page == 'Liste_Pers_Role.php') or
 	define('LG_ROLE_SYM','Symétrie');
 	define('LG_ROLE_THIS', 'ce rôle');
 	define('LG_ROLE_PERSONS', 'Personnes ayant ce rôle');
-}
-
-if (($nom_page == 'Edition_Type_Evenement.php') or ($nom_page == 'Fiche_Type_Evenement.php')){
-	define('LG_EVENT_TYPE_CODE', 'Code'); 	 
-	define('LG_EVENT_TYPE_LABEL', 'Libellé'); 	
-	define('LG_EVENT_TYPE_UNIQ' ,'Unicité des évènements du type');
-	define('LG_EVENT_TYPE_IS_MOD', 'Type modifiable');
-	define('LG_EVENT_TYPE_GEDCOM', 'Type Gedcom');
-	define('LG_EVENT_TYPE_THIS', "ce type d'évènement");
 }
 
 if (($nom_page == 'Edition_Type_Document.php') or ($nom_page == 'Fiche_Type_Document.php')){
@@ -527,7 +543,6 @@ if (($nom_page == 'Recherche_Personne.php') or ($nom_page == 'Recherche_Personne
 	define('LG_PERS_SCH_TIP', "Les informations saisies concernent le conjoint ou parent dont on veut lister les personnes");
 }
 
-
 if ($nom_page == 'sel_zone_geo.php') {
 	define('LG_CHOOSE_AREA_COUNTRY','Choix d\'un pays');
 	define('LG_CHOOSE_AREA_REGION','Choix d\'une région');
@@ -543,11 +558,9 @@ if ($nom_page == 'Liste_Referentiel.php') {
 	define('LG_REF_LIST_CATEG', 'Liste des catégories');
 	define('LG_REF_LIST_REQ', 'Liste des requêtes sur les personnes');
 	define('LG_REF_LIST_REPO_SOURCES', 'Liste des dépôts de sources');
-
 }
 	
 if ($nom_page == 'Edition_Rangs.php') {
-	$LG_Rank_First_Name = 'Prénoms';
 	$LG_Rank_Born = 'Né(e)';
 	$LG_Rank_Dead = 'Décédé(e)';
 	$LG_Rank_Calc_Duration = 'Ecart calculé';
@@ -577,10 +590,6 @@ if (($nom_page == 'Fiche_Source.php') or ($nom_page == 'Edition_Source.php') or 
 	define('LG_SRC_LAST', 'Dernière source saisie');
 	define('LG_SRC_ADD', 'Ajouter une source');
 }
-
-if (($nom_page == 'Fiche_Ville.php') or ($nom_page == 'Edition_Ville.php')){
-	$LG_Town_Title = 'Fiche d\'une ville';
-}	
 
 if ($nom_page == 'Stat_Base_Generations.php') {
 	define('LG_STAT_GEN_DEC', 'Diminuer la génération');
@@ -762,11 +771,11 @@ if ($nom_page == 'Import_Gedcom.php') {
 	define('LG_IMP_GED_REMIND_SOSA_2', 'Liste par noms');
 	define('LG_IMP_GED_REMIND_SOSA_3', 'Vous pourrez ensuite mettre à jour en masse les numéros Sosa par ');
 	define('LG_IMP_GED_RESET', 'Vidage préalable de la base actuelle');	
-	define('LG_IMP_GED_DEL_1_M', 'supprimé');	
-	define('LG_IMP_GED_DEL_1_F', 'supprimée');	
-	define('LG_IMP_GED_DEL_MANY_M', 'supprimés');	
-	define('LG_IMP_GED_DEL_MANY_F', 'supprimées');	
-	define('LG_IMP_GED_RESUME', 'Résumé du traitement');	
+	define('LG_IMP_GED_DEL_1_M', 'supprimé');
+	define('LG_IMP_GED_DEL_1_F', 'supprimée');
+	define('LG_IMP_GED_DEL_MANY_M', 'supprimés');
+	define('LG_IMP_GED_DEL_MANY_F', 'supprimées');
+	define('LG_IMP_GED_RESUME', 'Résumé du traitement');
 }
 
 if ($nom_page == 'Liste_Docs_Branche.php') {
@@ -923,18 +932,6 @@ if ($nom_page == 'Edition_Parametres_Graphiques.php') {
 	$LG_Graphics_Color_Current = 'Actuelle';
 	$LG_Graphics_Color_New = 'Nouvelle';
 	$LG_Graphics_Even = 'Lignes impaires';
-	$LG_Graphics_Ex_Born[1] = 'le 12 mars 1902';
-	$LG_Graphics_Ex_Born[2] = 'le 7 mars 1899';
-	$LG_Graphics_Ex_Born[3] = 'le 16 avril 1905';
-	$LG_Graphics_Ex_Born[4] = 'le 16 juin 1907';
-	$LG_Graphics_Ex_Dead[1] = 'le 18 mai 1973';
-	$LG_Graphics_Ex_Dead[2] = 'le 12 mai 1971';
-	$LG_Graphics_Ex_Dead[3] = 'le 23 juin 1979';
-	$LG_Graphics_Ex_Dead[4] = 'le 20 mai 1979';
-	$LG_Graphics_Ex_Name[1] = 'DUPOND Prosper Joseph Antoine';
-	$LG_Graphics_Ex_Name[2] = 'DURAND Ambroisine Augustine';
-	$LG_Graphics_Ex_Name[3] = 'MARTIN Maurice Théodule François';
-	$LG_Graphics_Ex_Name[4] = 'DULAC Solange Eugénie';
 	$LG_Graphics_First = 'Premier';
 	$LG_Graphics_Form = 'Formulaire de saisie';
 	$LG_Graphics_Form_Without_Tab = 'Pour les formulaires sans onglets';
@@ -1248,11 +1245,6 @@ if ($nom_page == 'Liste_Patro.php') {
 	define('LG_PATRO_FILIATION', 'Filiation patronymique');
 }
 
-if ($nom_page == 'Liste_Evenements.php') {
-	define('LG_EVENT_LIST_lAST', 'Dernier évènement saisi');
-	define('LG_EVENT_LIST_TYPE', 'Type');
-}
-
 if ($nom_page == 'Liste_Eclair.php') {
 	define('LG_COUNTY_LIST_SHOW_HIDE', 'Afficher / masquer tous les noms');
 	define('LG_COUNTY_LIST_ONE', 'Liste éclair pour le département');
@@ -1340,7 +1332,7 @@ if (($nom_page == 'exp_Gedcom_Personne.php') or ($nom_page == 'exp_Gedcom.php') 
 	define('LG_GEDCOM_UNIONS', 'unions(s) à traiter.');
 	define('LG_GEDCOM_UNIONS_PROCESS', 'unions traitées.');
 	define('LG_GEDCOM_FILE_EXPORT', "L'export Gedcom de la base est disponible dans le fichier ");
-	define('LG_GEDCOM_FILE_EXPORT_LIGHT', "L'export Gedcom léger de la base est disponible dans le fichier ");
+	define('LG_GEDCOM_FILE_EXPORT_LIGHT', "L'export Gedcom léger (sans commentaires ni images) de la base est disponible dans le fichier ");
 }
 
 function lib_sexe_born($sexe) {
@@ -1369,7 +1361,7 @@ function lib_sexe_nickname($sexe) {
 	}
 	return my_html($ret);
 }	 
-if (($nom_page == 'Fiche_Indiv_txt.php') or ($nom_page == 'Fiche_Fam_Pers.php') or ($nom_page == 'Fiche_Couple_txt.php')) {
+if (($nom_page == 'Fiche_Indiv_txt.php') or ($nom_page == 'Fiche_Fam_Pers.php') or ($nom_page == 'Fiche_Couple_txt.php') ) {
 	define('LG_PERS_PERS', 'Personne');
 	define('LG_PERS_BROTHERS_SISTERS', 'Frères et soeurs');
 	define('LG_PERS_CHILDREN', 'Enfants');
@@ -1628,10 +1620,10 @@ if ($nom_page == 'Import_Sauvegarde.php') {
 	define('LG_IMP_BACKUP_CUR_VERS', 'version courante');
 	define('LG_IMP_BACKUP_TABLE_IN_PROGRESS', 'Traitement de la table');
 	define('LG_IMP_BACKUP_REQ', 'requêtes');
-    define('LG_IMP_BACKUP_LINES', 'lignes');
-    define('LG_IMP_BACKUP_ITEM_READ', 'lues dans le fichier');
-    define('LG_IMP_BACKUP_ITEM_OK', 'requêtes exécutées avec succès');
-    define('LG_IMP_BACKUP_TABLE_DELETE', 'suppression de la table créée à tort');
+	define('LG_IMP_BACKUP_LINES', 'lignes');
+	define('LG_IMP_BACKUP_ITEM_READ', 'lues dans le fichier');
+	define('LG_IMP_BACKUP_ITEM_OK', 'requêtes exécutées avec succès');
+	define('LG_IMP_BACKUP_TABLE_DELETE', 'suppression de la table créée à tort');
 
 }
 
@@ -1650,6 +1642,35 @@ if ($nom_page == 'Import_Docs.php') {
 	define('LG_IMP_DOCS_SIZE', ' octets ');
 }
 
+if ($nom_page == 'Export_Pour_Deces.php') {
+	define('LG_EXPORT_DEATH_DEAD', 'Ignorer les personnes avec date de décès');
+	define('LG_EXPORT_DEATH_EXTRACT', 'Personne(s) exportée(s)');
+	define('LG_EXPORT_DEATH_MIN_YEAR', 'Année minimale de naissance');
+	define('LG_EXPORT_DEATH_ERROR1' ,'Le fichier');
+	define('LG_EXPORT_DEATH_ERROR2' ,"n'a pas pu être créé ; assurez vous qu'il n'est pas déjà ouvert par ailleurs et que vous avez les droits.");
+	define('LG_EXPORT_DEATH_GOTO1' ,'Rendez-vous sur ');
+	define('LG_EXPORT_DEATH_GOTO2' ,"pour l'exploiter.");
+	define('LG_EXPORT_DEATH_INTERNET' ,"Assurez-vous d'être connecté(e) à Internet pour pouvoir accéder à MatchId");
+	define('LG_EXPORT_DEATH_BIRTH_PLACE' ,"Lieu de naissance");
+}
+
+if ($nom_page == 'Recherche_MatchId_Unitaire.php') {
+	define('LG_SCH_MATCH_ANSWER', 'Réponse matchId');
+	define('LG_SCH_MATCH_PERS', 'Personne');
+	define('LG_SCH_MATCH_SHOW_JSON', 'Afficher / masquer la réponse de matchId');
+	define('LG_SCH_MATCH_COPY_DATE', 'Copier la date de décès dans le presse-papier');
+	define('LG_SCH_MATCH_NO_INTERNET', "Assurez-vous d'être connecté à Internet");
+	define('LG_SCH_MATCH_ERROR', 'Erreur retournée par matchId');
+}
+	
+if ($nom_page == 'Vide_Base.php') {
+	define('LG_RESET_CONFIRM', 'Confirmez-vous le vidage de la base ?');
+	define('LG_RESET_NOT_CONFIRMED', 'Vidage de la base non confirmé');
+	define('LG_RESET_DATA_BEG', 'Données');
+	define('LG_RESET_DATA_END', 'supprimées');
+}
+	
+	
 // Divers
 $Mois_Lib = Array('janvier', 'février', 'mars', 'avril', 'mai', 'juin',
 					'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre');
@@ -1699,6 +1720,7 @@ $LG_death = 'Décès';
 $LG_dead = 'décédé';
 $LG_wedding = 'Mariage';
 define('LG_COUNTY' ,'Département');
+define('LG_FIRST_NAME', 'Prénoms');
 
 define('LG_SEXE', 'Sexe');
 define('LG_SEXE_MAN', 'Homme');
@@ -1772,6 +1794,8 @@ $LG_Add_Event_Mult_Quick = 'Ajout rapide d\'évènements de type multiple';
 $LG_Add_Event_Quick = 'Ajout rapide d\'évènements';
 $LG_Del_Event = 'Supprimer le dernièr évènement';
 
+define('LG_EVENT_NOPLACE', 'Pas de lieu');
+
 define('LG_ADD_TOWN', 'Ajout d\'une ville');
 define('LG_ADD_TOWN_LIST', 'Ville à ajouter aux listes');
 
@@ -1816,6 +1840,7 @@ $lib_Nouv_Rech_Aff = 'Affiner la recherche';
 $lib_Erase ='Effacer';
 $LG_Check_Again = 'Revérifier';
 $lib_Afficher = 'Afficher';
+$lib_Exporter = 'Exporter';
 
 define('LG_CH_DATA_TAB', 'Données générales');
 define('LG_CH_DOCS', 'Documents');
@@ -1856,7 +1881,7 @@ if (!is_info()) {
 	$LG_Menu_Title['Name_Edit'] 				= 'Modification d\'un nom de famille';
 	$LG_Menu_Title['Name_Add'] 					= 'Ajout d\'un nom de famille';
 	$LG_Menu_Title['Document_Multiple_Add']		= 'Ajout multiple de documents';
-	$LG_Menu_Title['Check_Pers']				= 'Contrôle des personnes';
+	$LG_Menu_Title['Check_Persons']				= 'Contrôle des personnes';
 	$LG_Menu_Title['Convert_Roman_To_Arabic']	= 'Convertisseur de nombres romains - arabes';
 	$LG_Menu_Title['Category']					= 'Fiche d\'une catégorie';
 	$LG_Menu_Title['Category_Edit']				= 'Edition d\'une catégorie';
@@ -1920,6 +1945,7 @@ if (!is_info()) {
 	$LG_Menu_Title['Event_Type']				= 'Fiche d\'un type d\'évènement';
 	$LG_Menu_Title['Event_Type_Edit']			= "Modification d'un type d'évènement";
 	$LG_Menu_Title['Event_Type_Add']			= "Création d'un type d'évènement";
+	$LG_Menu_Title['Event_Type_List']			= "Liste des types d'évènements";
 	$LG_Menu_Title['Doc_Type']					= 'Fiche d\'un type de document';
 	$LG_Menu_Title['Doc_Type_Edit']				= 'Modification d\'un type de document';
 	$LG_Menu_Title['Doc_Type_Add']				= 'Création d\'un type de document';
@@ -1971,5 +1997,8 @@ if (!is_info()) {
 	$LG_Menu_Title['Import_Docs']				= "Import de documents et d'images";
 	$LG_Menu_Title['Role_List_Pers']		    = 'Personnes pour un rôle';
 	$LG_Menu_Title['Design']		    		= 'Graphisme du site';
+	$LG_Menu_Title['Export_Death']		    	= 'Export pour recherche des dates de décès';
+	$LG_Menu_Title['Reset_DB']			    	= 'Vidage de la base';
+	$LG_Menu_Title['MatchId_Sch']			    = 'Recherche matchId';
 }
 ?>

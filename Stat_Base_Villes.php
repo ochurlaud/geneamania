@@ -53,14 +53,13 @@ function Rupt_Ville() {
 
 $Depart = Recup_Variable('dep','N');
 $compl = Ajoute_Page_Info(600,170);
-if ($Depart != '') {
+if ($Depart != 0) {
 	$lib_dep = lib_departement($Depart,1);
 	Insere_Haut(LG_STAT_TOWN_COUNTY.' '.$lib_dep,$compl,'Stat_Base_Villes',$Depart);
 }
 else Insere_Haut($LG_Menu_Title['BDM_Per_Town'],$compl,'Stat_Base_Villes','');
 
 // Construction de la requête
-
 $n_personnes = nom_table('personnes');
 $n_villes = nom_table('villes');
 
@@ -68,7 +67,7 @@ $n_villes = nom_table('villes');
 $sql = 'SELECT count(*) , nom_ville, ville_naissance, "N"'.
 		' FROM '.$n_personnes.' p, '.$n_villes.' v'.
 		' WHERE p.ville_naissance = v.identifiant_zone and p.Reference <> 0 ';
-if ($Depart != '') $sql .= ' and v.Zone_Mere = '.$Depart.' ';
+if ($Depart != 0) $sql .= ' and v.Zone_Mere = '.$Depart.' ';
 if (!$_SESSION['estPrivilegie']) $sql .= " and Diff_Internet = 'O' ";
 $sql .= 'GROUP BY p.ville_naissance union ';
 
@@ -77,7 +76,7 @@ $sql .= 'SELECT count(*), v.Nom_Ville, Ville_Mariage, "M" '.
 		' FROM '.$n_personnes.' m, '.$n_personnes.' f, '.$n_villes.' v, '.nom_table('unions').' u'.
 		' WHERE u.Ville_Mariage = v.identifiant_zone '.
 		'and u.Conjoint_1 = m.Reference and u.Conjoint_2 = f.Reference ';
-if ($Depart != '') $sql .= ' and v.Zone_Mere = '.$Depart.' ';
+if ($Depart != 0) $sql .= ' and v.Zone_Mere = '.$Depart.' ';
 if (!$_SESSION['estPrivilegie']) {
 	$sql .= "and m.Diff_Internet = 'O' ";
 	$sql .= "and f.Diff_Internet = 'O' ";
@@ -88,7 +87,7 @@ $sql .= 'group by u.Ville_Mariage UNION ';
 $sql .= 'SELECT count(*) , nom_ville, ville_deces, "D" '.
 		'FROM '.$n_personnes.' p, '.$n_villes.' v'.
 		' WHERE p.ville_deces = v.identifiant_zone and p.Reference <> 0 ';
-if ($Depart != '') $sql .= ' and v.Zone_Mere = '.$Depart.' ';
+if ($Depart != 0) $sql .= ' and v.Zone_Mere = '.$Depart.' ';
 if (!$_SESSION['estPrivilegie']) $sql .= " and Diff_Internet = 'O' ";
 $sql = $sql . 'GROUP BY p.ville_deces ORDER BY 2';
 

@@ -154,7 +154,7 @@ if ($bt_OK) {
 		$Internet       = ($type_export == 'Internet') ? true : false;
 		$Sauvegarde     = ($type_export == 'Sauvegarde') ? true : false;
 		$Initialisation = ($type_export == 'Initialisation') ? true : false;
-		$SiteGratuit    = ($type_export == 'SiteGratuit') ? true : false;
+		$expSiteGratuit = ($type_export == 'SiteGratuit') ? true : false;
 		$SQLite         = ($type_export == 'SQLite') ? true : false;
 		
 		$h_structure_ok = my_html(LG_EXPORT_STRUCTURE_OK);
@@ -183,8 +183,10 @@ if ($bt_OK) {
 		// Création et ouverture du fichier
 		// Pour les sites gratuits sur le net, l'extension doit être txt ==> protection de l'intégrité de la base
 		// Pour les autres types d'export, on sort en sql direct
-		if ($SiteGratuit) $ext = 'txt';
-		else              $ext = 'sql';
+		if ($expSiteGratuit) 
+			$ext = 'txt';
+		else
+			$ext = 'sql';
 		// L'utilisateur a-t-il demandé à utiliser un suffixe ?
 		if ($ut_suf != 'O') $suffixe = '';
 		// Constitution du nom du fichier
@@ -194,14 +196,14 @@ if ($bt_OK) {
 		if ($suffixe == '') $pre_suf = '';
 		$nom_fic_svg = construit_fic($chemin_exports,'Export_'.$type_export.$pre_suf.$suffixe.'#',$ext);
 		// Tentative de création du fichier
-		if ($gz) $fp = @gzopen($nom_fic_svg, 'wb');
-		else $fp = fopen($nom_fic_svg, 'wb');
+		// $fp = fopen($nom_fic_svg, 'wb');
+		$fp = ouvre_fic($nom_fic_svg,'wb');
 		if (! $fp) die("impossible de cr&eacute;er $nom_fic_svg.");
-		$_fputs = ($gz) ? @gzputs : @fputs;
+		// $_fputs = ($gz) ? @gzputs : @fputs;
 
 		// Ecriture entête du fichier
 		ecrire($fp,$comment." Export ".$type_export." de la base $db");
-		if ((! $SiteGratuit) and (!$Initialisation)) {
+		if (($SiteGratuit) and (!$Initialisation)) {
 			ecrire($fp,$comment." site heberge");
 		}
 		ecrire($fp,$comment." le $date");
@@ -210,8 +212,8 @@ if ($bt_OK) {
 
 		// Sauvegarde de la version dans un fichier en cas d'initialisation
 		if ($Initialisation) {
-			// Tentative de création du fichier
 			$nom_fic_vers = 'version.txt';
+			// Tentative de création du fichier
 			$fps = fopen($nom_fic_vers, 'wb');
 			if (! $fps) die("Impossible de cr&eacute;er $nom_fic_vers.");
 			fwrite($fps,$Version);
@@ -236,7 +238,7 @@ if ($bt_OK) {
 	           ecrire($fp,$comment." Traitement de la table $tablename;");
 
 				// Ecriture de la structure de la table, sauf pour les extractions à destination des sites gratuits
-				if (!$SiteGratuit) {
+				if (!$expSiteGratuit) {
 					echo "<br />$tablename : <font color='blue'> $h_structure_ok, </font>";
 					// On drop toutes les tables sur l'export Internet sauf la table compteur
 					if ((($Internet) and (!est_table('compteurs',$tablename))) or (!$Internet))
@@ -348,7 +350,7 @@ if ($bt_OK) {
 				$Donnees_Oui = true;
 
 				// pas de données compteur sur l'export Internet ou pour le site gratuit
-				if (($Internet or $SiteGratuit) and (est_table('compteurs',$tablename)))
+				if (($Internet or $expSiteGratuit) and (est_table('compteurs',$tablename)))
 					$Donnees_Oui = false;
 
 				$Cond = '';
@@ -389,8 +391,8 @@ if ($bt_OK) {
 					if (est_table('general',$tablename)) {
 						$Donnees_Oui = false;
 						$lesDonnees = 'INSERT INTO '.nom_table('general').
-						" values ('L','???','".$nouv_vers."','B_Gothique.png','-','#92826D','support@geneamania.net'".
-						",'arbre_asc_hor_carre.png', 'O', 'N', 'C', 'R', 'bar_off_rouge.gif', current_timestamp".
+						" values ('L','???','".$nouv_vers."','B_Gothique.png','vert_base.jpg','#92826D','support@geneamania.net'".
+						",'arbre_asc_hor_carre.png', 'O', 'N', 'C', 'V', 'bar_off_vert_fonce.gif', current_timestamp".
 						",'#DCDCDC', '#F5F5F5', '#49453B', '#EFEFEF', '#FEFEFE',9999, null, 'Arial','#000000', true".
 						");";
 						ecrire($fp,"$lesDonnees");
@@ -510,7 +512,7 @@ if ($bt_OK) {
 								$lesDonnees = str_replace("'NULL'", "NULL",$lesDonnees);
 							}
 							// On met l'insert pour l'export autre que vers les sites gratuits
-							if (!$SiteGratuit) {
+							if (!$expSiteGratuit) {
 								$lesDonnees = "$sInsert($lesDonnees);";
 							}
 							else {

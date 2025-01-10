@@ -127,10 +127,8 @@ if ($bt_OK) {
 	$erreur = 0;
 	if ($Sortie == 'c') {
 		// Traiter le cas d'erreur sur l'ouverture du fichier
-		$gz = false;
-		$_fputs = ($gz) ? @gzputs : @fputs;
 		$nom_fic = $chemin_exports.'recherche.csv';
-		$fp=fopen($nom_fic,'w+');
+		$fp = ouvre_fic($nom_fic,'w+');
 	}
 	$tab = '&nbsp;&nbsp;&nbsp;';
 	// Init des zones de requête

@@ -77,10 +77,8 @@ if ($res = lect_sql($sql)) {
 
 		// Sortie CSV
 		if ($CSV) {
-			$gz = false;
-			$_fputs = ($gz) ? @gzputs : @fputs;
 			$nom_fic = construit_fic($chemin_exports,'completude_'.$NomL.'#','csv');
-			$fp=fopen($nom_fic,'w+');
+			$fp = ouvre_fic($nom_fic,'w+');
 			// Ecriture de la ligne d'entête
 			$ligne = '';
 			$ligne .= LG_PERS_REF.';';

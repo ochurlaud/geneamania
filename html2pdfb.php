@@ -42,7 +42,7 @@ var $B;
 var $I;
 var $U;
 var $HREF;
-var $fontList;
+var $fontListfontlist=array('arial', 'times', 'courier', 'helvetica', 'symbol');
 var $issetfont;
 var $issetcolor;
 
@@ -57,7 +57,7 @@ function __construct($orientation='P', $unit='mm', $format='A4')
     $this->I=0;
     $this->U=0;
     $this->HREF='';
-    $this->fontlist=array('arial', 'times', 'courier', 'helvetica', 'symbol');
+    // $this->fontlist=array('arial', 'times', 'courier', 'helvetica', 'symbol');
     $this->issetfont=false;
     $this->issetcolor=false;
 }
@@ -218,6 +218,47 @@ function Footer()
 	$mois = date('m', $temps);
     $this->Cell(0,10,'Geneamania - '.$jour.'/'.$mois.'/'.$annee,0,0,'C');
 }
+
+	// Repris de http://www.fpdf.org/fr/script/script7.php, Auteur : Maxime Delorme
+    function RoundedRectH($x, $y, $w, $h, $r, $style = '')
+    {
+        $k = $this->k;
+        $hp = $this->h;
+        if($style=='F')
+            $op='f';
+        elseif($style=='FD' || $style=='DF')
+            $op='B';
+        else
+            $op='S';
+        $MyArc = 4/3 * (sqrt(2) - 1);
+        $this->_out(sprintf('%.2F %.2F m',($x+$r)*$k,($hp-$y)*$k ));
+        $xc = $x+$w-$r ;
+        $yc = $y+$r;
+        $this->_out(sprintf('%.2F %.2F l', $xc*$k,($hp-$y)*$k ));
+
+        $this->_ArcH($xc + $r*$MyArc, $yc - $r, $xc + $r, $yc - $r*$MyArc, $xc + $r, $yc);
+        $xc = $x+$w-$r ;
+        $yc = $y+$h-$r;
+        $this->_out(sprintf('%.2F %.2F l',($x+$w)*$k,($hp-$yc)*$k));
+        $this->_ArcH($xc + $r, $yc + $r*$MyArc, $xc + $r*$MyArc, $yc + $r, $xc, $yc + $r);
+        $xc = $x+$r ;
+        $yc = $y+$h-$r;
+        $this->_out(sprintf('%.2F %.2F l',$xc*$k,($hp-($y+$h))*$k));
+        $this->_ArcH($xc - $r*$MyArc, $yc + $r, $xc - $r, $yc + $r*$MyArc, $xc - $r, $yc);
+        $xc = $x+$r ;
+        $yc = $y+$r;
+        $this->_out(sprintf('%.2F %.2F l',($x)*$k,($hp-$yc)*$k ));
+        $this->_ArcH($xc - $r, $yc - $r*$MyArc, $xc - $r*$MyArc, $yc - $r, $xc, $yc - $r);
+        $this->_out($op);
+    }
+
+    function _ArcH($x1, $y1, $x2, $y2, $x3, $y3)
+    {
+        $h = $this->h;
+        $this->_out(sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $x1*$this->k, ($h-$y1)*$this->k,
+            $x2*$this->k, ($h-$y2)*$this->k, $x3*$this->k, ($h-$y3)*$this->k));
+    }
+
 
 }//fin classe
 ?>

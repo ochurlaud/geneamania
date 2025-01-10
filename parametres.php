@@ -104,9 +104,6 @@ $Insert_Compteur = 0;
 // Fichier d'export GenWeb
 $nom_fic_GenWeb = 'export_GenWeb#.txt';
 
-// Limite de la diffusabilité exprimée en années
-$Lim_Diffu = 100;
-
 // Affichage des requêtes ==> mode debug
 $aff_req = false;
 $debug = false;
@@ -152,7 +149,12 @@ $xM = str_pad($M, 2, '0', STR_PAD_LEFT);
 $xJ = str_pad($J, 2, '0', STR_PAD_LEFT);
 $date_lim_vivant = $xA.$xM.$xJ;
 
-// Tyoe d'évènement des actualités
+// Limite de la diffusabilité exprimée en années
+$Lim_Diffu = 100;
+
+$Lim_Diffu_Dec = $Lim_Diffu + $annees_maxi_vivant;
+
+// Type d'évènement des actualités
 $TypeEv_actu = 'AC3U';
 
 $FromTo_Mail = 'support@geneamania.net';
@@ -164,6 +166,7 @@ $def_enc = 'UTF-8';
 
 // Polices intallées par défaut pour les pdf
 $list_font_pdf = array('Courier','Helvetica','Arial','Times');
+$list_font_pdf_plus = array();
 //$coul_pdf = '#4F95B0';
 
 // Proposition pour les graphismes pré-définis
@@ -245,7 +248,7 @@ $aff_note_old = false;
 $barre_homme = $chemin_images.'bb3.jpg';
 $barre_femme = $chemin_images.'br2.jpg';
 
-$rupt_Fiche_Indiv = '---'; 
+$rupt_Fiche_Indiv = ''; 
 
 // Répertoire des pages d'information
 //$rep_Infos = 'pages_info/';
@@ -253,6 +256,12 @@ $rupt_Fiche_Indiv = '---';
 
 // Répertoire des langues
 $rep_lang = 'languages';
+
+// Date de naissance par défaut pour l'export de la recherche des décès
+$death_def_min_year = 1970 - $annees_maxi_vivant;
+$url_matchid = 'https://deces.matchid.io';
+$url_matchid_link = $url_matchid.'/link';
+$url_matchid_sch = $url_matchid.'/deces/api/v1/search';
 
 // Paramétrages particuliers
 if (file_exists('param_part.php')) include('param_part.php');

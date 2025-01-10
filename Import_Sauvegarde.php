@@ -40,7 +40,7 @@ include('Gestion_Pages.php');
 // Traitement en rupture sur le nom de la table ==> uniquement pour les sites gratuits
 function traite_rup_table($nom_table) {
 	global $nb_req_table, $chemin_images, $Icones, $SiteGratuit, $Premium, $Pivot_Masquage, $depuis_heberge, $Environnement, $debug;
-	if ($debug) echo $nb_req_table . ' ' . my_html(LG_IMP_BACKUP_READ_LINES).'<br />';
+	if ($debug) echo $nb_req_table . ' ' . my_html(LG_IMP_BACKUP_READ_LINES).'<br>';
 	// Traitement de cohérence : on vérifie que le nombre de lignes de la table correspond au nombre de lignes du fichier
 	// Si ce n'est pas le cas, on considère qu'il y falsification du fichier
 	// La vérification n'est faite que dans le cas du site gratuit
@@ -51,7 +51,7 @@ function traite_rup_table($nom_table) {
 			if ($row[0] != $nb_req_table) {
 				$image = $Icones['stop'];
 				echo '<img src="'.$chemin_images.$image.'" BORDER=0 alt="'.$image.'" title="'.$image.'">&nbsp;' 
-					. my_html(LG_IMP_BACKUP_LINES_ERROR) . '<br />';
+					. my_html(LG_IMP_BACKUP_LINES_ERROR) . '<br>';
 				// var_dump ($row[0]);
 				// var_dump ($nb_req_table);
 				// Vidage de la table
@@ -105,20 +105,22 @@ if (($ok == 'OK') and ($loc_base == 'I')) {
 	$util    = $uti_int;
 	$mdp     = $mdp_int;
 	$serveur = $site_int.':'.$port_int;
-	//echo 'db : '.$db.'<br />';
-	//echo 'util : '.$util.'<br />';
-	//echo 'mdp : '.$mdp.'<br />';
-	//echo 'serv : '.$serveur.'<br />';
+	//echo 'db : '.$db.'<br>';
+	//echo 'util : '.$util.'<br>';
+	//echo 'mdp : '.$mdp.'<br>';
+	//echo 'serv : '.$serveur.'<br>';
+	// if ($def_enc == 'UTF-8') 
+		// $aj_charset = ';charset=utf8';
 	
 	try {
 		$connexion = new PDO("mysql:host=$serveur;dbname=$db", $util, $mdp);
+		// $connexion = new PDO("mysql:host=$serveur;dbname=$db$aj_charset", $util, $mdp);
+		// $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		if ($memo == 'O') {
 			echo my_html(LG_IMP_BACKUP_INTERNET_SAVE_REQUEST);
-			$gz = false;
 			$fp1 = fopen($nom_fic_cnx_dist, 'wb');
 			if (! $fp1) die(LG_IMP_BACKUP_FILE_ERROR.$nom_fic_cnx_dist);
 			else {
-				$_fputs = ($gz) ? gzputs : fputs;
 				//ecriture des paramêtres saisis
 				ecrire($fp1,'<?php');
 				ecrire($fp1,'//--- Paramètres de connexion distants ---');
@@ -139,27 +141,6 @@ if (($ok == 'OK') and ($loc_base == 'I')) {
 		$bt_OK = false;
     }
 
-    if ($memo == 'O') {
-      echo 'demande de mémorisation';
-      $gz = false;
-      $fp1 = fopen($nom_fic_cnx_dist, 'wb');
-      if (! $fp1) die("impossible de créer $nom_fic_cnx_dist.");
-      else {
-        $_fputs = ($gz) ? gzputs : fputs;
-        //ecriture des paramêtres saisis
-        ecrire($fp1,'<?php');
-        ecrire($fp1,'//--- Paramètres de connexion distants ---');
-        ecrire($fp1,'$ddb      = \''.$base_int.'\';');
-        ecrire($fp1,'$dutil    = \''.$uti_int.'\';');
-        ecrire($fp1,'$dmdp     = \''.$mdp_int.'\';');
-        ecrire($fp1,'$dserveur = \''.$site_int.'\';');
-        ecrire($fp1,'$dport    = \''.$port_int.'\';');
-        ecrire($fp1,'//----------------- fin ------------------');
-        ecrire($fp1,'?>');
-        if ($gz) gzclose($fp1);
-        else fclose($fp1);
-      }
-    }
     // Forçage fin pour test de connexion sans chargement
     //$ok = 'KO';
   }
@@ -204,7 +185,7 @@ if ($bt_OK) {
 	}
     else 
 		echo $SelFic;
-	echo '<br />';
+	echo '<br>';
 	$erreur = '';
 	$path = '';
 
@@ -258,7 +239,7 @@ if ($bt_OK) {
 
 			// Ré-init de la base ; on détruit toutes les tables, sauf la table general
 			if ((!$SiteGratuit) and ($init_base == 'on')) {
-				echo my_html(LG_IMP_BACKUP_RESET).'<br />';
+				echo my_html(LG_IMP_BACKUP_RESET).'<br>';
 				$sql = 'show tables from '.$db.' like \''.$pref_tables.'%\'';
 
 				$result = lect_sql($sql);
@@ -290,49 +271,73 @@ if ($bt_OK) {
 			$ch_create_sh_O = '';
 			$ch_insert_sh_O = '';
 			$table = '';
+			$req = '';
 
 			// Affichage du préfixe de rechargement
 			if ($pref_tables == '') $lib_pref = LG_IMP_BACKUP_NO_PREFIX;
 			else                    $lib_pref = $pref_tables;
-			echo my_html(LG_IMP_BACKUP_PREFIX.' : '.$lib_pref).'<br /><br />'."\n";
+			echo my_html(LG_IMP_BACKUP_PREFIX.' : '.$lib_pref).'<br><br>'."\n";
 
 			$trt_table = true;
 			
 		while (!feof($fp)) {
 			$ligne = trim(fgets($fp));
 			$num_ligne++;
-			if ($debug) echo $num_ligne.' : '.$ligne.'<br />';
+			$lligne = strlen($ligne);			
+			if ($debug) echo $num_ligne.' : '.$ligne.'<br>';
 			
+			// Sur la 1ère, il ne faut pas oublier que l'on a potentiellement les 3 caractères du BOM au début ; on les enlève
+			if ($num_ligne == 1) {
+				if ($lligne > 3) {
+					// if ($debug) {
+						// var_dump(ord(substr($ligne,0,1)));
+						// var_dump(ord(substr($ligne,1,1)));
+						// var_dump(ord(substr($ligne,2,1)));
+					// }
+					if ((ord(substr($ligne,0,1)) == 0xEF) and
+						(ord(substr($ligne,1,1)) == 0xBB) and 
+						(ord(substr($ligne,2,1)) == 0xBF)) {
+						if ($debug) echo 'Suppression du BOM<br>';
+						$ligne = substr($ligne,3,$lligne-3);
+					}
+				}
+			}
+
 			// La sauvegarde est-elle issue d'un site hébergé ?
 			if ($num_ligne == 2) {
-				if (strpos($ligne,'site hébergé') !== false)
-				$depuis_heberge = true;
+				if ((strpos($ligne,'site hébergé') !== false) or
+				    (strpos($ligne,'site heberge') !== false))
+					$depuis_heberge = true;
 			}
-			// Récupération du préfixe présent dans le fichier
-			if ($num_ligne == 5) {
-				if (strlen($ligne) > 10) 
-					$pref_fic = substr($ligne,10);
-				if ($debug) echo '$pref_fic : '.$pref_fic.'<br />';
-				if (($depuis_heberge) or ($pref_fic != $pref_tables)) {
-					$ch_drop_sh_I = 'DROP TABLE IF EXISTS `'.$pref_fic;
-					$ch_create_sh_I = 'CREATE TABLE `'.$pref_fic;
-					$ch_insert_sh_I = 'INSERT INTO '.$pref_fic;
-					$ch_drop_sh_O = 'DROP TABLE IF EXISTS `'.$pref_tables;
-					$ch_create_sh_O = 'CREATE TABLE `'.$pref_tables;
-					$ch_insert_sh_O = 'INSERT INTO '.$pref_tables;
+			// Récupération du préfixe présent dans le fichier, ligne 4 ou 5, c'est selon...
+			if (($num_ligne == 4) or ($num_ligne == 5)) {
+				if ($lligne > 10) {
+					if (strpos($ligne,'prefixe') !== false) {
+						$pref_fic = substr($ligne,10);
+						if ($debug) echo '$pref_fic : '.$pref_fic.'<br>';
+						if (($depuis_heberge) or ($pref_fic != $pref_tables)) {
+							$ch_drop_sh_I = 'DROP TABLE IF EXISTS `'.$pref_fic;
+							$ch_create_sh_I = 'CREATE TABLE `'.$pref_fic;
+							$ch_insert_sh_I = 'INSERT INTO '.$pref_fic;
+							$ch_drop_sh_O = 'DROP TABLE IF EXISTS `'.$pref_tables;
+							$ch_create_sh_O = 'CREATE TABLE `'.$pref_tables;
+							$ch_insert_sh_O = 'INSERT INTO '.$pref_tables;
+						}
+					}
 				}
 			}
 
 			// Pour les fichiers SQL, une requête peut être sur plusieurs lignes
 			if ($ext == 'sql') {
-				$lligne = strlen($ligne);
 				$car1 = '#';
 				$dercar = '#';
 				if ($lligne > 0) {
 					$car1   = substr($ligne,0,1);
 					$dercar = substr($ligne,$lligne-1,1);
+					// La ligne 1 est forcément une ligne de commentaire qui ne sera pas exploitée
+					if ($num_ligne == 1)
+						$car1 = '#';
 				}
-				//echo '$car1 : '.$car1.' >>> '.$ligne.'</br>';
 				if ($car1 != '#') {
 					if ($trt_table) {
 						if (($depuis_heberge) or ($pref_fic != $pref_tables)) {
@@ -343,11 +348,11 @@ if ($bt_OK) {
 						$req = $req.' '.$ligne;
 						if ($dercar == ';') {
 							$nb_req_lues++;
-							//echo $req.'<br />';
+							//echo $req.'<br>';
 							if ($res = maj_sql($req, false)) $nb_req_ok++;
 							else {
 								if ($debug) {
-									echo 'Req KO : '.$req.'<br />';
+									echo 'Req KO : '.$req.'<br>';
 								}
 							}
 							$req = '';
@@ -363,8 +368,7 @@ if ($bt_OK) {
 						if (strpos($ligne,'Traitement de la table') !== false) {
 							if (strpos($ligne,'utilisateurs') !== false) {
 								$trt_table = false;
-								echo my_html(LG_IMP_BACKUP_KEEP_USERS2).'<br /><br />';
-
+								echo my_html(LG_IMP_BACKUP_KEEP_USERS2).'<br><br>';
 							}
 							else
 								$trt_table = true;
@@ -374,13 +378,18 @@ if ($bt_OK) {
             }
 			// Pour les fichiers txt, une requête est sur une seule ligne et doit être reconstruite
             if ($ext == 'txt') {
-				$lligne = strlen($ligne);
+				// var_dump(ord(substr($ligne,0,1)));
+				// var_dump(ord(substr($ligne,1,1)));
+				// var_dump(ord(substr($ligne,2,1)));
+				// var_dump(substr($ligne,3,1));
 				$car1 = '#';
 				$dercar = '#';
 				if ($lligne > 0) {
 					$car1   = substr($ligne,0,1);
 					$dercar = substr($ligne,$lligne-1,1);
 				}
+				if ($debug)
+					var_dump($car1);
 				// Traitement de la ligne en fonction du premier caractère
 				// # : ligne de commentaire
 				// [ : ligne donnant un nom de table
@@ -416,7 +425,7 @@ if ($bt_OK) {
 				if ($car1 == '[') {
 					// Traitement de cohérence + nb requêtes par table, indispensable pour les sites gratuits
 					if ($table != '') {
-						if ($debug) echo "traite_rup_table($pref_tables.$table)<br />";
+						if ($debug) echo "traite_rup_table($pref_tables.$table)<br>";
 						traite_rup_table($pref_tables.$table);
 					}
 					$pos = strrpos($ligne,']');
@@ -424,7 +433,7 @@ if ($bt_OK) {
 					// Suppression du préfixe éventuel de la table locale
 					if (($SiteGratuit) and ($pref_local != '')) $table = substr($table,$lg_pref_local+1);
 					if (($table != 'general') or ($aff_pres_ut = "O")) {
-						echo my_html(LG_IMP_BACKUP_TABLE_IN_PROGRESS).' '.$table.',&nbsp;<br />';
+						echo my_html(LG_IMP_BACKUP_TABLE_IN_PROGRESS).' '.$table.',&nbsp;<br>';
 						$req = 'delete from '.$pref_tables.$table.';';
 						$res = maj_sql($req);
 					}
@@ -434,7 +443,7 @@ if ($bt_OK) {
 						$req = 'insert into '.$pref_tables.$table.' values ('.$ligne.');';
 						$nb_req_lues++;
 						$nb_req_table++;
-						//echo "table : $table, nb_req_table : $nb_req_table<br />";
+						//echo "table : $table, nb_req_table : $nb_req_table<br>";
 						if ($res = maj_sql($req)) {
 							$nb_req_ok++;
 							$req = '';
@@ -447,14 +456,14 @@ if ($bt_OK) {
 	        if ($ext == 'txt') {
 	        	if ($table != '')
 					traite_rup_table($pref_tables.$table);
-	        	echo '<br />';
+	        	echo '<br>';
 	        }
         }
         fclose($fp);
         if (!$SiteGratuit) $mot = LG_IMP_BACKUP_REQ;
         else               $mot = LG_IMP_BACKUP_LINES;
-        echo $nb_req_lues.' '.my_html($mot.' '.LG_IMP_BACKUP_ITEM_READ).' '.$nom_du_fichier.'<br />';
-        echo $nb_req_ok.' '.my_html(LG_IMP_BACKUP_ITEM_OK).' <br /><br />';
+        echo $nb_req_lues.' '.my_html($mot.' '.LG_IMP_BACKUP_ITEM_READ).' '.$nom_du_fichier.'<br>';
+        echo $nb_req_ok.' '.my_html(LG_IMP_BACKUP_ITEM_OK).' <br><br>';
 
         // Traitement de cohérence : on vérifie qu'aucune table n'a été créée
         // Pour cela, on compare les tables actuelles avec les tables avant import
@@ -471,7 +480,7 @@ if ($bt_OK) {
 					if (array_search($row[0],$liste_tables) === false) {
 				        $image = $Icones['stop'];
 			    		echo '<img src="'.$chemin_images.$image.'" BORDER=0 alt="'.$image.'" title="'.$image.'">&nbsp;'
-							. $row[0] . LG_SEMIC . '<br />';
+							. $row[0] . LG_SEMIC . '<br>';
 						// Vidage de la table
 						$req = 'drop '. $row[0];
 						$res = lect_sql($req);
@@ -545,7 +554,7 @@ if ($_SESSION['estGestionnaire']) {
 				}
 				if ($sel) {
 					if ($nb ==0 ) {
-						echo '<br />'.my_html(LG_IMP_BACKUP_FILE_SELECT);
+						echo '<br>'.my_html(LG_IMP_BACKUP_FILE_SELECT);
 						$nom_div = 'lediv';
 						$x = Oeil_Div('ajout',my_html(LG_IMP_BACKUP_FILE_SHOW),$nom_div);
 						echo '<table width="90%" border="0">'."\n";
@@ -557,9 +566,9 @@ if ($_SESSION['estGestionnaire']) {
 					$date_fic = date("d/m/Y H:i:s", filectime($image));
 					if (file_exists($image)) {
 						echo '<td>';
-						echo '<br /><input type="radio" name="SelFic" value="'.$fichier.'"/>';
-						echo '<br />'.$fichier;
-						echo '<br />'.$date_fic."\n";
+						echo '<br><input type="radio" name="SelFic" value="'.$fichier.'"/>';
+						echo '<br>'.$fichier;
+						echo '<br>'.$date_fic."\n";
 					}
 					echo '</td>'."\n";
 					if ($col == $max_col) {

@@ -91,7 +91,7 @@ function traite_ville($la_ville) {
 				$sql = 'select Identifiant_zone from '.$n_villes.' where Nom_Ville = \''.$sZone.'\' limit 1';
 				if ($res = lect_sql($sql)) {
 					if ($enreg = $res->fetch(PDO::FETCH_NUM)) {
-						$num_ville = $enreg[0];
+						$memo_id_ville = $enreg[0];
 						$trouve = true;
 					}
 				}
@@ -107,9 +107,9 @@ function traite_ville($la_ville) {
 					$modif = true;
 				}
 				$arr_villes[] = $num_ville;
+				$memo_id_ville = $num_ville;
 			}
-		$memo_id_ville = $num_ville;
-		return $num_ville;
+		return $memo_id_ville;
   	}
   	else return $memo_id_ville;
   }
@@ -146,7 +146,7 @@ if ($ok=='OK') {
 	        	$champ_pers[$max_champs++] = $champ_table[$x];
 	        }
 	        else {
-	        	echo 'Erreur sur recherche libell&eacute; champ<br />';
+	        	echo 'Erreur sur recherche libell&eacute; champ<br>';
 	        }
 		}		
 	}
@@ -173,18 +173,18 @@ if ($ok=='OK') {
 	}
 
     $msg = ' Fichier demand&eacute; : '.$_FILES['nom_du_fichier']['name'];
-    echo $msg.'<br />';
+    echo $msg.'<br>';
     
     echo 'Visibilit&eacute; Internet ';
     if ($diff_internet != 'on') echo 'non ';
-    echo 'autoris&eacute;e par d&eacute;faut<br />';
+    echo 'autoris&eacute;e par d&eacute;faut<br>';
     echo 'Statut par d&eacute;faut des fiches : ';
     switch ($val_statut) {
-		case 'O' : echo 'valid&eacute;'; break;
-		case 'N' : echo 'non valid&eacute;'; break;
-		case 'I' : echo 'source internet'; break;
+		case 'O' : echo LG_CHECKED_RECORD_SHORT; break;
+		case 'N' : echo LG_NOCHECKED_RECORD_SHORT; break;
+		case 'I' : echo LG_FROM_INTERNET; break;
     }
-    echo '<br />';
+    echo '<br>';
 
     $erreur = false;
 
@@ -218,7 +218,7 @@ if ($ok=='OK') {
 		move_uploaded_file($tmp_file, $path);
 
 	  	// Traitement du fichier
-		ini_set('auto_detect_line_endings',TRUE);
+		// ini_set('auto_detect_line_endings',TRUE);
         $mode = 'r';
         if ($fp=fopen($path,$mode)) {
 
@@ -244,7 +244,7 @@ if ($ok=='OK') {
 				if ($nb_enr == 1) {
 					
 					$max_champs = 0;
-				    echo my_html(LG_IMP_CSV_REQ_FIELDS).' :<br />';
+				    echo my_html(LG_IMP_CSV_REQ_FIELDS).' :<br>';
 				    $tab = '&nbsp;&nbsp;&nbsp;&nbsp;';
 					
 					// Récupération de la correspondance des champs dans l'entête
@@ -260,15 +260,15 @@ if ($ok=='OK') {
 							if ($x !== false) {
 								$champ_pers[$max_champs] = $champ_table[$x];
 								if ($debug) {
-									echo '$champ_table[$x] : '.$champ_table[$x].'<br />';
-									echo '$champ_pers[$max_champs] : '.$champ_pers[$max_champs].'<br />';
+									echo '$champ_table[$x] : '.$champ_table[$x].'<br>';
+									echo '$champ_pers[$max_champs] : '.$champ_pers[$max_champs].'<br>';
 								}
 								$num_csv[$max_champs] = $nb;
-								echo $tab.'"'.$cont.'" '.my_html(LG_IMP_CSV_IN_COL).' '.chr($o_A+$nb).'<br />';
+								echo $tab.'"'.$cont.'" '.my_html(LG_IMP_CSV_IN_COL).' '.chr($o_A+$nb).'<br>';
 								$max_champs++;
 							}
 							else {
-								echo my_html(LG_IMP_CSV_ERR_MATCH_1. $cont.LG_IMP_CSV_ERR_MATCH_2).'<br />';
+								echo my_html(LG_IMP_CSV_ERR_MATCH_1. $cont.LG_IMP_CSV_ERR_MATCH_2).'<br>';
 							}
 						}
 					}
@@ -287,7 +287,7 @@ if ($ok=='OK') {
 						        	$champ_pers[$max_champs++] = $champ_table[$x];
 						        }
 						        else {
-						        	echo my_html(LG_IMP_CSV_COL_MATCH_ERROR).'<br />';
+						        	echo my_html(LG_IMP_CSV_COL_MATCH_ERROR).'<br>';
 						        }
 							}		
 						}
@@ -312,8 +312,8 @@ if ($ok=='OK') {
 							//echo 'colonne saisie : '.$$nom_champ.', ';
 							$nom_col_dem = $$nom_champ;
 							$num_col = $num_csv[$nb] + 1;
-							//echo 'numéro de la colonne : '.$num_col.'<br />';
-							echo $tab.'"'.$nom_champ_dem.'" '.my_html(LG_IMP_CSV_IN_COL).' '.$nom_col_dem.'<br />';
+							//echo 'numéro de la colonne : '.$num_col.'<br>';
+							echo $tab.'"'.$nom_champ_dem.'" '.my_html(LG_IMP_CSV_IN_COL).' '.$nom_col_dem.'<br>';
 						}
 					}
 					
@@ -331,37 +331,42 @@ if ($ok=='OK') {
 							$num_col = $num_csv[$x] + 1;
 							//echo $champ_table[$x]. ' > '.$num_col;
 						}
-						//echo '<br />';
+						//echo '<br>';
 					}
 
 				}
 				
 				//for ($nb2=0; $nb2<$c_arr; $nb2++) echo $arr[$nb2].'/';
-				//echo '<br />';
+				//echo '<br>';
 				
 				if (($entete == 'A') or ($nb_enr > 1)) {
+					
+					// Init des variables à stocker;
+					//$Reference         = 0;
+					$Nom               = '?';
+					$Prenoms           = '?';
+					$Sexe              = 'null';
+					$Numero            = '';
+					$Ne_le             = '';
+					$Decede_Le         = '';
+					$Ville_Naissance   = 0;
+					$Ville_Deces       = 0;
+					$Diff_Internet     = $vdiff_internet;
+					$Date_Creation     = 'current_timestamp';
+					$Date_Modification = 'current_timestamp';
+					$Statut_Fiche      = $val_statut;
+					$idNomFam          = 'null';
+					$Categorie         = 0;
+					$Surnom            = 'null';
+										
 					if ($c_arr < $max_champs) {
-						echo my_html(LG_IMP_CSV_ERROR_LINE).$nb_enr.' : '.$ligne.'<br />';
+						$ligne = implode(';', $arr);
+						echo LG_IMP_CSV_ERROR_LINE.' '.$nb_enr.' : '.$ligne.'<br>';
+						// echo '$c_arr : '.$c_arr.'<br>';
+						// echo '$max_champs : '.$max_champs.'<br>';
+						// var_dump($arr); echo '<br>';
 					}
 					else {
-						
-						// Init des variables à stocker;
-						//$Reference         = 0;
-						$Nom               = '?';
-						$Prenoms           = '?';
-						$Sexe              = 'null';
-						$Numero            = '';
-						$Ne_le             = '';
-						$Decede_Le         = '';
-						$Ville_Naissance   = 0;
-						$Ville_Deces       = 0;
-						$Diff_Internet     = $vdiff_internet;
-						$Date_Creation     = 'current_timestamp';
-						$Date_Modification = 'current_timestamp';
-						$Statut_Fiche      = $val_statut;
-						$idNomFam          = 'null';
-						$Categorie         = 0;
-						$Surnom            = 'null';
 	
 						// Récupération des champs
 						for ($nb=0; $nb<$c_zbase; $nb++) {
@@ -375,7 +380,7 @@ if ($ok=='OK') {
 								//echo 'Contenu dans ligne : '.$arr[$$colvar].' ; ';
 								//echo 'Contenu variable : '.$$nomvar;
 							}
-							//echo '<br />';
+							//echo '<br>';
 						}
 						
 						// Traitement des villes
@@ -420,12 +425,12 @@ if ($ok=='OK') {
 				Creation_Noms_Commun();
 				maj_date_site(true);
 				// $plu = pluriel($nb_pers);
-				echo $nb_pers.' '.my_html(LG_IMP_CSV_PERS_CREATED).'<br />';
+				echo $nb_pers.' '.my_html(LG_IMP_CSV_PERS_CREATED).'<br>';
 			}
 			
 		}
 		else {
-			echo my_html(LG_IMP_CSV_ERR_OPEN_FILE).'<br />';
+			echo my_html(LG_IMP_CSV_ERR_OPEN_FILE).'<br>';
 		}
 	}
   }
@@ -435,7 +440,7 @@ if ($est_gestionnaire) {
 	// Première entrée : affichage pour saisie
 	if (($ok=='') && ($annuler=='')) {
 
-		echo '<br />';
+		echo '<br>';
 		
 		$larg_titre = '35';
 		echo '<form id="saisie" method="post" enctype="multipart/form-data" action="'.my_self().'">'."\n";

@@ -50,7 +50,6 @@ function detailPersonne($LaRef,$generation,$numero) {
 }
 
 function getDetail($LaRef) {
-	global $def_enc;
 	// Accès aux données de la personne
 	$sql='select Nom, Prenoms, Ne_Le, Decede_Le, Diff_Internet from '.nom_table('personnes').' where reference = '.$LaRef.' limit 1';
 	if ($res = lect_sql($sql)) {
@@ -59,8 +58,8 @@ function getDetail($LaRef) {
 			if (($_SESSION['estPrivilegie']) or ($infos[4] == 'O')) {
 				$Nom    = trim($infos[0]);
 				$Prenom = trim($infos[1]);
-				$D_Nais = trim($infos[2]);
-				$D_Dec  = trim($infos[3]);
+				$D_Nais = $infos[2];
+				$D_Dec  = $infos[3];
 				// On ne retient que le premier prénom
 				if ($Prenom != '')
 					$Prenom = UnPrenom($Prenom);
@@ -69,8 +68,7 @@ function getDetail($LaRef) {
 				if (strlen($N_P) > $max_car)
 					$N_P = substr($N_P,0,$max_car);
 				if($D_Nais != '')
-					// $N_P .= ' °' . affiche_date($D_Nais);
-					$N_P .= html_entity_decode(" &deg;", ENT_QUOTES, $def_enc) . affiche_date($D_Nais);
+					$N_P .= ' °' . affiche_date($D_Nais);
 				if($D_Dec != '')
 					$N_P .= " +" . affiche_date($D_Dec);
 				return chaine_pdf($N_P);
@@ -104,9 +102,8 @@ if ($Diff_Internet_P == 'O' or $_SESSION['estPrivilegie']) {
 
 	// version française
 	$lib_jour = lib_fr_jour(date('w'),true);
-	$lib_mois = html_entity_decode($Mois_Lib[date('n')-1], ENT_QUOTES, $def_enc);
-	//$PDF->Text(6,21,"(". $lib_jour. ' ' . date( 'j') . ' ' . $lib_mois . ' ' . date( 'Y H:i' ) .')');
-	$PDF->Text(6,9*32,$lib_jour. ' ' . date( 'j') . ' ' . $lib_mois . ' ' . date( 'Y H:i' ));
+	$lib_mois = $Mois_Lib[date('n')-1];
+	$PDF->Text(6,9*32,chaine_pdf($lib_jour. ' ' . date( 'j') . ' ' . $lib_mois) . ' ' . date( 'Y H:i' ));
 	
 	// generation 1
 	$PDF->SetFont($font_pdf,'B',12);
@@ -177,7 +174,7 @@ if ($Diff_Internet_P == 'O' or $_SESSION['estPrivilegie']) {
 }
 // Erreur si la personne n'a pas les autorisations
 else {
-	$index_follow = 'IN';					// NOFOLLOW demand� pour les moteurs en cas d'erreur
+	$index_follow = 'IN';					// NOFOLLOW demandé pour les moteurs en cas d'erreur
 	include('Gestion_Pages.php');
 	Insere_Haut('Arbre ascendant','','Arbre_Asc_PDF',$Refer);
 	echo Affiche_Stop($LG_Data_noavailable_profile);

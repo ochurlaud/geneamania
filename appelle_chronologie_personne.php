@@ -23,11 +23,10 @@ function Lien_vers_Pers() {
 }
 
 function lib_sexe_enfant($sexe) {
-	global $LG_son, $LG_daughter, $LG_child;
 	switch ($sexe) {
-		case 'm' : $lib_sexe = $LG_son; break;
-		case 'f' : $lib_sexe = $LG_daughter; break;
-		default : $lib_sexe = $LG_child; break;
+		case 'm' : $lib_sexe = LG_SON; break;
+		case 'f' : $lib_sexe = LG_DAUGHTER; break;
+		default : $lib_sexe = LG_CHILD; break;
 	}
 	return $lib_sexe;
 }
@@ -146,6 +145,15 @@ if ($res = lect_sql($sql)) {
 			$maxi = '99991231';
 
 			$approx = false;
+			
+			$Lg_Ne = strlen($Ne);
+			$Lg_Decede = strlen($Decede);
+			
+			// Traitement des dates qui ne font pas 10 caractères
+			if (($Ne != '') and ($Lg_Ne != 10))
+				$Ne = '00000101GE';
+			if (($Decede != '') and ($Lg_Decede != 10))
+				$Decede = '30000101GE';
 			
 			if (($Ne != '') and ($Ne[9] == 'E')) {
 				$Ne[9] = 'L';

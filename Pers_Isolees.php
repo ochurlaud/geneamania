@@ -45,8 +45,7 @@ include('Gestion_Pages.php');
 $compl = Ajoute_Page_Info(600,150);
 Insere_Haut($titre,$compl,'Pers_Isolees','');
 
-$a = microtime_float();
-
+// $a = microtime_float();
 	
 $n_personnes = nom_table('personnes');
 $n_filiations = nom_table('filiations');

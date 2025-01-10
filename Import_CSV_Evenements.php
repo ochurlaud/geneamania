@@ -1,7 +1,7 @@
 <?php
 
 //=====================================================================
-// Import ou lecture d'un fichier csv avec des évènements
+// Import ou lecture d'un fichier csv avec des Ã©vÃ¨nements
 // (c) JLS
 //=====================================================================
 
@@ -9,7 +9,7 @@ session_start();
 
 include('fonctions.php');
 
-// Récupération des variables de l'affichage précédent
+// RÃ©cupÃ©ration des variables de l'affichage prÃ©cÃ©dent
 $tab_variables = array('ok','annuler','nom_du_fichier','Horigine',
                        'nom_du_fichier','val_statut','entete','idNiveauF','idZoneF','type_evt');
 foreach ($tab_variables as $nom_variables) {
@@ -17,7 +17,7 @@ foreach ($tab_variables as $nom_variables) {
 	else $$nom_variables = '';
 }
 
-// Sécurisation des variables postées - phase 1
+// SÃ©curisation des variables postÃ©es - phase 1
 $ok       = Secur_Variable_Post($ok,strlen($lib_Okay),'S');
 $annuler  = Secur_Variable_Post($annuler,strlen($lib_Annuler),'S');
 $Horigine = Secur_Variable_Post($Horigine,100,'S');
@@ -35,9 +35,9 @@ if (($SiteGratuit) and (!$Premium)) Retour_Ar();
 // Retour sur demande d'annulation
 if ($bt_An) Retour_Ar();
 
-// $champ_table  : champ dans la table à charger
-// $champ_lib    : libellé du champ
-// $champ_classe : clase du champ : (C)aractère, (N)umérique, (D)ate
+// $champ_table  : champ dans la table Ã  charger
+// $champ_lib    : libellÃ© du champ
+// $champ_classe : clase du champ : (C)aractÃ¨re, (N)umÃ©rique, (D)ate
 $champ_table[]  = 'Titre';
 $champ_lib[]    = $LG_ICSV_Event_Title;
 $champ_classe[] = 'C';
@@ -64,7 +64,7 @@ include('Commun_Import_CSV.php');
 
 //Demande de chargement
 if ($ok=='OK') {
-	// Sécurisation des variables postées - phase 2
+	// SÃ©curisation des variables postÃ©es - phase 2
 	$nom_du_fichier = Secur_Variable_Post($nom_du_fichier,100,'S');
 	$val_statut     = Secur_Variable_Post($val_statut,1,'S');
 	$entete         = Secur_Variable_Post($entete,1,'S');
@@ -74,7 +74,7 @@ if ($ok=='OK') {
 	if ($idZoneF == -1) $idZoneF = 0;
 		
 	// Pas de limite de temps en local
-	// Sur le net, limite fixée à la valeur paramétrée ; plus importante sur les sites Premium
+	// Sur le net, limite fixÃ©e Ã  la valeur paramÃ©trÃ©e ; plus importante sur les sites Premium
 	if ($Environnement == 'L') {
 		set_time_limit(0);
 	}
@@ -92,7 +92,7 @@ if ($ok=='OK') {
 	}
 	echo my_html($LG_Default_Status.' : '.$status).'<br />';
 
-	//Restitution du type d'évènement
+	//Restitution du type d'Ã©vÃ¨nement
 	$requete  = 'select Libelle_Type from ' . $n_types_evenement . " where Code_Type = '".$type_evt. "' limit 1";
 	$result = lect_sql($requete);
 	$enreg = $result->fetch(PDO::FETCH_NUM);
@@ -112,27 +112,27 @@ if ($ok=='OK') {
     $tmp_file = $_FILES['nom_du_fichier']['tmp_name'];
     $nom_du_fichier = $_FILES['nom_du_fichier']['name'];
 
-    // Une demande de chargement a été faite
+    // Une demande de chargement a Ã©tÃ© faite
 	if ($nom_du_fichier != '') {
 		
 		$erreur = ctrl_fichier_ko();
 
 		if (!$erreur) {
-			// Seuls sont autorisés les fichiers csv
+			// Seuls sont autorisÃ©s les fichiers csv
 			if (Extension_Fic($nom_du_fichier) != 'csv') {
 				aff_erreur(LG_IMP_CSV_ERR_TYPE);
 				$erreur = true;
 			}
 		}
 
-		// On peut télécharger s'il n'y a pas d'erreur
+		// On peut tÃ©lÃ©charger s'il n'y a pas d'erreur
 		if (!$erreur) {
 
 			$path = $chemin_exports.$nom_du_fichier;
 			move_uploaded_file($tmp_file, $path);
 			
 			// Traitement du fichier
-			ini_set('auto_detect_line_endings',TRUE);
+			// ini_set('auto_detect_line_endings',TRUE);
 			$mode = 'r';
 			
 			if ($fp=fopen($path,$mode)) {
@@ -175,7 +175,7 @@ if ($ok=='OK') {
 }
 
 if ($est_gestionnaire) {
-	// Première entrée : affichage pour saisie
+	// PremiÃ¨re entrÃ©e : affichage pour saisie
 	if (($ok=='') && ($annuler=='')) {
 
 		include('jscripts/Edition_Evenement.js');
@@ -197,12 +197,16 @@ if ($est_gestionnaire) {
 		
 		ligne_vide_tab_form(1);
 		colonne_titre_tab($LG_ICSV_Event_Where);
-		// Niveau de la zone géographique associée
-		echo '<input type="radio" name="idNiveauF" value="0" checked="checked" onclick="bascule_image(\'img_zone\')"/> Pas de lieu '."\n";
+		// Niveau de la zone gÃ©ographique associÃ©e
+		$name_radio = 'idNiveauF';
+		echo '<input type="radio" name="'.$name_radio.'" id="'.$name_radio.'_0" value="0" checked="checked" onclick="cache_image_zone()"/><label for="'.$name_radio.'_0">'
+			.LG_EVENT_NOPLACE.'</label>&nbsp;'."\n";	
 		$req = 'select * from '.nom_table('niveaux_zones');
 		$result = lect_sql($req);
 		while ($enr_zone = $result->fetch(PDO::FETCH_ASSOC)) {
-			echo '<input type="radio" name="idNiveauF" value="'.$enr_zone['Identifiant_Niveau'].'" onclick="bascule_image(\'img_zone\')"/>'.my_html($enr_zone['Libelle_Niveau']).'&nbsp;'."\n";
+			$id_niveau = $enr_zone['Identifiant_Niveau'];
+			$id = $name_radio.'_'.$id_niveau;
+			echo '<input type="radio" name="idNiveauF" id="'.$id.'" value="'.$id_niveau.'" onclick="bascule_image(\'img_zone\')"/><label for="'.$id.'">'.$enr_zone['Libelle_Niveau'].'</label>&nbsp;'."\n";
 		}
 		echo '<input type="text" readonly="readonly" name="zoneAff" value=""/>'."\n";
 		echo '<img id="img_zone" style="display:none; visibility:hidden;" src="' . $chemin_images . $Icones['localisation'].'"  alt="'.$LG_Place_Select.'" title="'.$LG_Place_Select.'"'.
@@ -214,7 +218,7 @@ if ($est_gestionnaire) {
 		$result = lect_sql($req);
 		if ($result->rowCount() > 0) {
 			echo '<select name="type_evt">'."\n";
-			echo '<option value="-">'.my_html(LG_IMP_CSV_LINKS_SEL_TYPE).'</option>'."\n";
+			echo '<option value="-">'.LG_IMP_CSV_LINKS_SEL_TYPE.'</option>'."\n";
 			while ($enrT = $result->fetch(PDO::FETCH_NUM)) {
 				echo '<option value="'.$enrT[0] .'">'.my_html($enrT[1]).'</option>'."\n";
 			}

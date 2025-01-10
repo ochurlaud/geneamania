@@ -55,11 +55,9 @@ if ($nb_enr > 0) {
 	$nb_champs = count($champs);
 
 	// Ouverture du fichier et écriture de l'entête
-	$gz = false;
-	$_fputs = ($gz) ? @gzputs : @fputs;
 	$nom_fic = $chemin_exports.'export_liens';
 	$nom_fic .= '.csv';
-	$fp=fopen($nom_fic,'w+');
+	$fp = ouvre_fic($nom_fic,'w+');
 	if ($fp) {
 		
 		ecrire($fp,LG_LINKS_EXTRACT_HEADER);		//Type de lien;Description;URL

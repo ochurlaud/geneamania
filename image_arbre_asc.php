@@ -67,6 +67,8 @@ function justifie($img,$font,$taille,$x,$y,$largeur,$text,$color,$align='centre'
 		case 'droite' : $x = $x + $largeur - $largeur_texte; break;
 		case 'centre' : $x = ($x+($largeur/2)) - ($largeur_texte/2); break;
 	}
+	$x = round($x);
+	$y = round($y);
 	if ($debug) {
 		ecrire($f_log,$taille);
 	}

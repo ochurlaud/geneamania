@@ -3,7 +3,6 @@
 // Gestion des rangs d'une union
 // (c) JLS
 // + G Kester : adaptations
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -117,7 +116,7 @@ if (($ok=='') && ($annuler=='')) {
 	// Récupération des enfants avec le conjoint
 	echo '<table align="center" width="90%">';
 	echo '<tr class="rupt_table">';
-	echo '<th width="25%">'.$LG_Rank_First_Name.'</th>';
+	echo '<th width="25%">'.LG_FIRST_NAME.'</th>';
 	echo '<th width="15%">'.$LG_Rank_Born.'</th>';
 	echo '<th width="15%">'.$LG_Rank_Dead.'</th>';
 	echo '<th width="15%">'.$LG_Rank_Calc_Duration.'</th>';

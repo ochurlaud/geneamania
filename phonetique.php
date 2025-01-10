@@ -28,6 +28,7 @@ class phonetique
 	//
 	private $trouve;
 	//
+	private $indesirables;
 	public function __construct()
 	{
 		//	Tableaux de correspondaces lettres => sons

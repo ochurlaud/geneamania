@@ -126,6 +126,18 @@ function SHA256(s){
     return binb2hex(core_sha256(str2binb(s), s.length * chrsz));
 
 }
+
+// Change the type of input to password or text
+function Toggle() {
+	var temp = document.getElementById("LeMot");
+	if (temp.type === "password") {
+		temp.type = "text";
+	}
+	else {
+		temp.type = "password";
+	}
+}
+
 //
 // -------------------------------------------------------------------------------------
 //	Ajout de Gérard KESTER

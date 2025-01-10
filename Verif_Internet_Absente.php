@@ -56,36 +56,36 @@ if ($ok == $lib_Rectifier) {
 
 	$plu1 = pluriel($dem_mod);
 	$plu2 = pluriel($nb_mod);
-	echo '<br />'.$dem_mod.' '.my_html(LG_CHK_INTERNET_RESULT_1.' ; '.$nb_mod.' '.LG_CHK_INTERNET_RESULT_2).'<br />';
+	echo '<br>'.$dem_mod.' '.my_html(LG_CHK_INTERNET_RESULT_1.' ; '.$nb_mod.' '.LG_CHK_INTERNET_RESULT_2).'<br>';
 }
 
-  // ===== Lecture de la base
-  if ((isset($limite)) and ($limite != '')) {
-  	if (! is_numeric($limite)) $limite = $Lim_Diffu;
-  	$Lim_Diffu = $limite;
-  }
-  $A = date('Y')-$Lim_Diffu;
-  $M = date('m');
-  $J = date('d');
-  $xA = str_pad($A, 4, '0', STR_PAD_LEFT);
-  $xM = str_pad($M, 2, '0', STR_PAD_LEFT);
-  $xJ = str_pad($J, 2, '0', STR_PAD_LEFT);
-  $Date = $xA.$xM.$xJ;
+// ===== Lecture de la base
+if ((isset($limite)) and ($limite != '')) {
+if (! is_numeric($limite)) $limite = $Lim_Diffu;
+$Lim_Diffu = $limite;
+}
+$A = date('Y')-$Lim_Diffu;
+$M = date('m');
+$J = date('d');
+$xA = str_pad($A, 4, '0', STR_PAD_LEFT);
+$xM = str_pad($M, 2, '0', STR_PAD_LEFT);
+$xJ = str_pad($J, 2, '0', STR_PAD_LEFT);
+$Date = $xA.$xM.$xJ;
 
-  $A = $A - 130 ;
-  $xA = str_pad($A, 4, '0', STR_PAD_LEFT);
-  $Date2 = $xA.$xM.$xJ;
+$A = $A - 130 ;
+$xA = str_pad($A, 4, '0', STR_PAD_LEFT);
+$Date2 = $xA.$xM.$xJ;
 
-  // Personnes dont la diffusabilité internet devrait être positionnée
-  // Les personnes décédées avant la borne ou celles nées avant la borne - 130 ans
+// Personnes dont la diffusabilité internet devrait être positionnée
+// Les personnes décédées avant la borne ou celles nées avant la borne - 130 ans
 
-  $sql='SELECT Reference, Nom, Prenoms, Diff_Internet, Ne_Le, Decede_Le '.
-       ' FROM '.nom_table('personnes').' WHERE Reference <> 0 and Diff_Internet = \'N\' '.
-       ' and ((Ne_Le <= \''.$Date2.'\' and Ne_Le not like\'%A\' AND Ne_le <> \'\') '.
-       ' or (Decede_Le <= \''.$Date.'\' and Decede_Le not like\'%A\' AND Decede_le <> \'\')) '.
-       ' ORDER BY Nom , Prenoms';
-  $res = lect_sql($sql);
-  $nbPers = $res->rowCount();
+$sql = 'SELECT Reference, Nom, Prenoms, Diff_Internet, Ne_Le, Decede_Le '.
+		' FROM '.nom_table('personnes').' WHERE Reference <> 0 and Diff_Internet = \'N\' '.
+		' and ((Ne_Le <= \''.$Date2.'\' and Ne_Le not like\'%A\' AND Ne_le <> \'\') '.
+		' or (Decede_Le <= \''.$Date.'\' and Decede_Le not like\'%A\' AND Decede_le <> \'\')) '.
+		' ORDER BY Nom , Prenoms';
+$res = lect_sql($sql);
+$nbPers = $res->rowCount();
 
 $echo_modif = Affiche_Icone('fiche_edition',my_html($LG_modify)).'</a>';
 echo '<form action="'.my_self().'" id="saisie" method="post">';
@@ -94,13 +94,11 @@ bt_ok_an_sup($lib_Rectifier,$lib_Annuler,'','',false);
 
 $pluriel = pluriel($nbPers);
 
-$Lim_Diffu_Dec = $Lim_Diffu + 130;
-
-echo '<br />'.$nbPers.my_html(LG_CHK_INTERNET_ABS_1.' '.$Lim_Diffu.LG_CHK_INTERNET_ABS_2.' '.$Lim_Diffu_Dec.LG_CHK_INTERNET_ABS_3);
-echo '&nbsp;'.my_html(LG_CHK_INTERNET_ABS_CHG_LIMIT).LG_SEMIC.'<input type="text" size="3" name="limite" value="'.$Lim_Diffu.'"/>&nbsp;ans'."\n";
-echo '<input type="submit" name="re" value="'.my_html($LG_Check_Again).'"/>'."\n";
-echo '<br /><a href="Verif_Internet.php">'.my_html($LG_Menu_Title['Internet_Cheking']).'</a>';
-echo '<br /><br />';
+echo '<br>'.$nbPers.LG_CHK_INTERNET_ABS_1.' '.$Lim_Diffu.' '.LG_CHK_INTERNET_ABS_2.' '.$Lim_Diffu_Dec.' '.LG_CHK_INTERNET_ABS_3;
+echo '&nbsp;'.LG_CHK_INTERNET_ABS_CHG_LIMIT.LG_SEMIC.'<input type="text" size="3" name="limite" value="'.$Lim_Diffu.'"/>&nbsp;ans'."\n";
+echo '<input type="submit" name="re" value="'.$LG_Check_Again.'"/>'."\n";
+echo '<br><br><a href="Verif_Internet.php">'.$LG_Menu_Title['Internet_Cheking'].'</a>';
+echo '<br><br>';
 
 if ($nbPers > 0) {
 	echo '<table border="0" class="classic" cellspacing="1" cellpadding="3" align="center">'."\n";
@@ -138,7 +136,7 @@ if ($nbPers > 0) {
 
 	echo '</table>'."\n";
 	echo Affiche_Icone('tip',$LG_tip).' '.my_html(LG_CHK_INTERNET_ABS_TIP);
-	echo '<br />';
+	echo '<br>';
 }
 
 aff_origine();

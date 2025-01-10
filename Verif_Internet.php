@@ -52,7 +52,7 @@ if ($ok == $lib_Rectifier) {
 	if ($nb_mod) maj_date_site();
 	$plu1 = pluriel($dem_mod);
 	$plu2 = pluriel($nb_mod);
-	echo '<br />'.$dem_mod.' '.my_html(LG_CHK_INTERNET_RESULT_1.' ; '.$nb_mod.' '.LG_CHK_INTERNET_RESULT_2).'<br />';
+	echo '<br>'.$dem_mod.' '.my_html(LG_CHK_INTERNET_RESULT_1.' ; '.$nb_mod.' '.LG_CHK_INTERNET_RESULT_2).'<br>';
 }
 
 // ===== Lecture de la base
@@ -82,11 +82,11 @@ $nbPers = $res->rowCount();
 	bt_ok_an_sup($lib_Rectifier,$lib_Annuler,'','',false);
 
 	$plu = pluriel($nbPers);
-	echo $nbPers.my_html(LG_CHK_INTERNET_PRES_1.' '.$Lim_Diffu.' '.LG_CHK_INTERNET_PRES_2).LG_SEMIC
-		.'<input type="text" size="3" name="limite" value="'.$Lim_Diffu.'"/>&nbsp;'.my_html(LG_CHK_INTERNET_YEARS)."\n";
-	echo '<input type="submit" name="re" value="'.my_html($LG_Check_Again).'"/>'."\n";
-	echo '<br /><br /><a href="Verif_Internet_Absente.php">'.my_html($LG_Menu_Title['Internet_Hidding_Cheking']).'</a>';
-	echo '<br /><br />';
+	echo '<br>'.$nbPers.LG_CHK_INTERNET_PRES_1.' '.$Lim_Diffu.' '.LG_CHK_INTERNET_PRES_2.LG_SEMIC
+		.'<input type="text" size="3" name="limite" value="'.$Lim_Diffu.'"/>&nbsp;'.LG_CHK_INTERNET_YEARS."\n";
+	echo '<input type="submit" name="re" value="'.$LG_Check_Again.'"/>'."\n";
+	echo '<br><br><a href="Verif_Internet_Absente.php">'.$LG_Menu_Title['Internet_Hidding_Cheking'].'</a>';
+	echo '<br><br>';
 
 	echo '<table border="0" class="classic" cellspacing="1" cellpadding="3" align="center">'."\n";
 	echo '<tr class="rupt_table">';
@@ -123,7 +123,7 @@ $nbPers = $res->rowCount();
 	echo '</table>'."\n";
 	echo Affiche_Icone('tip',$LG_tip).' '.my_html(LG_CHK_INTERNET_TIP);
 
-	echo '<br />';
+	echo '<br>';
 	aff_origine();
 	bt_ok_an_sup($lib_Rectifier,$lib_Annuler,'','',false,true);
 	echo '</form>';

@@ -65,7 +65,7 @@ function Stocke_Personne($Personne) {
 function Affiche_Personne2($Personne) {
 	global $Vil_Prec,$Ville,$texte,$lieux
 		,$est_privilegie
-		,$LG_Data_noavailable_profile, $h_LG_AT
+		,$LG_Data_noavailable_profile, $LG_at
 		,$sortie;
 	if (($est_privilegie) or ($Personne['Diff_Internet'] == 'O')) {
 		if (! $texte) {
@@ -85,7 +85,7 @@ function Affiche_Personne2($Personne) {
 					$Ville = lib_ville($Vil_Cour);
 					$Vil_Prec = $Vil_Cour;
 				}
-				HTML_ou_PDF($h_LG_AT.' '.$Ville, $sortie);
+				HTML_ou_PDF($LG_at.' '.$Ville, $sortie);
 				if (!$texte) appelle_carte_osm();
 			}
 			HTML_ou_PDF('<br />'."\n", $sortie);
@@ -100,7 +100,7 @@ function Affiche_Personne2($Personne) {
 					$Ville = lib_ville($Vil_Cour);
 					$Vil_Prec = $Vil_Cour;
 				}
-				HTML_ou_PDF(my_html(LG_AT).' '.$Ville, $sortie);
+				HTML_ou_PDF($LG_at.' '.$Ville, $sortie);
 				if (!$texte) appelle_carte_osm();
 			}
 			HTML_ou_PDF('<br />'."\n", $sortie);
@@ -161,6 +161,7 @@ else {
 		require('html2pdfb.php');
 		$sortie = 'P';
 		$pdf = new PDF_HTML();
+		PDF_AddPolice($pdf);
 		$pdf->SetFont($font_pdf,'',12);
 		$pdf->AddPage();
 		$pdf->SetFont($font_pdf,'B',14);
@@ -302,14 +303,11 @@ if   ($decujus = get_decujus()) {
 	
 	$h_LG_PATRO_FILIATION = my_html(LG_PATRO_FILIATION);
 	$h_LG_show_noshow  = my_html($LG_show_noshow);
-	$h_LG_AT = my_html(LG_AT);
 	$h_LG_PATRO_THEN = my_html(LG_PATRO_THEN);
 
 	while (($i < $Num_Pers) and (!$fin))  {
 		$Ligne = $Liste_Pers[$i];
 		$ar_ligne = explode('/',$Ligne);
-		//$P1 = strpos($Ligne,'/');
-		//$Nouv_Nom = substr($Ligne,0,$P1);
 		$Nouv_Nom = $ar_ligne[0];
 		if ($Anc_Nom != $Nouv_Nom) {
 			if ($limiter) {
@@ -334,9 +332,12 @@ if   ($decujus = get_decujus()) {
 				HTML_ou_PDF('<tr align="center">', $sortie);
 				if ($texte) HTML_ou_PDF('<th>', $sortie);
 				else echo '<td class="rupt_table">';
-				HTML_ou_PDF('<b>'.$h_LG_PATRO_FILIATION.' ', $sortie);
+				if ($texte) {
+					if ($pdf) $pdf->Cell(0, 5, $h_LG_PATRO_FILIATION.' '.$Nouv_Nom, 'B' , 1, 'C');
+					else 
+					HTML_ou_PDF('<b>'.$h_LG_PATRO_FILIATION.' '.$Nouv_Nom, $sortie);
+				}
 				if (!$texte) echo $deb_lien_nom.$ar_ligne[3].'&amp;Nom='.$Nouv_Nom.'">'.$Nouv_Nom.'</a>';
-				if ($texte) HTML_ou_PDF($Nouv_Nom, $sortie);
 				HTML_ou_PDF('</b>', $sortie);
 				// Affichage de l'oeil pour afficher / masquer un patronyme
 				if (! $texte) oeil_div_simple('ajout'.$num_div,'ajout'.$i,$h_LG_show_noshow,'div'.$num_div);
@@ -408,7 +409,7 @@ if   ($decujus = get_decujus()) {
 								$Ville = lib_ville($Vil_Cour);
 								$Vil_Prec = $Vil_Cour;
 							}
-							$Aff_Union = $Aff_Union . ' ' ; $h_LG_AT .' '.$Ville;
+							$Aff_Union = $Aff_Union . ' ' . $LG_at .' '.$Ville;
 						}
 					}
 				}

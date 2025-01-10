@@ -117,11 +117,9 @@ if (!$CSV) {
 	if ($num_lig > 1) echo '</table>';
 } else {
 	// Sortie CSV
-    if ($CSV) {
-    	$gz = false;
-    	$_fputs = ($gz) ? @gzputs : @fputs;
-    	$nom_fic = $chemin_exports.'liste_connexions.csv';
-    	$fp=fopen($nom_fic,'w+');
+	if ($CSV) {
+		$nom_fic = $chemin_exports.'liste_connexions.csv';
+		$fp = ouvre_fic($nom_fic,'w+');
 		
 		// Ecriture entête
 		$ligne = '';

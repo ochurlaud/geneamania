@@ -155,7 +155,7 @@ if ($Depart != -1) {
 	// Fermeture éventuelle du fichier d'export GenWeb
 	if ($exp_file) {
 		fclose($fp);
-		echo '<br /><br />'.my_html(LG_GENWEB_MSG).' <a href="'.$nom_fic.'">'.$nom_fic.'</a><br>'."\n";
+		echo '<br /><br />'.my_html(LG_GENWEB_MSG).' <a href="'.$nom_fic.'" target="_blank">'.$nom_fic.'</a><br>'."\n";
 	}
 }
 

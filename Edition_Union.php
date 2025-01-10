@@ -350,18 +350,18 @@ function Aff_Union($enreg2,$Ref_Union,$Decalage) {
 
 		// Ajout rapide d'enfants avec création
 		echo '<br />'."\n";
-		echo '<hr/>'.my_html(LG_UNION_CHILDREN_QUICK);
-		echo '<br />'.my_html(LG_UNION_CHILDREN_DEF_NAME).LG_SEMIC."\n";
+		echo '<hr/>'.LG_UNION_CHILDREN_QUICK;
+		echo '<br />'.LG_UNION_CHILDREN_DEF_NAME.LG_SEMIC."\n";
 
 		echo '<input type="radio" name="Nom_Defaut" value="'.$nom_pere.'" checked="checked"/>'.$nom_pere.'&nbsp;';
 		echo '<input type="radio" name="Nom_Defaut" value="'.$nom_mere.'"/>'.$nom_mere.'&nbsp;'."\n";
 
 		echo '<table border="0" id="tblSampleE" width="100%">'."\n";
 		echo '<tr align="center">'."\n";
-		echo '<td class="rupt_table">'.my_html(LG_UNION_FIRST_NAME).'</td>';
-		echo '<td class="rupt_table">'.my_html($LG_birth).'</td>';
-		echo '<td class="rupt_table">'.my_html($LG_death).'</td>';
-		echo '<td class="rupt_table">'.my_html(LG_SEXE).'</td>'."\n";
+		echo '<td class="rupt_table">'.LG_FIRST_NAME.'</td>';
+		echo '<td class="rupt_table">'.$LG_birth.'</td>';
+		echo '<td class="rupt_table">'.$LG_death.'</td>';
+		echo '<td class="rupt_table">'.LG_SEXE.'</td>'."\n";
 		echo '</tr>'."\n";
 
 		for ($nb = 1; $nb <= $max_enf_rapides; $nb++) {

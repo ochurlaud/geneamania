@@ -364,7 +364,7 @@ function rech_zone($tableau_lib,$tableau_ref,$posi,$table,$nom_zone,$niveau) {
 // Le lieu est constitué d'une liste de valeur séparées par des ,
 function traite_lieu($str) {
   global
-	$debug,
+	$debug, $maj_oui, 
 	$nb_enr,
 	$ref_villes, $ref_departements,$ref_regions,$ref_pays,
 	$id_ville, $id_depart, $id_region,
@@ -385,125 +385,131 @@ function traite_lieu($str) {
   $creation_depart = false;
   $creation_region = false;
   // On ne peut traiter que si la ville fait partie du format, vu que l'on ne peut rattacher à autre chose
-  if ($p_ville != -1) {
+  if ($maj_oui == 'on') {
+	  if ($p_ville != -1) {
 
-  	if ($debug) echo 'Lieu à traiter : '.$str.'<br>';
-	$ex_lieu = substr($str,6);
-	if ($debug) echo 'Lieu à traiter, extr : '.$ex_lieu.'<br>';
-	$lieu_arr = explode(',',$ex_lieu);
-	$c_lieux = count($lieu_arr);
+		if ($debug) echo 'Lieu à traiter : '.$str.'<br>';
+		$ex_lieu = substr($str,6);
+		if ($debug) echo 'Lieu à traiter, extr : '.$ex_lieu.'<br>';
+		$lieu_arr = explode(',',$ex_lieu);
+		$c_lieux = count($lieu_arr);
 
-	// Incohérence du nombre de zones par rapport à l'attendu
-	if ($c_lieux != $nb_format_lieux) {
-		Affiche_Warning('La ligne ('.$nb_enr.') '.$str.' ne comporte pas le nombre de zones pr&eacute;vues pour les zones g&eacute;ographiques');
-	}
+		// Incohérence du nombre de zones par rapport à l'attendu
+		if ($c_lieux != $nb_format_lieux) {
+			Affiche_Warning('La ligne ('.$nb_enr.') '.$str.' ne comporte pas le nombre de zones pr&eacute;vues pour les zones g&eacute;ographiques');
+		}
 
-	$ident_base_ville = 0;
-	$ident_base_depart = 0;
-	$ident_base_region = 0;
-	$ident_base_pays = 0;
-	$zone_ville = '';
-	$zone_depart = '';
-	$zone_region = '';
-	$zone_pays = '';
-	$code_postal = 'null';
+		$ident_base_ville = 0;
+		$ident_base_depart = 0;
+		$ident_base_region = 0;
+		$ident_base_pays = 0;
+		$zone_ville = '';
+		$zone_depart = '';
+		$zone_region = '';
+		$zone_pays = '';
+		$code_postal = 'null';
 
-	$lg_cp = 0;
-	$err_cp = false;
+		$lg_cp = 0;
+		$err_cp = false;
 
-	if ($c_lieux > 0) {
-		// La ville existe-t-elle en base ou a-t-elle déjà été analysée ? Si non, retour = -1
-		$ident_base_ville = rech_zone($lib_villes,$ref_villes,$p_ville,$n_villes,'Nom_Ville',4);
-		$zone_geo_ville = $ident_base_ville;
-		//echo 'ident_base_ville : '.$ident_base_ville.'<br>';
+		if ($c_lieux > 0) {
+			// La ville existe-t-elle en base ou a-t-elle déjà été analysée ? Si non, retour = -1
+			$ident_base_ville = rech_zone($lib_villes,$ref_villes,$p_ville,$n_villes,'Nom_Ville',4);
+			$zone_geo_ville = $ident_base_ville;
+			//echo 'ident_base_ville : '.$ident_base_ville.'<br>';
 
-		if (($Maj) and ($ident_base_ville == -1)) {
-			// On ne peut déterminer le code postal que si l'on a correspondance sur le nombre de zones géographiques
-			if (!($p_code_postal == -1) and ($p_code_postal < $c_lieux) and ($c_lieux == $nb_format_lieux)) {
-				$code_postal = trim($lieu_arr[$p_code_postal]);
-			}
-			if ($code_postal == '') {
-				$code_postal = 'null';
-			}
-			if ($code_postal != 'null') {
-				$lg_cp = strlen($code_postal);
-			}
-			// Contrôle de cohérence du code postal pour la France
-			if (($p_pays != -1) and ($p_pays <= $c_lieux)) {
-				if (strtoupper(trim($lieu_arr[$p_pays])) == 'FRANCE') {
-					if ($code_postal != 'null') {
-						if ((!is_numeric($code_postal)) or ($lg_cp <> 5)) {
-							Affiche_Warning('Attention, code postal incohérent ('.$code_postal.') sur la ligne ('.$nb_enr.') '.$str);
-							$code_postal = 'null';
-							$err_cp = true;
+			if (($Maj) and ($ident_base_ville == -1)) {
+				// On ne peut déterminer le code postal que si l'on a correspondance sur le nombre de zones géographiques
+				if (!($p_code_postal == -1) and ($p_code_postal < $c_lieux) and ($c_lieux == $nb_format_lieux)) {
+					$code_postal = trim($lieu_arr[$p_code_postal]);
+				}
+				if ($code_postal == '') {
+					$code_postal = 'null';
+				}
+				if ($code_postal != 'null') {
+					$lg_cp = strlen($code_postal);
+				}
+				// Contrôle de cohérence du code postal pour la France
+				if (($p_pays != -1) and ($p_pays <= $c_lieux)) {
+					if (strtoupper(trim($lieu_arr[$p_pays])) == 'FRANCE') {
+						if ($code_postal != 'null') {
+							if ((!is_numeric($code_postal)) or ($lg_cp <> 5)) {
+								Affiche_Warning('Attention, code postal incohérent ('.$code_postal.') sur la ligne ('.$nb_enr.') '.$str);
+								$code_postal = 'null';
+								$err_cp = true;
+							}
 						}
 					}
 				}
 			}
-		}
-		// Nb : le addslashes est dans la recherche
-		$zone_ville = $sZone;
-		// Si la ville doit être créée, doit-on créer les zones de niveau supérieur ?
-		if (!$err_cp) {
-			if (($ident_base_ville == -1) and ($c_lieux == $nb_format_lieux)) {
-				if (($p_depart != -1) and ($ident_base_ville == -1)) {
-					// On va chercher le département
-					$ident_base_depart = rech_zone($lib_departements,$ref_departements,$p_depart,$n_departements,'Nom_Depart_Min',3);
-					//echo 'ident_base_depart : '.$ident_base_depart.'<br>';
-					$zone_depart = $sZone;
-					// On va chercher la région
-					if (($p_region != -1) and ($ident_base_depart == -1)) {
-						$ident_base_region = rech_zone($lib_regions,$ref_regions,$p_region,$n_regions,'Nom_Region_Min',2);
-						//echo 'ident_base_region : '.$ident_base_region.'<br>';
-						$zone_region = $sZone;
-						// On va chercher le pays
-						if (($p_pays != -1) and ($ident_base_region == -1)) {
-							$ident_base_pays = rech_zone($lib_pays,$ref_pays,$p_pays,$n_pays,'Nom_Pays',1);
-							//if ($ident_base_pays == -1) $ident_base_pays = 0;
-							//echo 'ident_base_pays : '.$ident_base_pays.'<br>';
-							$zone_pays = $sZone;
+			// Nb : le addslashes est dans la recherche
+			$zone_ville = $sZone;
+			// Si la ville doit être créée, doit-on créer les zones de niveau supérieur ?
+			if (!$err_cp) {
+				if (($ident_base_ville == -1) and ($c_lieux == $nb_format_lieux)) {
+					if (($p_depart != -1) and ($ident_base_ville == -1)) {
+						// On va chercher le département
+						$ident_base_depart = rech_zone($lib_departements,$ref_departements,$p_depart,$n_departements,'Nom_Depart_Min',3);
+						//echo 'ident_base_depart : '.$ident_base_depart.'<br>';
+						$zone_depart = $sZone;
+						// On va chercher la région
+						if (($p_region != -1) and ($ident_base_depart == -1)) {
+							$ident_base_region = rech_zone($lib_regions,$ref_regions,$p_region,$n_regions,'Nom_Region_Min',2);
+							//echo 'ident_base_region : '.$ident_base_region.'<br>';
+							$zone_region = $sZone;
+							// On va chercher le pays
+							if (($p_pays != -1) and ($ident_base_region == -1)) {
+								$ident_base_pays = rech_zone($lib_pays,$ref_pays,$p_pays,$n_pays,'Nom_Pays',1);
+								//if ($ident_base_pays == -1) $ident_base_pays = 0;
+								//echo 'ident_base_pays : '.$ident_base_pays.'<br>';
+								$zone_pays = $sZone;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		// Création de la région
-		if (($Maj) and (! $err_cp) and ($ident_base_region == -1)) {
-			$ref_regions[] = ++$id_region;
-			$req = 'insert into '.$n_regions.' values('.
-					$id_region.','.$code_defaut_region.','.'\''.$zone_pays.'\',current_timestamp,current_timestamp'.$Ins_Statut_Z.$ident_base_pays.')';;
-			$res = maj_sql($req);
-			$ident_base_region = $id_region;
-		}
-
-		// Création du département
-		if (($Maj) and (! $err_cp) and ($ident_base_depart == -1)) {
-			$ref_departements[] = ++$id_depart;
-			$req = 'insert into '.$n_departements.' values('.
-					$id_depart.',\''.$code_defaut_depart.'\','.'\''.$zone_depart.'\',current_timestamp,current_timestamp'.$Ins_Statut_Z.$ident_base_region.')';
-			$res = maj_sql($req);
-			$ident_base_depart = $id_depart;
-		}
-
-		// Création de la ville en base
-		if (($Maj) and ($ident_base_ville == -1)) {
-			$ref_villes[] = ++$id_ville;
-			$zone_geo_ville = $id_ville;
-			$memo_ville = $id_ville;
-			if ($code_postal != 'null') {
-				if ($lg_cp > 10) {
-					Affiche_Warning('Attention, code postal tronqué ('.$code_postal.') sur la ligne ('.$nb_enr.') '.$str);
-					$code_postal = substr($code_postal,0,10);
-				}
+			// Création de la région
+			if (($Maj) and (! $err_cp) and ($ident_base_region == -1)) {
+				$ref_regions[] = ++$id_region;
+				$req = 'insert into '.$n_regions.' values('.
+						$id_region.','.$code_defaut_region.','.'\''.$zone_pays.'\',current_timestamp,current_timestamp'.$Ins_Statut_Z.$ident_base_pays.')';;
+				$res = maj_sql($req);
+				$ident_base_region = $id_region;
 			}
-			if ($code_postal != 'null') $code_postal = '\''.$code_postal.'\'';
+
+			// Création du département
+			if (($Maj) and (! $err_cp) and ($ident_base_depart == -1)) {
+				$ref_departements[] = ++$id_depart;
+				$req = 'insert into '.$n_departements.' values('.
+						$id_depart.',\''.$code_defaut_depart.'\','.'\''.$zone_depart.'\',current_timestamp,current_timestamp'.$Ins_Statut_Z.$ident_base_region.')';
+				$res = maj_sql($req);
+				$ident_base_depart = $id_depart;
+			}
+
 			// Création de la ville en base
-			$req = 'insert into '.$n_villes.
-					' values('.$id_ville.','.'\''.$zone_ville.'\','.$code_postal.',current_timestamp,current_timestamp'.$Ins_Statut_Z.$ident_base_depart.',null,null)';
-			$res = maj_sql($req);
-		}
+			if (($Maj) and ($ident_base_ville == -1)) {
+				$ref_villes[] = ++$id_ville;
+				$zone_geo_ville = $id_ville;
+				$memo_ville = $id_ville;
+				if ($code_postal != 'null') {
+					if ($lg_cp > 10) {
+						Affiche_Warning('Attention, code postal tronqué ('.$code_postal.') sur la ligne ('.$nb_enr.') '.$str);
+						$code_postal = substr($code_postal,0,10);
+					}
+				}
+				if ($code_postal != 'null') $code_postal = '\''.$code_postal.'\'';
+				// Création de la ville en base
+				$req = 'insert into '.$n_villes.
+						' values('.$id_ville.','.'\''.$zone_ville.'\','.$code_postal.',current_timestamp,current_timestamp'.$Ins_Statut_Z.$ident_base_depart.',null,null)';
+				$res = maj_sql($req);
+			}
+		  }
 	  }
+  }
+  // Lecture seule
+  else {
+	  $zone_geo_ville = $ex_lieu = substr($str,6);
   }
   return $zone_geo_ville;
 }
@@ -631,6 +637,12 @@ if ($ok=='OK') {
 	            suppression('lien source',$n_conc_source,'m','',false);
 	            suppression('lien doc',nom_table('concerne_doc'),'m','Type_Objet  in ("P","V","U")',false);
 	            suppression('lien objet',$n_concerne_objet,'m','Type_Objet  in ("P","V","U")',false);
+				
+				// RàZ des variables de session
+				if (isset($_SESSION['decujus'])) 
+					unset($_SESSION['decujus']);
+				if (isset($_SESSION['mem_pers'])) 
+					unset($_SESSION['mem_pers']);
           	}
           if ($Maj) {
 
@@ -1092,23 +1104,29 @@ if ($ok=='OK') {
                 if ($sous_section == 'DATE') {
                   $ss_DATE = 1;
                   $msg = 'Cr&eacute;ation du fichier : ';
-                  if (count($arr) == 5) {
+				  $c_arr_date = count($arr);
+                  if ($c_arr_date == 5) {
                     $msg .= trim($arr[2]).' ';
                     $x = array_search(strtoupper(trim($arr[3])),$Mois_Abr);
                     if ($x) $msg .= $Mois_Lib[$x].' ';
                     else    $msg .= 'mois inconnu ';
                     $msg .= trim($arr[4]).' ';
+					echo $msg.'<br>';
                   }
+				  
                   else {
-                    for ($nb=2;$nb<=count($arr);$nb++) {
-                      $msg .= trim($arr[$nb]).' ';
-                    }
+					if ($c_arr_date > 2) {
+						for ($nb=2; $nb <= $c_arr_date; $nb++) {
+							$msg .= trim($arr[$nb]).' ';
+						}
+						echo $msg.' - 2<br>';
+					}
                   }
                 }
-                if ($sous_section == 'GEDC') {
-                  $ss_GEDC = 1;
-                  $msg = '';
-                }
+				if ($sous_section == 'GEDC') {
+					$ss_GEDC = 1;
+					$msg = '';
+				}
 				// Codage des caractères
 				if ($sous_section == 'CHAR') {
 					$z2 = trim($arr[2]);
@@ -1554,7 +1572,7 @@ if ($ok=='OK') {
 		}
 		echo $tab.$nb_unions.' unions '.$action.'<br />';
 		echo $tab.$nb_filiations.' filiations '.$action.'<br />';
-		if ($maj_oui == 'on')
+		if (($maj_oui == 'on') and (isset($ref_villes))) 
 			echo $tab.count($ref_villes).' villes '.$action.'<br />';
         echo $tab.'Format des lieux pris en charge : '.my_html($lieux).'<br />';
 
@@ -1630,9 +1648,9 @@ if ($_SESSION['estGestionnaire']) {
 		echo '<input type="checkbox" name="diff_internet_img" checked="checked"/></td></tr>'."\n";
 
 		colonne_titre_tab(LG_IMP_GED_DEFAULT_STATUS);
-		echo '<input type="radio" name="val_statut" value="O" checked="checked"/>'.my_html(LG_CHECKED_RECORD_SHORT);
-		echo '<input type="radio" name="val_statut" value="N"/>'.my_html(LG_NOCHECKED_RECORD_SHORT);
-		echo '<input type="radio" name="val_statut" value="I"/>'.my_html(LG_FROM_INTERNET);
+		bouton_radio('val_statut', 'O', LG_CHECKED_RECORD_SHORT, true);
+		bouton_radio('val_statut', 'N', LG_NOCHECKED_RECORD_SHORT);
+		bouton_radio('val_statut', 'I', LG_FROM_INTERNET);
 		echo '</td></tr>'."\n";
 
 		colonne_titre_tab(LG_IMP_GED_IMPORT_DATES);

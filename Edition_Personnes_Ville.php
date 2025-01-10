@@ -127,7 +127,7 @@ if ($bt_OK) {
 if ((!$bt_OK) && (!$bt_An)) {
 
 	// Récupération de la liste des types
-	Recup_Types_Evt('U');
+	// Recup_Types_Evt('U');
 
 	$compl = Ajoute_Page_Info(600,150);
 	Insere_Haut(my_html($objet),$compl,'Edition_Personnes_Ville',$Type_Liste);
@@ -147,11 +147,11 @@ if ((!$bt_OK) && (!$bt_An)) {
 	// echo '&nbsp;: ';
 	// zone_date2('Ad_def', 'd_def', 'Cd_def', '');
 	echo '<tr align="center">'."\n";
-	echo '<td class="rupt_table">'.my_html(LG_PERS_NAME).'</td>';
-	echo '<td class="rupt_table">'.my_html(LG_PERS_FIRST_NAME).'</td>';
-	echo '<td class="rupt_table">'.my_html($LG_birth).'</td>';
-	if ($Type_Liste == 'D') echo '<td class="rupt_table">'.my_html($LG_death).'</td>';
-	echo '<td class="rupt_table">'.my_html(LG_SEXE).'</td>';
+	echo '<td class="rupt_table">'.LG_PERS_NAME.'</td>';
+	echo '<td class="rupt_table">'.LG_PERS_FIRST_NAME.'</td>';
+	echo '<td class="rupt_table">'.$LG_birth.'</td>';
+	if ($Type_Liste == 'D') echo '<td class="rupt_table">'.$LG_death.'</td>';
+	echo '<td class="rupt_table">'.LG_SEXE.'</td>';
 	echo '</tr>'."\n";
 
 	for ($nb = 1; $nb <= $max_personnes; $nb++) {
@@ -174,7 +174,8 @@ if ((!$bt_OK) && (!$bt_An)) {
 		echo '</td>'."\n";
 		if ($Type_Liste == 'D') {
 			echo '<td class="'.$style.'">';
-			zone_date('Decede_leP_'.$nb, 'CDecede_leP_'.$nb, 'imgCal_Dec_'.$nb, 'Calendrier_Pers_D('.$nb.')');
+			// zone_date('Decede_leP_'.$nb, 'CDecede_leP_'.$nb, 'imgCal_Dec_'.$nb, 'Calendrier_Pers_D('.$nb.')');
+			zone_date2('ADecede_leP_'.$nb, 'Decede_leP_'.$nb, 'CDecede_leP_'.$nb, '');
 			echo '</td>'."\n";
 		}
 		$nom = 'SexeP_'.$nb;
@@ -190,47 +191,8 @@ if ((!$bt_OK) && (!$bt_An)) {
 	echo '</table>';
 	
 	echo '</form>';
-	
 	Insere_Bas($compl);
 }
-
 ?>
-<script type="text/javascript">
-
-	<!--
-
-	function Calendrier_Pers_N(iteration) {
-		var defaut = document.getElementById('Cd_def').value;
-		if (defaut == '') x=Calendrier('CNe_leP_'+iteration,document.getElementById('CNe_leP_'+iteration).value,'Ne_leP_'+iteration);
-		else x=Calendrier('CNe_leP_'+iteration,defaut,'Ne_leP_'+iteration);
-	}
-
-	function Calendrier_Pers_D(iteration) {
-		var defaut = document.getElementById('Cd_def').value;
-		if (defaut == '') x=Calendrier('CDecede_leP_'+iteration,document.getElementById('CDecede_leP_'+iteration).value,'Decede_leP_'+iteration);
-		else x=Calendrier('CDecede_leP_'+iteration,defaut,'Decede_leP_'+iteration);
-		//triggerEvent(document.getElementById('CDecede_leP_'+iteration), 'onchange');
-	}
-	
-	// function controle(naissance,deces) {
-		// var d_naissance = document.getElementById('naissance').value;
-		// var d_deces = document.getElementById('deces').value;
-		// window.alert(d_naissance + '/' + d_deces);
-	// }
-	
-	// function test(deces) {
-		// var d_deces = document.getElementById('CDecede_leP_1').value;
-		// window.alert(d_deces);
-	// }
-	
-	//Here is a VERY basic generic trigger method
-	// function triggerEvent(el, type) {
-		// if ((el[type] || false) && typeof el[type] == 'function') {
-			// el[type](el);
-		// }
-	// }
- 
-	//-->
-</script>
 </body>
 </html>

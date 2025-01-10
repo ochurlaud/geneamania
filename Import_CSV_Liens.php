@@ -122,7 +122,7 @@ if ($ok == 'OK') {
 		move_uploaded_file($tmp_file, $path);
 
 	  	// Traitement du fichier
-		ini_set('auto_detect_line_endings',TRUE);
+		// ini_set('auto_detect_line_endings',TRUE);
         $mode = 'r';
 		
         if ($fp=fopen($path,$mode)) {

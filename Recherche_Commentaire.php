@@ -64,12 +64,10 @@ if ($est_gestionnaire) {
 
 		include_once('Commun_Rech_Com_Util_Docs.php');
 
-	    if ($Sortie == 'c') {
-	    	$gz = false;
-	    	$_fputs = ($gz) ? @gzputs : @fputs;
-	    	$nom_fic = $chemin_exports.'recherche_commentaires.csv';
-	    	$fp=fopen($nom_fic,'w+');
-	    }
+		if ($Sortie == 'c') {
+			$nom_fic = $chemin_exports.'recherche_commentaires.csv';
+			$fp = ouvre_fic($nom_fic,'w+');
+		}
 
 		if ($Restriction != '-')
 			echo LG_SCH_COMMENT_RESTRICTION.'&nbsp;:&nbsp;'.lib_pfu($Restriction).'<br />';

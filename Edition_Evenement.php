@@ -3,7 +3,6 @@
 // Gerard KESTER    Fevrier 2007
 // JLS              mai 2008 pour version > 2.2
 // Création et modification d'un evenement
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -115,7 +114,6 @@ if ($bt_Sup) {
 
 if ($bt_OK) {
 	// Vérification si création d'une zone géographique
-	var_dump ($idNiveauF);
 	switch ($idNiveauF) {
 		case 1 : $idZoneF = Ajoute_Pays($idZoneF); break ;
 		case 2 : $idZoneF = Ajoute_Region($idZoneF); break ;
@@ -137,7 +135,7 @@ if ($bt_OK) {
 
 	//  Mise a jour de la base
 	if ($refPar == -1) {
-		//    Creation
+		// Creation
 		Ins_Zone_Req($idZoneF , 'N' , $valeurs);
 		Ins_Zone_Req($idNiveauF , 'N' , $valeurs);
 		Ins_Zone_Req($codeTypeF , 'A' , $valeurs);
@@ -160,40 +158,37 @@ if ($bt_OK) {
 			insere_commentaire($connexion->lastInsertId(),$Type_Ref,$diversF,$diffNoteF);
 		}
 
-  	}
-  	else {
-    //    Modification
-    // S'il n'y a pas de changement de zone, il ne peut y avoir changement de niveau...
-    if (($idZoneF == $idZoneAnc) and ($idNiveauF != 0))
-      $idNiveauF = $idNiveauAnc;
-    Aj_Zone_Req('Identifiant_zone', $idZoneF , $idZoneAnc , 'N' , $valeurs);
-    Aj_Zone_Req('Identifiant_Niveau', $idNiveauF , $idNiveauAnc , 'N' , $valeurs);
-    Aj_Zone_Req('Code_Type' , $codeTypeF , $codeTypeAnc , 'A' , $valeurs);
-    Aj_Zone_Req('Titre' , $titreF , $titreAnc , 'A' , $valeurs);
-    Aj_Zone_Req('Debut' , $dDebCache , $dDebAnc , 'A' , $valeurs);
-    Aj_Zone_Req('Fin' , $dFinCache , $dFinAnc , 'A' , $valeurs);
-    Aj_Zone_Req('Statut_Fiche' , $Statut_Fiche , $AStatut_Fiche , 'A' , $valeurs);
-    if ($valeurs == '') $retourPreced = true;
-    else {
-      $requete  = 'UPDATE ' . nom_table('evenements')." SET $valeurs , Date_Modification=current_timestamp";
-      $requete .= " WHERE Reference = $refPar";
-      $result = maj_sql($requete);
-      if ($result == 1) {
-      	$retourPreced = true;
-      	$maj_site = true;
-      }
-    }
-    // Traitement des commentaires
+	}
+	else {
+		// Modification
+		Aj_Zone_Req('Identifiant_zone', $idZoneF , $idZoneAnc , 'N' , $valeurs);
+		Aj_Zone_Req('Identifiant_Niveau', $idNiveauF , $idNiveauAnc , 'N' , $valeurs);
+		Aj_Zone_Req('Code_Type' , $codeTypeF , $codeTypeAnc , 'A' , $valeurs);
+		Aj_Zone_Req('Titre' , $titreF , $titreAnc , 'A' , $valeurs);
+		Aj_Zone_Req('Debut' , $dDebCache , $dDebAnc , 'A' , $valeurs);
+		Aj_Zone_Req('Fin' , $dFinCache , $dFinAnc , 'A' , $valeurs);
+		Aj_Zone_Req('Statut_Fiche' , $Statut_Fiche , $AStatut_Fiche , 'A' , $valeurs);
+		if ($valeurs == '') $retourPreced = true;
+		else {
+			$requete  = 'UPDATE ' . nom_table('evenements')." SET $valeurs , Date_Modification=current_timestamp";
+			$requete .= " WHERE Reference = $refPar";
+			$result = maj_sql($requete);
+			if ($result == 1) {
+				$retourPreced = true;
+				$maj_site = true;
+			}
+		}
+	// Traitement des commentaires
 	maj_commentaire($refPar,$Type_Ref,$diversF,$diversAnc,$diffNoteF,$diffNoteAnc);
 
-  }
-  	// Exécution de la requête sur les commentaires
-    if ($req_comment != '') {
-    	$res = maj_sql($req_comment);
-    	$maj_site = true;
-    }
+	}
+	// Exécution de la requête sur les commentaires
+	if ($req_comment != '') {
+		$res = maj_sql($req_comment);
+		$maj_site = true;
+	}
 
-    if ($maj_site) maj_date_site();
+	if ($maj_site) maj_date_site();
 
 }
 
@@ -389,7 +384,7 @@ else {
 				echo '<optgroup label="'.lib_pfu($objetCibleAff,false).'">';
 			}
 			//  affichage d'un type d'evenement
-			echo "<option value='" . $enreg['Code_Type'] . "'";
+			echo "<option value='" . $enregT['Code_Type'] . "'";
 			if ($enregT['Code_Type'] == $codeTypeLu) {
 				echo ' selected="selected"';
 				$objetCibleAffC = $objetCibleAff;

@@ -130,9 +130,10 @@ function form_header() {
 	global $LG_csv_header;
 	ligne_vide_tab_form(1);
 	colonne_titre_tab($LG_csv_header);
-	echo '<input type="radio" name="entete" value="A" onclick="montre_div(\'corresp\');" checked="checked"/>'.my_html(LG_IMP_CSV_HEADER_NO).'&nbsp;';
-	echo '<input type="radio" name="entete" value="I" onclick="montre_div(\'corresp\');"/>'.my_html(LG_IMP_CSV_HEADER_YES_IGNORE).'&nbsp;';
-	echo '<input type="radio" name="entete" value="P" onclick="cache_div(\'corresp\');"/>'.my_html(LG_IMP_CSV_HEADER_YES_CONSIDER).'&nbsp;';
+	$deb_radio = '<input type="radio" name="entete" ';
+	echo $deb_radio.'id="entete_A" value="A" onclick="montre_div(\'corresp\');" checked="checked"/><label for="entete_A">'.LG_IMP_CSV_HEADER_NO.'</label>&nbsp;';
+	echo $deb_radio.'id="entete_I" value="I" onclick="montre_div(\'corresp\');"/><label for="entete_I">'.LG_IMP_CSV_HEADER_YES_IGNORE.'</label>&nbsp;';
+	echo $deb_radio.'id="entete_P" value="P" onclick="cache_div(\'corresp\');"/><label for="entete_P">'.LG_IMP_CSV_HEADER_YES_CONSIDER.'</label>';
 	echo '</td></tr>'."\n";
 }
 

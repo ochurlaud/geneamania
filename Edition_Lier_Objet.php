@@ -7,7 +7,6 @@
 // - refEvt : évènement (mettre -1 pour creer un lien depuis 1 fiche filiation ou union)
 // - refObjet : objet concerné (mettre -1 pour creer un lien depuis 1 fiche évènement)
 // - TypeObjet : type de l'objet concerné
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -124,7 +123,7 @@ if ((!$bt_OK) && (!$bt_An) && (!$bt_Sup)) {
 					$c2 = $enreg[1];
 					$x1 = Get_Nom_Prenoms($c1,$Nom1,$Prenoms1);
 					$x2 = Get_Nom_Prenoms($c2,$Nom2,$Prenoms2);
-					$lib_obj = 'union de ' . $Prenoms1 . ' ' . $Nom1 . ' et de ' . $Prenoms2 . ' ' . $Nom2;
+					$lib_obj = ' de ' . $Prenoms1 . ' ' . $Nom1 . ' et de ' . $Prenoms2 . ' ' . $Nom2;
 					// Libellé spécifique pour personne connue et évènement inconnu
 					if ($refEvt == -1) {
 						if ($x) echo my_html(LG_LINK_TO_UNION) . $lib_obj . "<br />\n";

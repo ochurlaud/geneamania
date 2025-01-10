@@ -41,7 +41,7 @@ $compl = Ajoute_Page_Info(600,150);
 
 Insere_Haut($objet,$compl,'Liste_Pers_Role','');
 
-$sqlR = "select * from roles where Code_Role = '".$c_Role."' limit 1";
+$sqlR = "select * from ".nom_table('roles')." where Code_Role = '$c_Role' limit 1";
 $resR = lect_sql($sqlR);
 $symetrie = '';
 if ($enregR = $resR->fetch(PDO::FETCH_ASSOC)) {

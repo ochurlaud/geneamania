@@ -116,8 +116,6 @@ if ($bt_OK) {
 // Première entrée : affichage pour saisie
 if ((!$bt_OK) && (!$bt_An) && (!$bt_Sup)) {
 
-	//include('jscripts/Edition_Type_Evenement.js');
-
 	$compl = Ajoute_Page_Info(600,150);
 	if (!$Creation)
 		$compl .= Affiche_Icone_Lien('href="Fiche_Type_Evenement.php?code=' .$Code .'"','page','Fiche type évènement') . '&nbsp;';
@@ -131,20 +129,22 @@ if ((!$bt_OK) && (!$bt_An) && (!$bt_Sup)) {
 		$sql = 'select * from '.$n_types_evenement.' where Code_Type = \''.$Code.'\' limit 1';
 		$res = lect_sql($sql);
 		$enreg = $res->fetch(PDO::FETCH_ASSOC);
-		$enreg2 = $enreg;
-		Champ_car($enreg2,'Libelle_Type');
-		$CodeF            = $enreg2['Code_Type'];
-		$LibelleF         = $enreg2['Libelle_Type'];
-		$Code_ModifiableF = $enreg2['Code_Modifiable'];
-		$Objet_CibleF     = $enreg2['Objet_Cible'];
-		$UniciteF         = $enreg2['Unicite'];
+		if ($enreg) {
+			$enreg2 = $enreg;
+			Champ_car($enreg2,'Libelle_Type');
+			$CodeF            = $enreg2['Code_Type'];
+			$LibelleF         = $enreg2['Libelle_Type'];
+			$Code_ModifiableF = $enreg2['Code_Modifiable'];
+			$Objet_CibleF     = $enreg2['Objet_Cible'];
+			$UniciteF         = $enreg2['Unicite'];
 
-		// Le type est-il utilisé ?
-		// Si oui, on ne pourra pas modifier le code
-		$sql = 'select 1 from '.nom_table('evenements').' where Code_Type = \''.$Code.'\' limit 1';
-		$res = lect_sql($sql);
-		$utilise = ($enreg = $res->fetch(PDO::FETCH_NUM));
-		$res->closeCursor();
+			// Le type est-il utilisé ?
+			// Si oui, on ne pourra pas modifier le code
+			$sql = 'select 1 from '.nom_table('evenements').' where Code_Type = \''.$Code.'\' limit 1';
+			$res = lect_sql($sql);
+			$utilise = ($enregU = $res->fetch(PDO::FETCH_NUM));
+			$res->closeCursor();
+		}
 	}
 	else {
 		$CodeF            = '';
@@ -153,70 +153,77 @@ if ((!$bt_OK) && (!$bt_An) && (!$bt_Sup)) {
 		$Objet_CibleF     = '';
 		$UniciteF         = 'M';
 	}
-
-	// Zone technique de la table non modifiable et non affichée
-	$ACode_ModifiableF = $Code_ModifiableF;
-	echo '<input type="'.$hidden.'" name="Code_ModifiableF" value="'.$Code_ModifiableF.'"/>'."\n";
-	echo '<input type="'.$hidden.'" name="ACode_ModifiableF" value="'.$Code_ModifiableF.'"/>'."\n";
-
-	$checked = ' checked="checked"';
-	$larg_titre = '25';
-
-	echo '<table width="80%" class="table_form">'."\n";
-	ligne_vide_tab_form(1);
-
-	colonne_titre_tab(LG_EVENT_TYPE_CODE);
-	// On ne peut modifier le code qu'en création ou s'il n'est pas utilisé
-	if (($Creation) or (! $utilise)) {
-		echo '<input class="oblig" type="text" name="CodeF" id="CodeF" value="'.$CodeF.'" size="4" maxlength="4" onchange="verification_code(this);"/>'."\n";
-		echo '&nbsp;';
-		Img_Zone_Oblig('imgObligCode');
-
-		// Liste des types existants
-		$codes = ' ';
-		$sql = 'select Code_Type from '.$n_types_evenement;
-		$res = lect_sql($sql);
-		while ($row = $res->fetch(PDO::FETCH_NUM)){
-			$codes .= $row[0].' ';
-		}
-		echo '<input type="'.$hidden.'" name="codes" value="'.$codes.'"/>'."\n";
+	
+	// Type d'évènement inconnu, supprimé entre temps, retour...
+	if ((!$Creation) and (!$enreg)) {
+		aff_erreur(LG_EVENT_TYPE_DELETED);
+		echo '<a href="Liste_Referentiel.php?Type_Liste=T">'.$LG_Menu_Title['Event_Type_List'].'</a>';
 	}
+	else {
 
-    else
-      echo $CodeF."\n";
-    echo '<input type="'.$hidden.'" name="ACodeF" value="'.$CodeF.'"/>'."\n";
-    echo '</td></tr>'."\n";
+		// Zone technique de la table non modifiable et non affichée
+		$ACode_ModifiableF = $Code_ModifiableF;
+		echo '<input type="'.$hidden.'" name="Code_ModifiableF" value="'.$Code_ModifiableF.'"/>'."\n";
+		echo '<input type="'.$hidden.'" name="ACode_ModifiableF" value="'.$Code_ModifiableF.'"/>'."\n";
 
-	colonne_titre_tab(LG_EVENT_TYPE_LABEL);
-	echo '<input type="text" name="LibelleF" value="'.$LibelleF.'" size="50"/>'."\n";
-	echo '<input type="'.$hidden.'" name="ALibelleF" value="'.$LibelleF.'"/>'."\n";
-	echo '</td></tr>'."\n";
+		$checked = ' checked="checked"';
+		$larg_titre = '25';
 
-	colonne_titre_tab(LG_TARGET_OBJECT);	
-	bouton_radio('Objet_CibleF', 'P', LG_TARGET_OBJECT_PERS, ($Objet_CibleF == 'P'));
-	bouton_radio('Objet_CibleF', 'U', LG_TARGET_OBJECT_UNION, ($Objet_CibleF == 'U'));
-	bouton_radio('Objet_CibleF', 'F', LG_TARGET_OBJECT_FILIATION, ($Objet_CibleF == 'F'));
-	bouton_radio('Objet_CibleF', '', LG_TARGET_OBJECT_OTHER, (($Objet_CibleF != 'U') && ($Objet_CibleF != 'F') && ($Objet_CibleF != 'P')));
-	echo '<input type="'.$hidden.'" name="AObjet_CibleF" value="'.$Objet_CibleF.'"/>'."\n";
-	echo '</td></tr>'."\n";
+		echo '<table width="80%" class="table_form">'."\n";
+		ligne_vide_tab_form(1);
 
-	colonne_titre_tab(LG_EVENT_TYPE_UNIQ);
-	bouton_radio('UniciteF', 'U', $LG_Yes, ($UniciteF == 'U'));
-	bouton_radio('UniciteF', 'M', $LG_No, ($UniciteF == 'M'));
-	echo '<input type="'.$hidden.'" name="AUniciteF" value="'.$UniciteF.'"/>'."\n";
-	echo '</td></tr>'."\n";
+		colonne_titre_tab(LG_EVENT_TYPE_CODE);
+		// On ne peut modifier le code qu'en création ou s'il n'est pas utilisé
+		if (($Creation) or (! $utilise)) {
+			echo '<input class="oblig" type="text" name="CodeF" id="CodeF" value="'.$CodeF.'" size="4" maxlength="4" onchange="verification_code(this);"/>'."\n";
+			echo '&nbsp;';
+			Img_Zone_Oblig('imgObligCode');
 
-	ligne_vide_tab_form(1);
-	// Bouton Supprimer en modification si pas d'utilisation du rôle
-	$lib_sup = '';
-	if ((!$Creation) and (!$utilise)) $lib_sup = $lib_Supprimer;
-	// bt_ok_an_sup($lib_Okay, $lib_Annuler, $lib_sup, 'ce type');
-	bt_ok_an_sup($lib_Okay, $lib_Annuler, $lib_sup, LG_EVENT_TYPE_THIS);
+			// Liste des types existants
+			$codes = ' ';
+			$sql = 'select Code_Type from '.$n_types_evenement;
+			$res = lect_sql($sql);
+			while ($row = $res->fetch(PDO::FETCH_NUM)){
+				$codes .= $row[0].' ';
+			}
+			echo '<input type="'.$hidden.'" name="codes" value="'.$codes.'"/>'."\n";
+		}
 
-    echo '</table>'."\n";
+		else
+		  echo $CodeF."\n";
+		echo '<input type="'.$hidden.'" name="ACodeF" value="'.$CodeF.'"/>'."\n";
+		echo '</td></tr>'."\n";
 
-    echo "</form>";
+		colonne_titre_tab(LG_EVENT_TYPE_LABEL);
+		echo '<input type="text" name="LibelleF" value="'.$LibelleF.'" size="50"/>'."\n";
+		echo '<input type="'.$hidden.'" name="ALibelleF" value="'.$LibelleF.'"/>'."\n";
+		echo '</td></tr>'."\n";
 
+		colonne_titre_tab(LG_TARGET_OBJECT);	
+		bouton_radio('Objet_CibleF', 'P', LG_TARGET_OBJECT_PERS, ($Objet_CibleF == 'P'));
+		bouton_radio('Objet_CibleF', 'U', LG_TARGET_OBJECT_UNION, ($Objet_CibleF == 'U'));
+		bouton_radio('Objet_CibleF', 'F', LG_TARGET_OBJECT_FILIATION, ($Objet_CibleF == 'F'));
+		bouton_radio('Objet_CibleF', '', LG_TARGET_OBJECT_OTHER, (($Objet_CibleF != 'U') && ($Objet_CibleF != 'F') && ($Objet_CibleF != 'P')));
+		echo '<input type="'.$hidden.'" name="AObjet_CibleF" value="'.$Objet_CibleF.'"/>'."\n";
+		echo '</td></tr>'."\n";
+
+		colonne_titre_tab(LG_EVENT_TYPE_UNIQ);
+		bouton_radio('UniciteF', 'U', $LG_Yes, ($UniciteF == 'U'));
+		bouton_radio('UniciteF', 'M', $LG_No, ($UniciteF == 'M'));
+		echo '<input type="'.$hidden.'" name="AUniciteF" value="'.$UniciteF.'"/>'."\n";
+		echo '</td></tr>'."\n";
+
+		ligne_vide_tab_form(1);
+		// Bouton Supprimer en modification si pas d'utilisation du rôle
+		$lib_sup = '';
+		if ((!$Creation) and (!$utilise)) $lib_sup = $lib_Supprimer;
+		bt_ok_an_sup($lib_Okay, $lib_Annuler, $lib_sup, LG_EVENT_TYPE_THIS);
+
+		echo '</table>'."\n";
+
+		echo "</form>";
+	}
+	
     Insere_Bas($compl);
 	
 	echo '<script type="text/javascript">'."\n";

@@ -4,7 +4,6 @@
 // (c) JL Servin
 // Paramètres :
 // - $Reference : référence de l'union
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -57,144 +56,148 @@ if ($res = lect_sql($sql)) {
 $larg_image = 1000;
 $haut_image = 600;
 
-	echo '<table border="0">';
-	echo '<tr>';
-	echo '<td><canvas id="canvas6" width="'.$larg_image.'" height="'.$haut_image.'" /></td>';
-	echo '</tr>';
-	echo '</table>';
+echo '<table border="0">';
+echo '<tr>';
+echo '<td><canvas id="canvas6" width="'.$larg_image.'" height="'.$haut_image.'" /></td>';
+echo '</tr>';
+echo '</table>';
 
-	$_SESSION['estPrivilegie'] = true;
+$_SESSION['estPrivilegie'] = true;
 
-	$Info_Pers_A = '';
-	$Info_Pere_A = '';
-	$Info_Mere_A = '';
-	$Info_Pere_Pere_A = '';
-	$Info_Mere_Pere_A = '';
-	$Info_Pere_Mere_A = '';
-	$Info_Mere_Mere_A = '';
+$Info_Pers_A = '';
+$Info_Pere_A = '';
+$Info_Mere_A = '';
+$Info_Pere_Pere_A = '';
+$Info_Mere_Pere_A = '';
+$Info_Pere_Mere_A = '';
+$Info_Mere_Mere_A = '';
 
-	$Info_Pers_B = '';
-	$Info_Pere_B = '';
-	$Info_Mere_B = '';
-	$Info_Pere_Pere_B = '';
-	$Info_Mere_Pere_B = '';
-	$Info_Pere_Mere_B = '';
-	$Info_Mere_Mere_B = '';
+$Info_Pers_B = '';
+$Info_Pere_B = '';
+$Info_Mere_B = '';
+$Info_Pere_Pere_B = '';
+$Info_Mere_Pere_B = '';
+$Info_Pere_Mere_B = '';
+$Info_Mere_Mere_B = '';
 
-	// $Ref_Pers = 3;
-	$Info_Pers_A = getDetail($Ref_Pers_A);	
-	$x = Get_Parents($Ref_Pers_A,$Pere,$Mere,$Rang);
-	if ($Pere != 0) {
-		$Info_Pere_A = getDetail($Pere);
-		$x = Get_Parents($Pere,$Pere,$Mere,$Rang);
-		if ($Pere != 0) {
-			$Info_Pere_Pere_A = getDetail($Pere);
-		}
-		if ($Mere != 0) {
-			$Info_Mere_Pere_A = getDetail($Mere);
-		}
+
+$Info_Pers_A = getDetail($Ref_Pers_A);
+$x = Get_Parents($Ref_Pers_A,$Pere_A,$Mere_A,$Rang);
+if ($Pere_A != 0) {
+	$Info_Pere_A = getDetail($Pere_A);
+	$x = Get_Parents($Pere_A,$Pere_Pere_A,$Mere_Pere_A,$Rang);
+	if ($Pere_Pere_A != 0) {
+		$Info_Pere_Pere_A = getDetail($Pere_Pere_A);
 	}
-	// echo $Info_Pere_Pere_A;
-	if ($Mere != 0) {
-		$Info_Mere_A = getDetail($Mere);
-		$x = Get_Parents($Mere,$Pere,$Mere,$Rang);
-		if ($Pere != 0) {
-			$Info_Pere_Mere_A = getDetail($Pere);
-		}
-		if ($Mere != 0) {
-			$Info_Mere_Mere_A = getDetail($Mere);
-		}
+	if ($Mere_Pere_A != 0) {
+		$Info_Mere_Pere_A = getDetail($Mere_Pere_A);
 	}
-	
-	$Info_Pers_B = getDetail($Ref_Pers_B);	
-	$x = Get_Parents($Ref_Pers_B,$Pere,$Mere,$Rang);
-	if ($Pere != 0) {
-		$Info_Pere_B = getDetail($Pere);
-		$x = Get_Parents($Pere,$Pere,$Mere,$Rang);
-		if ($Pere != 0) {
-			$Info_Pere_Pere_B = getDetail($Pere);
-		}
-		if ($Mere != 0) {
-			$Info_Mere_Pere_B = getDetail($Mere);
-		}
+}
+if ($Mere_A != 0) {
+	$Info_Mere_A = getDetail($Mere_A);
+	$x = Get_Parents($Mere_A,$Pere_Mere_A,$Mere_Mere_A,$Rang);
+	if ($Pere_Mere_A != 0) {
+		$Info_Pere_Mere_A = getDetail($Pere_Mere_A);
 	}
-	if ($Mere != 0) {
-		$Info_Mere_B = getDetail($Mere);
-		$x = Get_Parents($Mere,$Pere,$Mere,$Rang);
-		if ($Pere != 0) {
-			$Info_Pere_Mere_B = getDetail($Pere);
-		}
-		if ($Mere != 0) {
-			$Info_Mere_Mere_B = getDetail($Mere);
-		}
+	if ($Mere_Mere_A != 0) {
+		$Info_Mere_Mere_A = getDetail($Mere_Mere_A);
 	}
-	// echo $pers.'<br />';
-
-	echo '<script type="text/javascript" src="jscripts/arbre.js"></script>'."\n";
-	echo '<script type="text/javascript">'."\n";
-	echo '	var HautCase = 40;'."\n";
-	echo '	var LargCase = 200;'."\n";
-	echo "  var Info_Pers_A = '".$Info_Pers_A."';\n";
-	echo "  var Info_Pere_A = '".$Info_Pere_A."';\n";
-	echo "  var Info_Mere_A = '".$Info_Mere_A."';\n";
-	echo "  var Info_Pere_Pere_A = '".$Info_Pere_Pere_A."';\n";
-	echo "  var Info_Mere_Pere_A = '".$Info_Mere_Pere_A."';\n";
-	echo "  var Info_Pere_Mere_A = '".$Info_Pere_Mere_A."';\n";
-	echo "  var Info_Mere_Mere_A = '".$Info_Mere_Mere_A."';\n";
-	echo "  var Info_Pers_B = '".$Info_Pers_B."';\n";
-	echo "  var Info_Pere_B = '".$Info_Pere_B."';\n";
-	echo "  var Info_Mere_B = '".$Info_Mere_B."';\n";
-	echo "  var Info_Pere_Pere_B = '".$Info_Pere_Pere_B."';\n";
-	echo "  var Info_Mere_Pere_B = '".$Info_Mere_Pere_B."';\n";
-	echo "  var Info_Pere_Mere_B = '".$Info_Pere_Mere_B."';\n";
-	echo "  var Info_Mere_Mere_B = '".$Info_Mere_Mere_B."';\n";
-
-	// Grands-parents du conjoint 1
-	echo "  var abcisse = 10;\n";
-	echo "  var ordonnee = 10;\n";
-	echo "  var abs1 = abcisse;\n";
-	echo "  var x1a = abcisse;\n";
-	echo "  var x2a = x1a+LargCase+Ecart_Case;\n";
-	echo "  var memo_gauche_niv3 = x1a;\n";
-	echo "  couple(x1a, x2a, ordonnee, Info_Pere_Pere_A, Info_Mere_Pere_A);\n";
-	echo "  var x1b = x1a + (LargCase*2) + Ecart_Case + 20;\n";
-	echo "  var x2b = x1b + LargCase + Ecart_Case;\n";
-	echo "  couple(x1b, x2b, ordonnee, Info_Pere_Mere_B, Info_Mere_Mere_B);\n";
+}
 	
-	// Parents du conjoint 1
-	echo "  ordonnee = ordonnee + (HautCase * 2);\n";
-	echo "  var x1c = (x2a-x1a+Ecart_Case)/2;\n";
-	echo "  var x2c = (x2b-x1b+Ecart_Case)/2 + x1b;\n";
-	echo "  var memo_gauche_niv2 = x1c;\n";
-	echo "  couple(x1c, x2c, ordonnee, Info_Pere_A, Info_Mere_A);\n";
+$Info_Pers_B = getDetail($Ref_Pers_B);
+$x = Get_Parents($Ref_Pers_B,$Pere_B,$Mere_B,$Rang);
+if ($Pere_B != 0) {
+	$Info_Pere_B = getDetail($Pere_B);
+	$x = Get_Parents($Pere_B,$Pere_Pere_B,$Mere_Pere_B,$Rang);
+	if ($Pere_Pere_B != 0) {
+		$Info_Pere_Pere_B = getDetail($Pere_Pere_B);
+	}
+	if ($Mere_Pere_B != 0) {
+		$Info_Mere_Pere_B = getDetail($Mere_Pere_B);
+	}
+}
+if ($Mere_B != 0) {
+	$Info_Mere_B = getDetail($Mere_B);
+	$x = Get_Parents($Mere_B,$Pere_Mere_B,$Mere_Mere_B,$Rang);
+	if ($Pere_Mere_B != 0) {
+		$Info_Pere_Mere_B = getDetail($Pere_Mere_B);
+	}
+	if ($Mere_Mere_B != 0) {
+		$Info_Mere_Mere_B = getDetail($Mere_Mere_B);
+	}
+}
 
-	// Conjoint 1
-	echo "  ordonnee = ordonnee + (HautCase * 2);\n";
-	echo "  var gauche = (x1c+x2c)/2;\n";
-	echo "  var memo_gauche_niv1 = gauche;\n";
-	echo "  aff_case(gauche, ordonnee, LargCase, HautCase, radius, Info_Pers_A, 'black', 'CR');\n";
-	
-	// Conjoint 2
-	echo "  ordonnee = ordonnee + (HautCase * 2);\n";
-	echo "  aff_case(memo_gauche_niv1, ordonnee, LargCase, HautCase, radius, Info_Pers_B, 'black', 'CR');\n";
-	
-	// Parents du conjoint 2
-	echo "  ordonnee = ordonnee + (HautCase * 2);\n";
-	echo "  var x1c = (x2a-x1a+Ecart_Case)/2;\n";
-	echo "  var x2c = (x2b-x1b+Ecart_Case)/2 + x1b;\n";
-	echo "  couple(x1c, x2c, ordonnee, Info_Pere_B, Info_Mere_B);\n";
+echo '<script type="text/javascript" src="jscripts/arbre.js"></script>'."\n";
+echo '<script type="text/javascript">'."\n";
+echo '	var HautCase = 40;'."\n";
+echo '	var LargCase = 200;'."\n";
 
-	// Grands-parents du conjoint 2
-	echo "  ordonnee = ordonnee + (HautCase * 2);\n";
-	echo "  var x1a = memo_gauche_niv3;\n";
-	echo "  var x2a = x1a+LargCase+Ecart_Case;\n";
-	echo "  couple(x1a, x2a, ordonnee, Info_Pere_Pere_B, Info_Mere_Pere_B);\n";
-	echo "  var x1b = x1a + (LargCase*2) + Ecart_Case + 20;\n";
-	echo "  var x2b = x1b + LargCase + Ecart_Case;\n";
-	echo "  couple(x1b, x2b, ordonnee, Info_Pere_Mere_B, Info_Mere_Mere_B);\n";
+echo "  var Info_Pers_A = '".$Info_Pers_A."';\n";
 
-	// echo '	deux_couples();'."\n";
-	echo '</script>'."\n";
+echo "  var Info_Pere_A = '".$Info_Pere_A."';\n";
+echo "  var Info_Mere_A = '".$Info_Mere_A."';\n";
+
+echo "  var Info_Pere_Pere_A = '".$Info_Pere_Pere_A."';\n";
+echo "  var Info_Mere_Pere_A = '".$Info_Mere_Pere_A."';\n";
+echo "  var Info_Pere_Mere_A = '".$Info_Pere_Mere_A."';\n";
+echo "  var Info_Mere_Mere_A = '".$Info_Mere_Mere_A."';\n";
+
+echo "  var Info_Pers_B = '".$Info_Pers_B."';\n";
+
+echo "  var Info_Pere_B = '".$Info_Pere_B."';\n";
+echo "  var Info_Mere_B = '".$Info_Mere_B."';\n";
+
+echo "  var Info_Pere_Pere_B = '".$Info_Pere_Pere_B."';\n";
+echo "  var Info_Mere_Pere_B = '".$Info_Mere_Pere_B."';\n";
+echo "  var Info_Pere_Mere_B = '".$Info_Pere_Mere_B."';\n";
+echo "  var Info_Mere_Mere_B = '".$Info_Mere_Mere_B."';\n";
+
+// Grands-parents du conjoint 1
+echo "  var abcisse = 10;\n";
+echo "  var ordonnee = 10;\n";
+echo "  var abs1 = abcisse;\n";
+echo "  var x1a = abcisse;\n";
+echo "  var x2a = x1a+LargCase+Ecart_Case;\n";
+echo "  var memo_gauche_niv3 = x1a;\n";
+echo "  couple(x1a, x2a, ordonnee, Info_Pere_Pere_A, Info_Mere_Pere_A);\n";
+echo "  var x1b = x1a + (LargCase*2) + Ecart_Case + 20;\n";
+echo "  var x2b = x1b + LargCase + Ecart_Case;\n";
+echo "  couple(x1b, x2b, ordonnee, Info_Pere_Mere_A, Info_Mere_Mere_A);\n";
+
+// Parents du conjoint 1
+echo "  ordonnee = ordonnee + (HautCase * 2);\n";
+echo "  var x1c = (x2a-x1a+Ecart_Case)/2;\n";
+echo "  var x2c = (x2b-x1b+Ecart_Case)/2 + x1b;\n";
+echo "  var memo_gauche_niv2 = x1c;\n";
+echo "  couple(x1c, x2c, ordonnee, Info_Pere_A, Info_Mere_A);\n";
+
+// Conjoint 1
+echo "  ordonnee = ordonnee + (HautCase * 2);\n";
+echo "  var gauche = (x1c+x2c)/2;\n";
+echo "  var memo_gauche_niv1 = gauche;\n";
+echo "  aff_case(gauche, ordonnee, LargCase, HautCase, radius, Info_Pers_A, 'black', 'CR');\n";
+
+// Conjoint 2
+echo "  ordonnee = ordonnee + (HautCase * 2);\n";
+echo "  aff_case(memo_gauche_niv1, ordonnee, LargCase, HautCase, radius, Info_Pers_B, 'black', 'CR');\n";
+
+// Parents du conjoint 2
+echo "  ordonnee = ordonnee + (HautCase * 2);\n";
+echo "  var x1c = (x2a-x1a+Ecart_Case)/2;\n";
+echo "  var x2c = (x2b-x1b+Ecart_Case)/2 + x1b;\n";
+echo "  couple(x1c, x2c, ordonnee, Info_Pere_B, Info_Mere_B);\n";
+
+// Grands-parents du conjoint 2
+echo "  ordonnee = ordonnee + (HautCase * 2);\n";
+echo "  var x1a = memo_gauche_niv3;\n";
+echo "  var x2a = x1a+LargCase+Ecart_Case;\n";
+echo "  couple(x1a, x2a, ordonnee, Info_Pere_Pere_B, Info_Mere_Pere_B);\n";
+echo "  var x1b = x1a + (LargCase*2) + Ecart_Case + 20;\n";
+echo "  var x2b = x1b + LargCase + Ecart_Case;\n";
+echo "  couple(x1b, x2b, ordonnee, Info_Pere_Mere_B, Info_Mere_Mere_B);\n";
+
+// echo '	deux_couples();'."\n";
+echo '</script>'."\n";
 
 // Formulaire pour le bouton retour
 Bouton_Retour($lib_Retour,'?'.$_SERVER['QUERY_STRING']);
@@ -206,7 +209,7 @@ function getDetail($LaRef) {
 		if ($infos = $res->fetch(PDO::FETCH_NUM)) {
 			// Affichage des données si autorisé
 			if (($_SESSION['estPrivilegie']) or ($infos[4] == 'O')) {
-				$Nom    = trim($infos[0]);
+				$Nom    = addslashes(trim($infos[0])); 
 				$Prenom = trim($infos[1]);
 				$D_Nais = trim($infos[2]);
 				$D_Dec  = trim($infos[3]);

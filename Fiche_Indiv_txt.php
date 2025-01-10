@@ -13,7 +13,7 @@ function fin_fs() {
 function aff_rupt($libelle) {
 	global $sortie, $sortie_pdf, $rupt_Fiche_Indiv;
 	if(!$sortie_pdf) echo '<fieldset><legend>'.$libelle.'</legend>';
-	else HTML_ou_PDF('<br />'.$rupt_Fiche_Indiv.' '.$libelle.' '.$rupt_Fiche_Indiv."\n",$sortie);
+	else HTML_ou_PDF('<br /><u>'.$rupt_Fiche_Indiv.' '.$libelle.' '.$rupt_Fiche_Indiv." : </u>\n", $sortie);
 }
 
 function affiche_image($ref) {
@@ -67,10 +67,6 @@ function aff_enf_frat($typo) {
 			while ($enregEnf = $resEnf->fetch(PDO::FETCH_ASSOC)) {
 
 				$enreg2 = $enregEnf;
-				Champ_car($enreg2,'Nom');
-				Champ_car($enreg2,'Prenoms');
-				Champ_car($enreg2,'Surnom');
-
 				$num_enf++;
 
 				if ($num_enf == 1) {
@@ -169,11 +165,10 @@ if ($sortie_pdf) {
 // Personne inconnue, circulez...
 if ((!$enreg_sel) or ($Reference ==0)) Retour_Ar();
 
+rectif_null_pers($enreg_sel);
 $enr_pers = $enreg_sel;
+unset($enreg_sel);
 $enr2_pers = $enr_pers;
-Champ_car($enr2_pers,'Nom');
-Champ_car($enr2_pers,'Prenoms');
-Champ_car($enr2_pers,'Surnom');
 $sexe = $enr_pers['Sexe'];
 
 $decal = '   ';
@@ -192,17 +187,26 @@ if($sortie_pdf) {
 	$pdf->SetFont($font_pdf,'B',14);
 	PDF_Set_Def_Color($pdf);
 	
+	/*
 	$cadre = 'LTR';
 	if ($gen == '')
 		$cadre = 'LTBR';
 	$pdf->Cell(0, 5, chaine_pdf($enr_pers['Prenoms'].' '.$enr_pers['Nom']) , $cadre , 1, 'C');
-	
 	$pdf->SetFont($font_pdf,'',11);
 	if ($gen != '')
 		$pdf->Cell(0, 5, chaine_pdf($gen) , 'LBR' , 1, 'C');
-
-	//$pdf->RoundedRect(10, 10, $pdf->LineWidth, 10, 3, 'D');	
+	*/
+	$cadre = '';
+	$pdf->Cell(0, 5, chaine_pdf($enr_pers['Prenoms'].' '.$enr_pers['Nom']) , $cadre , 1, 'C');
+	$pdf->SetFont($font_pdf,'',11);
+	if ($gen != '')
+		$pdf->Cell(0, 5, chaine_pdf($gen) , '' , 1, 'C');
 	
+	if ($gen != '')
+		$haut = 12;
+	else
+		$haut = 7;
+	$pdf->RoundedRectH(10, 9, $pdf->GetPageWidth()-20, $haut, 3.5, 'D');
 	$pdf->Ln();
 }
 // Sortie au format texte
@@ -257,16 +261,13 @@ if ($resUn = lect_sql($sql)) {
 		$sql='select * from ' . nom_table('personnes') . ' where reference = '.$Conj.' limit 1';
 		$resP = lect_sql($sql);
 		$enregP = $resP->fetch(PDO::FETCH_ASSOC);
-		$enreg2 = $enregP;
-		Champ_car($enreg2,'Nom');
-		Champ_car($enreg2,'Prenoms');
-		Champ_car($enreg2,'Surnom');
 		$resP->closeCursor();
-
-		$sur = $enreg2['Surnom'];
+		rectif_null_pers($enregP);
+		
+		$sur = $enregP['Surnom'];
         if ($sur != '') $sur = ', '.lib_sexe_nickname($enregP ['Sexe']).' '.$sur;
         HTML_ou_PDF($num_conj.') <b>'.$enregP['Prenoms'].' '.$enregP['Nom'].$sur.'</b><br />'."\n",$sortie);
-		Aff_Personne($enreg2,$enreg2['Reference'],true,'T',$sortie_pdf);
+		Aff_Personne($enregP,$enregP['Reference'],true,'T',$sortie_pdf);
 
 		$Ref_Union     = $enregUn['Reference'];
 		$Date_Mar      = $enregUn['Maries_Le'];
@@ -327,9 +328,6 @@ if ($resEvt = lect_sql($sql)) {
 	while ($enregEvt = $resEvt->fetch(PDO::FETCH_ASSOC)) {
 		//$zone = LectZone($idZone,$enreg['Niveau']);
 		$enreg2 = $enregEvt;
-		Champ_car($enreg2,'Titre');
-		Champ_car($enreg2,'Libelle_Type');
-		Champ_car($enreg2,'Libelle_Role');
 		$num_evt++;
 
 		if ($num_evt == 1)
@@ -376,7 +374,7 @@ if ($resEvt = lect_sql($sql)) {
 		// Rôle
 		$Libelle_Role = $enreg2['Libelle_Role'];
 		if (($Libelle_Role != '') and ($Code_Role != ''))
-			HTML_ou_PDF($decal.'R&ocirc;le : '.$Libelle_Role.'<br />'."\n",$sortie);
+			HTML_ou_PDF($decal.'Rôle : '.$Libelle_Role.'<br />'."\n",$sortie);
 	}
 }
 if ($num_evt) {

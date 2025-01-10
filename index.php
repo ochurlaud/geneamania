@@ -2,7 +2,7 @@
 
 /*========================================================================================================================================
 Généamania, gestion et présentation de généalogie
-Copyright (C) 2006-2022 JL Servin
+Copyright (C) 2006-2024 JL Servin
 
 This file is part of Généamania.
 
@@ -37,7 +37,6 @@ en écrivant à la Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, 
 - Obligation, dans le cas où l’on publie une version modifiée du logiciel, de fournir gratuitement
 (hors frais d’enregistrement sur support physique et de distribution postale) l’accès au source à tous ceux qui en font la demande
 ========================================================================================================================================*/
-// UTF-8
 
 // Initilisation des infirmations de connexion
 function Init_infos_cnx() {
@@ -88,9 +87,9 @@ if ($geneGraphe == 'exec')
 
 $_SESSION['sens'] = '>';
 
-echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'."\n".
-	'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-echo '<html>'."\n";
+echo '<!DOCTYPE html>';
+// echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+echo '<html lang="'.$langue_min.'">';
 echo '<head>'."\n";
 
 // On vide l'empilement des pages
@@ -155,7 +154,7 @@ $est_cnx = ($_SESSION['estCnx'] === true ? true : false);
 if ($sortir == $lib_Deconnecter) Init_infos_cnx();
 
 $self  = my_self();
-//echo 'Self : '.$self.'<br />';
+//echo 'Self : '.$self.'<br>';
 
 // Pour palier aux soucis de session entre des sous-sites d'un même site, on contrôle que l'on est bien sur le même sous-site
 if ($Environnement == 'I') {
@@ -273,7 +272,7 @@ if (!$id_cnx) {
 	$Nom = '?';
 }
 if (substr($Lettre_B,strlen($Lettre_B)-1) != '-') {
-	echo '<img class="img-b" src="'.$Chemin_Lettre.'" width="45" alt="B" />';
+	echo '<img class="img-b" src="'.$Chemin_Lettre.'" width="45" alt="B">';
 	$lib = substr($lib,1);
 }
 // On distingue car les syntaxes peuvent être différentes ; à gérer au cas par cas
@@ -286,18 +285,18 @@ else
 // Contrôle de la présence du nom du site
 if ($_SESSION['estGestionnaire']) {
   if (($Nom == '???') or ($Nom == ''))
-    echo '<br />'.Affiche_Icone('tip',$LG_tip).' &nbsp;<font color="red" size="+2">'.my_html($LG_index_tip_no_param).'"</font>'."\n";
-	echo '<br />'."\n";
+    echo '<br>'.Affiche_Icone('tip',$LG_tip).' &nbsp;<font color="red" size="+2">'.$LG_index_tip_no_param.'</font>'."\n";
+	echo '<br>'."\n";
 }
 
 if ($maintenance) {
-	echo '<br /><br /><br /><font color="red" size="+2"><br />'.my_html($LG_index_tip_maintenance).'...</font><br /><br /><br />';
+	echo '<br><br><br><font color="red" size="+2"><br>'.my_html($LG_index_tip_maintenance).'...</font><br><br><br>';
 }
 echo '</td></tr>'."\n";
 echo '</table>'."\n";
-//echo '<br />'."\n";
+//echo '<br>'."\n";
 
-//echo '<a href="test_images.php">test_images</a><<br />>';
+//echo '<a href="test_images.php">test_images</a><<br>>';
 //echo '<a href="Demarrage_Rapide.php">Demarrage_Rapide</a>';
 
 // Menus...
@@ -363,53 +362,52 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 		$nbDemain = $_SESSION['AnnivD'];
 	}
 
-	//echo '<br />';
+	//echo '<br>';
 	
 	echo '<form method="post" action="">';
 	echo '<div class="exemple" id="ex2">';
-	echo '<ul class="nav"><!--'; 				
-	echo '--><li><a href="Liste_Pers.php?Type_Liste=P">'.my_html($LG_index_menu_pers).'</a></li><!--';
-	echo '--><li><a href="Liste_NomFam.php">'.my_html($LG_index_menu_names).'</a></li><!--';		
-	echo '--><li><a href="Liste_Villes.php?Type_Liste=V">'.my_html($LG_index_menu_towns).'</a></li><!--'; 				
-	echo '--><li><a href="Stat_Base.php">'.$LG_Menu_Title['Statistics'].'</a></li><!--';
-	echo '--><li>&nbsp;';
+	echo '<ul class="nav">'; 
+	echo '<li><a href="Liste_Pers.php?Type_Liste=P">'.$LG_index_menu_pers.'</a></li>';
+	echo '<li><a href="Liste_NomFam.php">'.$LG_index_menu_names.'</a></li>';	
+	echo '<li><a href="Liste_Villes.php?Type_Liste=V">'.$LG_index_menu_towns.'</a></li>';	
+	echo '<li><a href="Stat_Base.php">'.$LG_Menu_Title['Statistics'].'</a></li>';
+	echo '<li>&nbsp;';
 	aff_menu('D',$_SESSION['niveau'],false);
 	echo '</li>';
 	echo '</ul>';
 	echo '</div>';
 	echo '</form>'."\n";
 	
+	$star = Affiche_Icone('etoile',$LG_star);
+	
 	//$Base_Vide = true;
 	if (!$Base_Vide) {
 		echo '<table width="60%" align="center" border="0">';
 		//echo '<table width="80%" align="center" border="0" class="tab_bord_bas">';
-		//echo '<tr><td><fieldset width="90%"><legend>'.my_html($LG_index_quick_search).'&nbsp;'.Affiche_Icone('help',my_html($LG_index_tip_search)).'</legend>';
-		echo '<tr><td><fieldset style="width:90%;">'
-			.'<legend>'.my_html($LG_index_quick_search).'&nbsp;'.Affiche_Icone('help',$LG_index_tip_search).'</legend>';
+		echo '<tr><td><fieldset style="width:90%;"><legend>'.$LG_index_quick_search.'&nbsp;'.Affiche_Icone('help',$LG_index_tip_search).'</legend>';
 		echo '<table align="center" border="0">';
-		echo '<tr>';
-		echo '<td>';
-		echo '<fieldset><legend>'.my_html($LG_index_menu_pers).'</legend>';
+		echo '<tr><td>';
+		echo '<fieldset><legend>'.$LG_index_menu_pers.'</legend>';
 		echo '<form method="post" action="Recherche_Personne.php" >'."\n";
 		echo '<table border="0">';
-		echo '<tr><td>'.my_html(LG_PERS_NAME).'&nbsp;:</td><td><input type="text" size="30" name="NomP"/></td>';
+		echo '<tr><td>'.LG_PERS_NAME.'&nbsp;:</td><td><input type="text" size="30" name="NomP"/></td>';
 		echo '<td rowspan="2" valign="middle"><input type="submit" name="ok" value="'.$lib_Rechercher.'" style="background:url('.$chemin_images_icones.$Icones['chercher'].') no-repeat;padding-left:18px;" /></td></tr>';
-		echo '<tr><td>'.my_html(LG_PERS_FIRST_NAME).'&nbsp;:</td><td><input type="text" size="30" name="Prenoms"/></td></tr>';
+		echo '<tr><td>'.LG_PERS_FIRST_NAME.'&nbsp;:</td><td><input type="text" size="30" name="Prenoms"/></td></tr>';
 		echo '</table>';
-		echo '<input type="hidden" name="Horigine" value="index.php"/>';
-		echo '<input type="hidden" name="Sortie" value="e"/>';
-		echo '<input type="hidden" name="Son" value="o"/>'."\n";
+		echo '<input type="hidden" name="Horigine" value="index.php">';
+		echo '<input type="hidden" name="Sortie" value="e">';
+		echo '<input type="hidden" name="Son" value="o">'."\n";
 		echo '</form>'."\n";
 		echo '</fieldset>';
 		echo '</td>';
 		echo '<td valign="middle">';
-		echo '<fieldset><legend>'.my_html($LG_index_menu_towns).'</legend>';
+		echo '<fieldset><legend>'.$LG_index_menu_towns.'</legend>';
 		echo '<form method="post" action="Recherche_Ville.php" >'."\n";
 		echo '<input type="text" size="30" name="NomV"/>'."\n";
-		echo '<input type="hidden" name="Horigine" value="index.php"/>';
-		echo '<input type="hidden" name="Sortie" value="e"/>';
-		echo '<input type="hidden" name="Code_Postal" value=""/>';
-		echo '<input type="hidden" name="Departement" value="-1"/>';
+		echo '<input type="hidden" name="Horigine" value="index.php">';
+		echo '<input type="hidden" name="Sortie" value="e">';
+		echo '<input type="hidden" name="Code_Postal" value="">';
+		echo '<input type="hidden" name="Departement" value="-1">';
 		echo '<input type="submit" name="ok" value="'.$lib_Rechercher.'" style="background:url('.$chemin_images_icones.$Icones['chercher'].') no-repeat;padding-left:18px;" />';
 		echo '</form>'."\n";
 		echo '</fieldset>';
@@ -423,7 +421,7 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 		// Pour un gestionnaire
 		if ($_SESSION['estGestionnaire']) {
 			echo '<table width="60%" align="center" border="0"><tr align="center"><td>';
-			echo '<br /><a href="Noyau_Pers.php">'.$LG_Menu_Title['Decujus_And_Family'].'</a><br /><br />';
+			echo '<br><a href="Noyau_Pers.php">'.$LG_Menu_Title['Decujus_And_Family'].'</a><br><br>';
 			echo '</td></tr></table>';
 		}
 	}
@@ -439,7 +437,7 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 		echo '<table width="'.$largeur.'" align="center"><tr>';
 		if ($Existe_Commentaire) {
 			if (!$Existe_Image_Gen)
-				echo'<td valign="middle">&nbsp;<br />'.$Commentaire.'<br />&nbsp;</td>';
+				echo'<td valign="middle">&nbsp;<br>'.$Commentaire.'<br>&nbsp;</td>';
 			else
 				echo'<td valign="middle">'.$Commentaire.'</td>';
 		}
@@ -484,7 +482,7 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 				$titre = $enreg[1];
 				$debut = $enreg[2];
 				$fin   = $enreg[3];
-				//if ($nb > 1) echo '<br />';
+				//if ($nb > 1) echo '<br>';
 				echo '<li>';
 				if ($debut != '') {
 					$debut = Etend_2_dates($debut, $fin, true);
@@ -509,21 +507,21 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 				   ' where Sur_Accueil = true ORDER BY Date_Modification desc limit 3';
 		$result = lect_sql($requete);
 		while ($enreg = $result->fetch(PDO::FETCH_NUM)) {
-			echo '<a href="'.$enreg[0].'">'.my_html($enreg[1])."</a><br />\n";
+			echo '<a href="'.$enreg[0].'">'.my_html($enreg[1])."</a><br>\n";
 		}
 		$result->closeCursor();
 	}
-	echo '<br /><a href="https://forum.geneamania.net/" target="_blank">'.my_html($LG_index_forum).'</a>'."\n";
-	echo '<br /><br />'.Affiche_Icone('etoile',$LG_star).'&nbsp;<a href="https://genealogies.geneamania.net/demande_site.php" target="_blank">'.my_html($LG_index_ask_site).'</a>&nbsp;'.Affiche_Icone('etoile','etoile');
-	echo '<br /><br /><a href="https://genealogies.geneamania.net/" target="_blank"><b>GENEAMANIA</b></a>, '.my_html($LG_index_version).' '.$Version."\n";
+	echo '<br><a href="https://forum.geneamania.net/" target="_blank">'.my_html($LG_index_forum).'</a>'."\n";
+	echo '<br><br>'.$star.'&nbsp;<a href="https://genealogies.geneamania.net/demande_site.php" target="_blank">'.$LG_index_ask_site.'</a>&nbsp;'.$star;
+	echo '<br><br><a href="https://genealogies.geneamania.net/" target="_blank"><b>GENEAMANIA</b></a>, '.$LG_index_version.' '.$Version."\n";
 	if ($SiteGratuit) {
-		echo '<br /><br /><a href="http://tech.geneamania.net/Telechargements/Guide_demarrage_rapide_site_heberge_Geneamania.pdf" target="_blank">'.my_html($LG_index_getting_started_hosted).'</a>'."\n";
+		echo '<br><br><a href="http://tech.geneamania.net/Telechargements/Guide_demarrage_rapide_site_heberge_Geneamania.pdf" target="_blank">'.my_html($LG_index_getting_started_hosted).'</a>'."\n";
 		$lib = $LG_index_hosted_free;
 		if ($Premium) $lib = $LG_index_hosted_premium;
 		echo ', '.my_html($lib);
 	}
 	if ($is_windows) {
-		echo '<br /><br /><a href="Guide_demarrage_rapide_Geneamania_Windows.pdf" target="_blank">'.my_html($LG_index_getting_started_Windows).'</a>'."\n";
+		echo '<br><br><a href="Guide_demarrage_rapide_Geneamania_Windows.pdf" target="_blank">'.$LG_index_getting_started_Windows.'</a>'."\n";
 	}
 	echo '</td>';
 	echo '</tr>';
@@ -539,7 +537,7 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 		}
 		if ($date_mod != '') {
 			if ($nbAuj or $nbDemain) 
-				echo '<br />';
+				echo '<br>';
 			echo $date_mod;
 		}
 		echo '</td></tr>';
@@ -548,9 +546,9 @@ if (($vers_fic == $Version) and (!$maintenance)  and (!$verrou)) {
 }
 else {
 	if (($vers_fic != $Version) and ($id_cnx)) {
-		echo '<br />';
+		echo '<br>';
 		Affiche_Stop($LG_index_version_mismatched.' ('.$vers_fic.' vs. '.$Version.'), '.$LG_index_please_migrate);
-		echo '<br /><a href="install.php">'.my_html($LG_index_migrate_here).'</a>';// pour migrer votre base.';
+		echo '<br><a href="install.php">'.my_html($LG_index_migrate_here).'</a>';// pour migrer votre base.';
 	}
 }
 
@@ -577,18 +575,19 @@ if ($vers_fic == $Version) {
 	if ($Environnement == 'I') {
 		echo '<form id="saisie" method="post" action="'.$self.'" >'."\n";
 		echo '<input type="hidden" name="motPasse" value=""/>'."\n";
-		echo '<table class="tab_bord_gauche_droite">';
+		echo '<table class="tab_bord_gauche_droite" align="center">';
 		echo '<tr align="center"><td>'.my_html($LG_index_connexion).'</td></tr>';
 		if (! $verrou) {
 			// On propose la connexion si on n'a pas de message d'erreur et si la personne n'est pas connectée
 			if ($_SESSION['nomUtilisateur'] == $util_defaut) {
-				echo '<tr align="center"><td><input type="text" name="NomU" value="utilisateur"
+				echo '<tr><td><input type="text" name="NomU" value="utilisateur"
 					onfocus="javascript:this.value=\'\';" /></td></tr>'."\n";
-				echo '<tr align="center"><td><input type="text" name="LeMot" value="'.my_html($LG_index_password).'"
-					onfocus="javascript:if(this.getAttribute(\'type\') == \'text\') { this.value=\'\'; this.setAttribute(\'type\', \'password\');}" /></td></tr>'."\n";
-
+				echo '<tr><td><input type="text" name="LeMot" id="LeMot" value="'.$LG_index_password.'"
+					onfocus="javascript:if(this.getAttribute(\'type\') == \'text\') { this.value=\'\'; this.setAttribute(\'type\', \'password\');}" />';	
+				echo '&nbsp;'.Affiche_Icone_Clic('oeil','Toggle();',$LG_index_psw_show)."\n";
+				echo '</td></tr>'."\n";
 				//	Message d'erreur
-				if ($mesErreur != '') echo '<p style="color: #FF0000;font-weight: bold;">' . $mesErreur. '</font><br />' . "\n";
+				if ($mesErreur != '') echo '<p style="color: #FF0000;font-weight: bold;">' . $mesErreur. '</font><br>' . "\n";
 				// On a droit à 5 échecs sinon on n'affiche plus le bouton OK ; lutte contre le bruteforce
 				// $max_tentatives = 99999;
 				if ($_SESSION['tentatives'] <= $max_tentatives) {
@@ -602,7 +601,7 @@ if ($vers_fic == $Version) {
 			}
 			// L'utilisateur est connecté
 			else {
-				echo '<tr align="center"><td><i>'.my_html($LG_index_connected_user).' '.$_SESSION['nomUtilisateur'].' '.my_html($LG_index_connected_level).'</i></td></tr>';
+				echo '<tr align="center"><td><i>'.$LG_index_connected_user.' '.$_SESSION['nomUtilisateur'].' '.$LG_index_connected_level.' '.libelleNiveau($_SESSION['niveau']).'</i></td></tr>';
 				//echo '<tr align="center"><td><input type="submit" name="sortir" value="'.$val_sortir.'"/></td></tr>';
 				echo '<tr align="center"><td>';
 				echo '<input type="submit" name="sortir" value="'.$lib_Deconnecter.'" style="background:url('.$chemin_images_icones.$Icones['deconnecter'].') no-repeat;padding-left:18px;" />';
@@ -611,7 +610,7 @@ if ($vers_fic == $Version) {
 		}
 		// Site verrouillé
 		else {
-			echo '<tr align="center"><td colspan="2"><font color="red" size="+2"><br />'.my_html($LG_index_contact_support).'</font></td></tr>';
+			echo '<tr align="center"><td colspan="2"><font color="red" size="+2"><br>'.my_html($LG_index_contact_support).'</font></td></tr>';
 		}
 		echo '</table>';
 		echo '</form>'."\n";
@@ -625,7 +624,7 @@ if ($vers_fic == $Version) {
 			echo '<input type="hidden" name="geneGraphe" value="exec"/>' . "\n";
 			$info = my_html($LG_index_info_genegraphe);
 			echo '<img src="'.$chemin_images_icones.$Icones['GeneGraphe'].'" alt="'.$info.'" title="'.$info.'"' .
-				' border="1" onclick="javascript:document.forms[\'f1\'].submit();"/>&nbsp;'."\n";
+				' onclick="javascript:document.forms[\'f1\'].submit();"/>&nbsp;'."\n";
 			echo '&nbsp;'.Affiche_Icone_Lien('href="'.$RepGenSite.'documentation/index.php" target="_blank"','help',$LG_index_doc_genegraphe);
 			echo '</form>'."\n";
 		}
@@ -647,8 +646,8 @@ if (isset($_SESSION['pages'])) unset($_SESSION['pages']);
 $_SESSION['pages'][] = $_SERVER['REQUEST_URI'];
 
 /*
-echo 'Pages mémo : '.count($_SESSION['pages']).'<br />';
-for ($nb=0;$nb<count($_SESSION['pages']);$nb++) echo 'Page '.$nb.' : '.$_SESSION['pages'][$nb]."<br />\n";
+echo 'Pages mémo : '.count($_SESSION['pages']).'<br>';
+for ($nb=0;$nb<count($_SESSION['pages']);$nb++) echo 'Page '.$nb.' : '.$_SESSION['pages'][$nb]."<br>\n";
 */
 
 include 'jscripts/ctrlMotPasse.js';

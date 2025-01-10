@@ -1,6 +1,6 @@
 <?php
 //=====================================================================
-// Liste des professions les plus exercéess
+// Liste des professions les plus exercées
 // (c) JLS
 // UTF-8
 //=====================================================================
@@ -9,8 +9,8 @@ session_start();
 
 $tab_variables = array('annuler','Horigine');
 foreach ($tab_variables as $nom_variables) {
-  if (isset($_POST[$nom_variables])) $$nom_variables = $_POST[$nom_variables];
-  else $$nom_variables = '';
+	if (isset($_POST[$nom_variables])) $$nom_variables = $_POST[$nom_variables];
+	else $$nom_variables = '';
 }
 
 include('fonctions.php');
@@ -55,7 +55,7 @@ $res = lect_sql($sql);
 $nb_lignes = $res->rowCount();
 
 if ($nb_lignes > 0) {
-	echo '<br />'."\n";
+	echo '<br>'."\n";
 	echo '<table width="35%" border="0" align="center" >'."\n";
 	echo '<tr align="center" class="rupt_table">';
 	echo '<th width="60%">'.my_html(LG_MOST_JOBS).'</th>';
@@ -74,7 +74,7 @@ if ($nb_lignes > 0) {
 		$evt = $enr[1];
 		echo '<td>'.$deb_visu.$enr[2].'&amp;Nom='.$evt.'">'.my_html($evt).'</a>';
 
-		if ($est_gestionnaire)
+		if ($est_contributeur)
 			echo '&nbsp;'.Affiche_Icone_Lien($deb_modif.$enr[2].'"','fiche_edition',my_html($LG_modify));
 
 		echo '</td>';
@@ -87,9 +87,12 @@ if ($nb_lignes > 0) {
 
 	echo '</table>'."\n";
 	
-	$ic_conseil = '<img src="'.$chemin_images_icones.$Icones['tip'].'" alt="Conseil"/>&nbsp;';
-	echo '<br />'.$ic_conseil.my_html(LG_MOST_JOBS_TIP1).
-		'<a href="Fusion_Evenements.php">'.my_html(LG_MOST_JOBS_TIP2).'</a><br />'."\n";
+	echo '<br>'.Affiche_Icone('tip',LG_TIP).' '.LG_MOST_JOBS_TIP1;
+	if ($est_contributeur)
+		echo '<a href="Fusion_Evenements.php">'.LG_MOST_JOBS_TIP2.'</a>';
+	else
+		echo LG_MOST_JOBS_TIP2;
+	echo '<br>'."\n";
 }
 
 // Formulaire pour le bouton retour

@@ -1,7 +1,6 @@
 <?php
 
 // appelé en ajax pour avoir les évènements correspondant à un type
-// UTF-8
 
 include_once('fonctions.php');
 
@@ -76,7 +75,7 @@ while ($enreg = $res->fetch(PDO::FETCH_ASSOC)) {
 if ($debug) ecrire($f_log,'fin boucle sur les évènements');
 
 if ($debug) ecrire($f_log,'création maxi dans le dom');
-$maxi = $dom->createElement('maxi', utf8_encode($id_maxi));
+$maxi = $dom->createElement('maxi', $id_maxi);
 if ($debug) ecrire($f_log,'ajout maxi dans le dom');
 $maxi = $message->appendChild($maxi);
 //$maxi->setAttribute('id', $enreg['Reference']);

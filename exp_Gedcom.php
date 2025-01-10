@@ -56,7 +56,7 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 	$nPers = 0;
 
 	if ($res = lect_sql($sql)) {
-		echo $res->rowCount().' '.my_html(LG_GEDCOM_PERS).'<br />';
+		echo $res->rowCount().' '.my_html(LG_GEDCOM_PERS).'<br>';
 		
 		// Recherche de l'enregistrement concernant la France pour optimisation
 		get_Lib_FR();
@@ -69,7 +69,7 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 			}
 			$res_FR->closeCursor();
 		}
-		if ($debug) echo 'Libellé FRA = '.$lib_FR.'<br />';
+		if ($debug) echo 'Libellé FRA = '.$lib_FR.'<br>';
 		while ($enreg = $res->fetch(PDO::FETCH_NUM)) {
 			// Données sur la personne
 			Personne_Gedcom($fp,$enreg,$leger);
@@ -94,10 +94,10 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 				fwrite($fp,'1 FAMC @F'.$Fam_Par.'@'.$cr);
 			}
 			++$nPers;
-			if (($nPers % 100) == 0) echo '&nbsp;&nbsp;&nbsp;'.$nPers.' '.my_html(LG_GEDCOM_PERS_PROCESS).'<br />';
+			if (($nPers % 100) == 0) echo '&nbsp;&nbsp;&nbsp;'.$nPers.' '.my_html(LG_GEDCOM_PERS_PROCESS).'<br>';
 		}
 	}
-	echo '&nbsp;&nbsp;&nbsp;'.$nPers.' '.my_html(LG_GEDCOM_PERS_PROCESS).'<br />';
+	echo '&nbsp;&nbsp;&nbsp;'.$nPers.' '.my_html(LG_GEDCOM_PERS_PROCESS).'<br>';
 	$res->closeCursor();
 
 	// Balayage de la liste des unions
@@ -107,7 +107,7 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 	$memoVille = '';
 
 	if ($res = lect_sql($sql)) {
-		echo $res->rowCount().' '.my_html(LG_GEDCOM_UNIONS).'<br />';
+		echo $res->rowCount().' '.my_html(LG_GEDCOM_UNIONS).'<br>';
 		while ($enreg = $res->fetch(PDO::FETCH_NUM)) {
 			$Pere = $enreg[0];
 			$Mere = $enreg[1];
@@ -187,9 +187,6 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 				$resEv->closeCursor();
 			}
 
-			/////////////////////////
-
-
 			// Recherche des enfants de l'union
 			$sqlE = 'select Enfant from '.$n_filiations.' where Pere='.$Pere.' and Mere='.$Mere.';';
 			if ($resE = lect_sql($sqlE)) {
@@ -198,10 +195,10 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 				}
 			}
 			++$nUnions;
-			if (($nUnions % 100) == 0) echo '&nbsp;&nbsp;&nbsp;'.$nUnions.' '.my_html(LG_GEDCOM_UNIONS_PROCESS).'<br />';
+			if (($nUnions % 100) == 0) echo '&nbsp;&nbsp;&nbsp;'.$nUnions.' '.my_html(LG_GEDCOM_UNIONS_PROCESS).'<br>';
 		}
 	}
-	echo '&nbsp;&nbsp;&nbsp;'.$nUnions.' '.my_html(LG_GEDCOM_UNIONS_PROCESS).'<br />';
+	echo '&nbsp;&nbsp;&nbsp;'.$nUnions.' '.my_html(LG_GEDCOM_UNIONS_PROCESS).'<br>';
 	$res->closeCursor();
 
 	// Recherche des enfants de mère inconnue
@@ -235,9 +232,8 @@ if ($fp = ouvre_fic($nom_fic_exp,'w')) {
 	fwrite($fp,"0 TRLR$cr");
 	fclose($fp);
 	
-	if ($leger) $debut = LG_GEDCOM_FILE_EXPORT_LIGHT;
-	else $debut = LG_GEDCOM_FILE_EXPORT;
-	echo '<br /><br />'.my_html($deb).' <a href="'.$nom_fic_exp.'" target="_blank">'.$nom_fic_exp.'</a><br />'."\n";
+	$deb_msg = ($leger) ? LG_GEDCOM_FILE_EXPORT_LIGHT : LG_GEDCOM_FILE_EXPORT;
+	echo '<br><br>'.$deb_msg.' <a href="'.$nom_fic_exp.'" target="_blank">'.$nom_fic_exp.'</a><br>'."\n";
 
 }
 else

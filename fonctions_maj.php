@@ -167,7 +167,7 @@ function Ajoute_Subdivision($subdivision) {
   if (!is_numeric($subdivision)) {
     $num_subdivision = Nouvel_Identifiant('Identifiant_zone','subdivisions');
     $req = 'insert into '.nom_table('subdivisions').' values('.$num_subdivision.',\''.addslashes($subdivision).'\','.
-           'current_timestamp,current_timestamp,\'N\',0,null,null)';
+           'current_timestamp,current_timestamp,\'N\',0,0,0)';
     $res = maj_sql($req);
   }
   else
@@ -181,7 +181,7 @@ function Ajoute_Ville($ville) {
   if (!is_numeric($ville)) {
     $num_ville = Nouvel_Identifiant('Identifiant_zone','villes');
     $req = 'insert into '.nom_table('villes').' values('.$num_ville.',\''.addslashes($ville).'\',null,'.
-           'current_timestamp,current_timestamp,\'N\',0,null,null)';
+           'current_timestamp,current_timestamp,\'N\',0,0,0)';
     $res = maj_sql($req);
   }
   else
@@ -495,7 +495,7 @@ function Select_Noms($id_nom,$NomSel,$NomCache,$PrDe='OO') {
 	while ($row = $resSN->fetch(PDO::FETCH_NUM)) {
 		echo '<option value="'.$row[0].'/'.$row[1].'"';
 		if ($id_nom == $row[0]) echo ' selected="selected" ';
-		echo '>'.my_html($row[1])."</option>\n";
+		echo '>'.$row[1]."</option>\n";
 	}
 	echo "</select>\n";
 	//if ($PrDe[1] == 'O') $resSN->closeCursor();
@@ -905,8 +905,8 @@ function Creation_Noms_Commun() {
 
 // Transformation de la date présente dans le fichier : format accepté : jj/mm/ssaa, jj-mm-ssaa, jj.mm.ssaa
 function traite_date_csv($la_date) {
-	global $arr,$MoisAnAbr, $ListeAnneesRev, $MoisRevAbr4, $nb_enr, $debug;
-	
+	global $arr, $MoisAnAbr, $ListeAnneesRev, $MoisRevAbr4, $nb_enr, $debug;
+
 	$ret = '';
 	$err_format_date = 'La date n\'a pas le bon format :&nbsp;';
 	$greg = false;
@@ -987,23 +987,7 @@ function aff_corr_csv2($nb) {
 	$disp_field : champ affiché mais non saisissable
 	$hidden_field : champ caché
 	$image_name : nom de l'image
-	$fonction : fonction d'appel du calendrier
-*/
-function zone_datexx($disp_field, $hidden_field, $image_name, $fonction, $value='') {
-	global $hidden;
-	if ($value != '')
-		$value = 'value="'.$value.'" '; 
-	echo '<input type="text" readonly="readonly" name="'.$disp_field.'" onclick="'.$fonction.'"'.$value.'/>';
-	Affiche_Calendrier($image_name, $fonction);
-	echo '<input type="'.$hidden.'" name="'.$hidden_field.'" id="'.$hidden_field.'"'.$value.'/>';
-}
-/* Affiche une zone date avec son calendrier
-	$prev_field : champ de mémorisation du contenu initial
-	$disp_field : champ affiché mais non saisissable
-	$hidden_field : champ caché
-	$image_name : nom de l'image
-	$fonction : fonction d'appel du calendrier
-*/
+	$fonction : fonction d'appel du calendrier */
 function zone_date2($prev_field, $disp_field, $hidden_field, $value='') {
 	global $hidden;
 	$fonction = "Calendrier2('".$hidden_field."', '".$disp_field."')";
@@ -1012,7 +996,7 @@ function zone_date2($prev_field, $disp_field, $hidden_field, $value='') {
 		$et_value = 'value="'.Etend_date($value).'" ';
 		$value = 'value="'.$value.'" ';
 	}
-	echo '<input type="'.$hidden.'" readonly="readonly" name="'.$prev_field.'" '.$value.'/>';
+	echo '<input type="'.$hidden.'" name="'.$prev_field.'" '.$value.'/>';
 	echo '<input type="text" readonly="readonly" size="25" name="'.$disp_field.'" onclick="'.$fonction.'"'.$et_value.'/>';
 	Affiche_Calendrier('img_'.$disp_field, $fonction);
 	echo '<input type="'.$hidden.'" name="'.$hidden_field.'" id="'.$hidden_field.'"'.$value.'/>';

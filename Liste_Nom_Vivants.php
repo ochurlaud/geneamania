@@ -3,7 +3,6 @@
 //=====================================================================
 // Liste des personnes vivantes portant un nom ou tous les noms
 // (c) JLS
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -129,7 +128,10 @@ if (!$texte) {
 	if ($res = lect_sql($sql)) {
 		$Anc_Nom = -1;
 		while ($row = $res->fetch(PDO::FETCH_NUM)) {
-			if (determine_etat_vivant($row[1])) {
+			$Ne = $row[1];
+			if (is_null($Ne))
+				$Ne = '';
+			if (determine_etat_vivant($Ne)) {
 				$nom_lu = $row[2];
 				if ($nom_lu != $Anc_Nom) {
 					echo '<option value="'.$nom_lu.'"';
@@ -186,6 +188,8 @@ if ($Nom != '-1') {
 	while ($row = $res->fetch(PDO::FETCH_NUM)) {
 
 		$naissance = $row[5];
+		if (is_null($naissance))
+			$naissance = '';
 		$vivant = determine_etat_vivant($naissance);
 
 		// On ne traite que les personnes réputées vivantes

@@ -170,8 +170,6 @@ if (!$CSV) {
 
 if ($res->rowCount() > 0) {
 	if ($CSV) {
-		$gz = false;
-		$_fputs = ($gz) ? @gzputs : @fputs;
 		switch ($Type_Liste) {
 			case 'S' : $nom_fic = $chemin_exports.'liste_subdivisions.csv'; break;
 			case 'V' : $nom_fic = $chemin_exports.'liste_villes.csv'; break;
@@ -180,8 +178,7 @@ if ($res->rowCount() > 0) {
 			case 'P' : $nom_fic = $chemin_exports.'liste_pays.csv'; break;
 			default  : break;
 		}
-		
-		$fp=fopen($nom_fic,'w+');
+		$fp = ouvre_fic($nom_fic,'w+');
 		// Ecriture de l'entête
 		$ligne = '';
 		switch ($Type_Liste) {
@@ -285,7 +282,7 @@ if ($res->rowCount() > 0) {
 Insere_Bas($compl);
 
 function constit_ligne($max_champ) {
-	global $ligne, $row, $fp, $_fputs, $debug;
+	global $ligne, $row, $fp, $debug;
 	for ($nb = 0; $nb <= $max_champ; $nb++) {
 		$ligne .= $row[$nb].';';
 	}

@@ -81,10 +81,12 @@ function Aff_PersonneI($enreg2,$Personne,$Decalage) {
 		, $Existe_Filiation, $Existe_Union, $Existe_Enfants, $SexePers
 		, $SiteGratuit, $Premium
 		, $LG_Data_tab, $LG_File
-		, $LG_Add_Name, $lib_OK, $lib_Annuler
+		, $lib_OK, $lib_Annuler
 		, $LG_at, $LG_with, $LG_tip
-		, $LG_child, $LG_son, $LG_daughter, $LG_of, $LG_andof
-		, $largP;
+		, $LG_of, $LG_andof
+		, $largP
+		, $death_def_min_year, $url_matchid, $url_matchid_sch, $LG_Menu_Title 
+		;
 
 	$Existe_Filiation = false;
 	$Existe_Enfants = false;
@@ -142,7 +144,7 @@ function Aff_PersonneI($enreg2,$Personne,$Decalage) {
 		   ' onclick="reprend_nom();"/>'."\n";
 	}
 	echo '<div id="id_div_ajout_nom">'."\n";
-	echo my_html($LG_Add_Name).'&nbsp;<input type="text" size="50" name="nouveau_nom" id="nouveau_nom"/>'."\n";
+	echo LG_ADD_NAME.'&nbsp;<input type="text" size="50" name="nouveau_nom" id="nouveau_nom"/>'."\n";
 	echo '&nbsp;<img id="majuscule" src="'.$chemin_images_icones.$Icones['majuscule'].'" alt="'.LG_NAME_TO_UPCASE.'" title="'.LG_NAME_TO_UPCASE.'"'.
 	   ' onclick="NomMaj();document.getElementById(\'NomP\').focus();"/>'."\n";
 	echo '<input type="button" name="ferme_OK_nom" value="'.$lib_OK_h.'" onclick="ajoute_nom()"/>'."\n";
@@ -190,7 +192,8 @@ function Aff_PersonneI($enreg2,$Personne,$Decalage) {
 	//Naissance
 	col_titre_tab_noClass(LG_PERS_BORN,$largP);
 	echo '<td colspan="2">';
-	zone_date2('ANe_leP', 'Ne_leP', 'CNe_leP', $enreg2['Ne_le']);
+	$date_naissance = $enreg2['Ne_le'];
+	zone_date2('ANe_leP', 'Ne_leP', 'CNe_leP', $date_naissance);
 	echo '&nbsp;'.my_html($LG_at).'&nbsp;';
 	aff_liste_villes('Ville_NaissanceP',
                  	1,                  // C'est la première fois que l'on appelle la fonction dans la page
@@ -210,6 +213,7 @@ function Aff_PersonneI($enreg2,$Personne,$Decalage) {
 	echo '<input type="button" name="ferme_An" value="'.$lib_Annuler_h.'" onclick="inverse_div(\'id_div_ajout1\');"/>'."\n";
 	echo '</div>'."\n";
 	echo '</td></tr>';
+	
 	//Décès
 	col_titre_tab_noClass(LG_PERS_DEAD,$largP);
 	echo '<td colspan="2">';
@@ -232,6 +236,25 @@ function Aff_PersonneI($enreg2,$Personne,$Decalage) {
 	echo '<input type="button" name="ferme_OK" value="'.$lib_OK_h.'" onclick="ajoute2()"/>'."\n";
 	echo '<input type="button" name="ferme_An" value="'.$lib_Annuler_h.'" onclick="inverse_div(\'id_div_ajout2\')"/>'."\n";
 	echo '</div>'."\n";
+
+	// Si pas de date de décès et date de naissance compatible, on va afficher un appel à MatchId
+	if ($enreg2['Decede_Le'] == '') {
+		if ((strlen($date_naissance) == 10) && ($date_naissance[9] == 'L')) {
+			$annee = substr($date_naissance,0,4);
+			if ($annee > $death_def_min_year) {
+				// echo '<a href="'.$url_matchid_sch
+					// .'?firstName='.UnPrenom($enreg2['Prenoms'])
+					// .'&lastName='.$enreg2['Nom']
+					// .'&sex='.strtoupper($enreg2['Sexe'])
+					// .'&birthDate='.substr($date_naissance,6,2).'%2F'.substr($date_naissance,4,2).'%2F'.substr($date_naissance,0,4).'"'
+					// .' target="_blank">Match Id</a> ';
+				echo '<a href="Recherche_MatchId_Unitaire.php'
+					.'?ref='.$Refer.'"'
+					.' target="_blank">'.$LG_Menu_Title['MatchId_Sch'].'</a>';
+			}
+		}
+	}
+
 	echo "</td></tr>\n";
 	echo '</table>'."\n";
 	echo '</fieldset>'."\n";
@@ -339,9 +362,9 @@ function Aff_PersonneI($enreg2,$Personne,$Decalage) {
 			if (($Pere != 0) or ($Mere != 0)) {
 				$Existe_Filiation = true;
 				switch ($SexePers) {
-					case 'm' : echo my_html(ucfirst($LG_son)); break;
-					case 'f' : echo my_html(ucfirst($LG_daughter)); break;
-					default  : echo my_html(ucfirst($LG_child)); break;
+					case 'm' : echo ucfirst(LG_SON); break;
+					case 'f' : echo ucfirst(LG_DAUGHTER); break;
+					default  : echo ucfirst(LG_CHILD); break;
 				}
 			}
 			$LG_of_h = my_html($LG_of);
@@ -776,6 +799,8 @@ if ((!$bt_OK) && (!$bt_An) && (!$bt_Sup)) {
 		$res = lect_sql($sql);
 		if ($enreg = $res->fetch(PDO::FETCH_ASSOC)) {
 			$enreg2 = $enreg;
+			if (is_null($enreg2['Surnom']))
+				$enreg2['Surnom'] = '';
 			Champ_car($enreg2,'Nom'); 
 			Champ_car($enreg2,'Prenoms');
 			Champ_car($enreg2,'Surnom');
@@ -833,6 +858,7 @@ if ((!$bt_OK) && (!$bt_An) && (!$bt_Sup)) {
 	}
 
 	// Affichage des données de la personne et affichage des parents
+	rectif_null_pers($enreg2);
 	$x = Aff_PersonneI($enreg2,$Refer,false);
 
 	$lib_sup = '';

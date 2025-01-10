@@ -125,10 +125,8 @@ if ($est_gestionnaire) {
 							echo '<br />'."\n";
 							break;
 				case 'c' : if ($num_lig == 1) {
-								$gz = false;
-								$_fputs = ($gz) ? @gzputs : @fputs;
 								$nom_fic = $chemin_exports.$nom_fic_rech;
-								$fp=fopen($nom_fic,'w+');
+								$fp = ouvre_fic($nom_fic,'w+');
 								$ligne = LG_DOC_SCH_HEADER_CSV;
 								ecrire($fp,$ligne);
 							}
