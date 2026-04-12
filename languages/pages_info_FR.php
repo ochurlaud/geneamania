@@ -1,9 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <?php
-// include('fonctions.php');
 // Recup de la variable passée dans l'URL : aide demandée
 $aide = Recup_Variable('aide','S');
 
@@ -62,7 +60,30 @@ if ($objet != '') $objet = 'Informations '.$objet;
 Ecrit_Meta($objet,$objet,'');
 echo "</head>\n";
 $x = Lit_Env();
-Ligne_Body();
+
+// var_dump($_SESSION['estGestionnaire']);
+// var_dump($_SESSION['estPrivilegie']);
+// var_dump($_SESSION['estContributeur']);
+
+// On ne va afficher le manuel qu'à partir du profil contributeur
+$aff_manuel = false;
+if (isset($_SESSION['estContributeur'])) {
+	if ($_SESSION['estContributeur'])
+		$aff_manuel = true;
+}
+if (isset($_SESSION['estPrivilegie'])) {
+	if ($_SESSION['estPrivilegie'])
+		$aff_manuel = true;
+}if (isset($_SESSION['estGestionnaire'])) {
+	if ($_SESSION['estGestionnaire'])
+		$aff_manuel = true;
+}
+
+if ($aff_manuel)
+	Ligne_Body();
+else
+	Ligne_Body(false);	// Pas de manuel pour les bots ou les personnes sans profil défini
+
 
 $auto_contrib = 'Cette page est accessible &agrave; partir du profil contributeur.';
 
@@ -602,12 +623,17 @@ switch ($aide) {
 		echo "&nbsp;-&nbsp;De constituer un fichier pour faire une recherche par lot sur ce site, dans la rubrique « Appariement ». En retour, matchId fournira un fichier dans lequel on retrouvera les dates et lieux de d&eacute;c&egrave;s des personnes fournies dans le fichier en entr&eacute;e.<br>";
 		echo "<br>Les personnes list&eacute;es ou export&eacute;es sont celles dont la ville de naissance est connue, la date de naissance connue exactement avec une ann&eacute;e post&eacute;rieure ou &eacute;gale &agrave; l&rsquor;ann&eacute;e saisie par l’utilisateur.<br>";
 		break;
-	case 'Recherche_MatchId_Unitaire' :	
+	case 'Recherche_MatchId_Unitaire' :
 		echo "Cette fonctionnalit&eacute; permet d'interroger matchId pour r&eacute;cup&eacute;rer une liste de personnes correspondant « &agrave; peu pr&egrave;s » aux crit&egrave;res envoy&eacute;s par Geneamania.<br>";
 		echo "MatchId va renvoyer une liste de personnes correspondant « &agrave; peu pr&egrave;s » aux crit&egrave;res envoy&eacute;s par Geneamania. Les informations de ces personnes sont affich&eacute;es sous celles connues dans Geneamania. "
 			."<br>Un bouton pr&eacute;sent sur la ligne de d&eacute;c&egrave;s de chaque personne permet de copier la date de d&eacute;c&egrave;s dans le presse-paier. "
 			."Cette date pourra ensuite &ecirc;tre copi&eacute;e dans la fen&ecirc;tre de saisie de date de d&eacute;c&egrave;s de la personne (Ctrl+V sous Windows, champ « Saisie rapide d'une date gr&eacute;gorienne »).<br>";
 		echo "<br>Attention : il faut imp&eacute;rativement &ecirc;tre connect&eacute; &agrave; Internet pour obtenir un r&eacute;sultat.<br>";
+		break;
+	case 'Rectif_Notes' :
+		echo "Lorsque l'on copie des commentaires depuis une source ext&eacute;rieure, il est possible que l'on copie en m&ecirc;me temps des sauts de lignes &laquo;&nbsp;invisibles&nbsp;&raquo; qui seront stock&eacute;s tels quels dans la base.";
+		echo "Ceci n'est g&eacute;n&eacute;ralement pas g&ecirc;nant, sauf dans le cas des exports pour sites h&eacute;berg&eacute;s. En effet, les enregistrements doivent &ecirc;tre export&eacute;s sur une seule ligne au risque de faire &eacute;chouer un import sur la plate-forme Geneamania."; 
+		echo "<br>Ceci permet d'&eacute;viter ce genre de probl&egrave;me.";
 		break;
 	default :
 		echo "D&eacute;sol&eacute;, mais il n'y a pas d'aide en ligne pour cette page...";

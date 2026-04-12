@@ -1805,6 +1805,19 @@ if ($maj == 'Migration') {
 		from_to_vers('2024.08 beta 2', '2024.08 RC 1');
 		from_to_vers('2024.08 RC 1', '2024.08');
 		
+		if  ($Num_Gen == '2024.08') {
+			$req[] = 'ALTER TABLE '.nom_table('sources').' CHANGE `Ident_Source_Tempo` `Ident_Source_Tempo` VARCHAR(200)'; 
+			$Num_Gen = req_maj_vers('2025.03 beta 1');
+		}
+		
+		from_to_vers('2025.03 beta 1', '2025.03 beta 2');
+		from_to_vers('2025.03 beta 2', '2025.03 RC 1');		
+		if  ($Num_Gen == '2025.03 RC 1') {
+			$req[] = 'ALTER TABLE '.nom_table('sources').' CHANGE `Adresse_Web` `Adresse_Web` VARCHAR(200)'; 
+			$Num_Gen = req_maj_vers('2025.03 RC 2');
+		}
+		from_to_vers('2025.03 RC 2', '2025.03');
+		
 		// Lancement des requêtes
 		Ex_Req();
 

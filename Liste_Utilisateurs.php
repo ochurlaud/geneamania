@@ -1,8 +1,7 @@
 <?php
 //=====================================================================
 // Liste des utilisateurs
-// (c) G Kester
-// UTF-8
+// (c) G Kester ; ajouts JLS - 2025
 //=====================================================================
 
 session_start();
@@ -41,6 +40,7 @@ $mails = false;
 if ($Environnement == 'I') {
 	if ((!$SiteGratuit) or ($Premium)) $mails = true;
 }
+$mails = true;
 
 echo '<form action="'.my_self().'" method="post">'."\n";
 echo '<table border="0" width="50%" align="center">'."\n";
@@ -78,15 +78,35 @@ if ($res->rowCount() > 0) {
     $echo_modif = Affiche_Icone('fiche_edition',my_html($LG_modify)).'</a>';
 
     while ($row = $res->fetch(PDO::FETCH_NUM)) {
-    	if ($mails) echo '<input type="checkbox" name="msg_ut_'.$row[0].'" value="x"/>&nbsp;';
+    	if ($mails) 
+			echo '<input type="checkbox" name="msg_ut_'.$row[0].'" value="x" onclick="chkSel(this)"/>&nbsp;';
         echo '<a href="Fiche_Utilisateur.php?code='.$row[0].'">'.my_html($row[1].' - '.$row[2]);
         echo '</a>&nbsp;<a href="Edition_Utilisateur.php?code='.$row[0].'">'.$echo_modif."\n";
         echo "<br />\n";
     }
 
     if ($mails) {
+		
+		echo '<br>'.Affiche_Icone('tip','Information').' '.LG_UTIL_CHK_MAIL.'<br>'."\n";
 	   	bt_ok_an_sup('Envoi de mails', '', '', '', false);
 		echo '</form>';
+		
+		// On cache le bouton d'envoi de mail par défaut et on ne le montre que si au moins 1 case est cochée
+		echo '<script type="text/javascript">'."\n";
+		echo '  document.getElementById("bouton_ok").style.visibility = "hidden";'."\n";
+		echo '  function chkSel(theElement) {'."\n";
+		echo '  	var nbSel = 0'."\n";
+		echo '  	var theForm = theElement.form;'."\n";
+		echo '  	for (i = 0; i < theForm.elements.length; i++) {'."\n";
+		echo '  		if (theForm.elements[i].type == \'checkbox\') {'."\n";
+		echo '  			if (theForm.elements[i].checked) nbSel++;'."\n";
+		echo '  		}'."\n";
+		echo '  	}'."\n";
+		echo '  	if (nbSel>0) document.getElementById("bouton_ok").style.visibility = "visible";'."\n";
+		echo '  	else document.getElementById("bouton_ok").style.visibility = "hidden";'."\n";
+		// echo '  	window.alert(nbSel);'."\n";
+		echo '  }'."\n";
+		echo '</script>'."\n";		
     }
     
 }

@@ -39,11 +39,12 @@ else
 	$titre .= ' en local';
 
 if (($Environnement == 'I') and ($SiteGratuit))
-	$lien = 'http://www.geneamania.net/';
+	$lien = 'https://www.geneamania.net/';
 else
 	$lien = Get_Adr_Base_Ref();
 
-$compl = Affiche_Icone_Lien('href="'.$lien.'Geneamania.pdf"','manuel','manuel Généamania') . '&nbsp;';
+$compl = Affiche_Icone_Lien('href="'.$lien.$chemin_manuel.'"','manuel','manuel Généamania') . '&nbsp;';
+// $compl = Affiche_Icone_Lien('href="'.$lien.'Geneamania.pdf"','manuel','manuel Généamania') . '&nbsp;';
 Insere_Haut($titre,$compl,'Aide_Geneamania',$compl);
 
 aide_paragraphe('Ic&ocirc;nes cliquables');
@@ -182,7 +183,7 @@ if ($Environnement != 'I') {
   echo '<li>La couleur des ent&ecirc;tes cellules de table.&nbsp;';
   echo 'Cette couleur est utilis&eacute;e par exemple dans la liste par g&eacute;n&eacute;ration pour s&eacute;parer une g&eacute;n&eacute;ration de la pr&eacute;c&eacute;dente.&nbsp;'."\n";
   echo 'Vous la retrouvez &eacute;galement sur cette page pour s&eacute;parer les chapitres de l\'aide.&nbsp;'."\n";
-  echo 'L\'utilisateur clique sur une couleur pour la s&eacute;lectionner ; elle apparait alors &agrave; droite de l\'&eacute;cran.&nbsp;';"\n";
+  echo 'L\'utilisateur clique sur une couleur pour la s&eacute;lectionner ; elle appara&icirc;t alors &agrave; droite de l\'&eacute;cran.&nbsp;';"\n";
   echo 'Si l\'utilisateur ne veut pas de couleur particuli&egrave;re il clique sur le bouton "Blanc".</li>'."\n";
   echo '<li>La couleur des d&eacute;grad&eacute;s.&nbsp;';
   echo 'Cette couleur est utilis&eacute;e par exemple sur les cartes ;&nbsp;'."\n";

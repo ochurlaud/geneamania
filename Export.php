@@ -453,14 +453,19 @@ if ($bt_OK) {
 					if (est_table('types_evenement',$tablename)) $Cond = ' where Code_Modifiable = \'N\'';
 					// On n'extrait que le dépôt d'identifiant 0
 					if (est_table('depots',$tablename)) $Cond = ' where Ident = 0';
+					// On n'extrait que les départements "originaux"
+					if (est_table('departements',$tablename)) $Cond = " where Date_Creation = '0000-01-01 00:00:00' or Identifiant_zone = 0";
+					// Idem pour les régions
+					if (est_table('regions',$tablename)) $Cond = " where Date_Creation = '0000-01-01 00:00:00' or Identifiant_zone = 0";
 				}
 
 				if (!$Donnees_Oui) {
-	            	echo "<font color='red'>".my_html(LG_EXPORT_RES_NO_EXTRACT)."</font>";
+	            	echo "<font color='red'>".LG_EXPORT_RES_NO_EXTRACT."</font>";
 	           	}
 				else {
 					// ecrire le contenu de la table
 					$query = "SELECT * FROM $tablename".$Cond;
+					// var_dump($query);
 					$resData = lect_sql($query);
 					$nb_lig = $resData->rowCount();
 					echo '<font color="green"> '.$h_data_ok.', '.$nb_lig.' '.$h_raws.' </font>'."\n";

@@ -186,18 +186,24 @@ if ($NomU != '') {
 	Init_infos_cnx();
 	$niveauNouveau = '';
 	
+	// Nettoyage du nom de la table okazou
+	$interdits = array('=', '(');
+	$NomU = str_replace($interdits, '', $NomU);
+
 	// $motPasseSha = hash('sha256', $salt1 . $NomU . $salt2 . $motPasse . $salt3);
 	$motPasseSha = hash('sha256', ';$€°d' . $NomU . '#\'_^' . $motPasse . '@")[&ù');
 	// echo $NomU.' / '.$motPasse.' / '.$motPasseSha;
 
-	$sql = 'SELECT niveau , nom, idUtil FROM '.nom_table('utilisateurs') .
+	$sql = 'SELECT niveau , nom, idUtil, codeUtil FROM '.nom_table('utilisateurs') .
 		' WHERE codeUtil = \'' . $NomU . '\' AND motPasseUtil = \'' . $motPasseSha .'\' limit 1';
 	if ($res = lect_sql( $sql)) {
 		if ($enreg = $res->fetch(PDO::FETCH_NUM)) {
-			$niveauNouveau = $enreg[0];
-			// Mémorisation de la connexion
-			$req = 'insert into '.nom_table('connexions')." values(".$enreg[2].",current_timestamp,'".getenv("REMOTE_ADDR")."')";
-			$res = maj_sql($req);
+			if ($enreg[3] == $NomU) {
+				$niveauNouveau = $enreg[0];
+				// Mémorisation de la connexion
+				$req = 'insert into '.nom_table('connexions')." values(".$enreg[2].",current_timestamp,'".getenv("REMOTE_ADDR")."')";
+				$res = maj_sql($req);
+			}
 		}
 	}
 

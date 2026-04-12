@@ -80,6 +80,15 @@ $Refer = Recup_Variable('Refer','N');
 
 $lg_date_a = '&nbsp;'.LG_AT.'&nbsp;';
 
+// Pour éviter les nulls qui posent problème sur la fiche familiale
+function Rattrape_null($Contenu, $Nom_Rub) {
+	global 	$rubs, $cont;
+	if ($Contenu == '') {
+		$rubs .= ','.$Nom_Rub;
+		$cont .= ",''";
+	}
+}
+
 function Aff_Pers($suffixe,$oblig) {
 	global $style_z_oblig, $enregP, $list_opt_villes, $idNomPers, $Nom, $Sexe, $chemin_images_icones, $Icones
 		, $hidden, $largP, $lg_date_a
@@ -376,6 +385,12 @@ function Aff_Donnees($Refer) {
 	Ins_Zone_Req_Rub('O','A','Diff_Internet');  // Diffusable par défaut
 	Ins_Zone_Req_Rub('N','A','Statut_Fiche');   // Non validée par défaut
 	Ins_Zone_Req_Rub($idNom,'N','idNomFam');
+	
+	// Pour éviter les nulls qui posent problème sur la fiche familiale
+	Rattrape_null($Sosa,'Numero');
+	Rattrape_null($DNai,'Ne_le');
+	Rattrape_null($DDec,'Decede_le');
+	Rattrape_null($Sexe,'Sexe');
 
 	// Mise en forme de la requête
 	$req = 'insert into '.nom_table('personnes').

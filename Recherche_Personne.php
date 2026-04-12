@@ -203,10 +203,12 @@ if ($bt_OK) {
 							$aff_annee = LG_PERS_REQ_DEATH_IN.$Annee;
 							if ($Tolerance != '0') $aff_annee .= ' (+ ou -'.$Tolerance.' an'.$plu_tolerance.')';
 							break;
-				case 'v' : $supReq = ' substr(Ne_le,1,4) <= '.$Annee.' and'.
-									 ' substr(Decede_Le,1,4) >= '.$Annee.' and '.
-									 ' substr(Ne_le,10,1) = \'L\' and '.
-									 ' substr(Decede_Le,10,1) = \'L\'';
+				case 'v' : 	$Annee_Min = $Annee - $annees_maxi_vivant;		 
+							$supReq = " (substr(Ne_le,1,4) between $Annee_Min and $Annee and substr(Ne_le,10,1) = 'L')"
+									." and ((substr(Decede_Le,1,4) >= $Annee and substr(Decede_Le,10,1) = 'L') or Decede_Le = '')"
+									;
+									 
+									 
 						$aff_annee = 'vivant en '.$Annee;
 						break;
 			}

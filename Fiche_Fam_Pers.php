@@ -19,12 +19,14 @@ $Refer = Recup_Variable('Refer','N');
 $req_sel = 'select * from ' . nom_table('personnes') . ' where Reference = '.$Refer.' limit 1';
 
 include('Gestion_Pages.php');
+// $is_bot = true;
 
 // Affichage des enfants avec le conjoint éventuel
 function Aff_Enfants($Mari,$Femme,$type_aff='E',$exclu=0) {
 	global $chemin_images_util, $est_contributeur, $SiteGratuit, $Premium, $premier_enf
 		, $lst_conj, $premier_lib_v, $h_LG_AT, $LG_Data_noavailable_profile
-		, $Commentaire, $Diffusion_Commentaire_Internet, $rech_comment_ville;
+		, $Commentaire, $Diffusion_Commentaire_Internet, $rech_comment_ville
+		, $debug;
 	if (($Mari) or ($Femme)) {
 		$crit = '';
 		if ($type_aff == 'E') {
@@ -118,6 +120,7 @@ function Aff_Enfants($Mari,$Femme,$type_aff='E',$exclu=0) {
 								.' where Reference = '.$Enfant.' limit 1';
 					$resEnf = lect_sql($sqlEnf);
 					$enregEnf = $resEnf->fetch(PDO::FETCH_ASSOC);
+					if ($debug) var_dump($enregEnf);
 
 					if ($_SESSION['estPrivilegie'] or ($enregEnf['Diff_Internet'] == 'O')) {
 
@@ -218,8 +221,9 @@ function Aff_Enfants($Mari,$Femme,$type_aff='E',$exclu=0) {
 			}
 			if ($nb_enfants > 0) {
 				echo '</table>'."\n";
-				if ($type_aff =='E') //and ((! $rangs_OK) or (! $dates_OK)))
-					echo '<a href="Edition_Rangs.php?Pere='.$Mari.'&amp;Mere='.$Femme.'">'.Affiche_Icone('arrange',LG_FFAM_RANK_REORG).'</a>';
+				if ($type_aff =='E') {//and ((! $rangs_OK) or (! $dates_OK)))
+					if ($est_contributeur) echo '<a href="Edition_Rangs.php?Pere='.$Mari.'&amp;Mere='.$Femme.'">'.Affiche_Icone('arrange',LG_FFAM_RANK_REORG).'</a>';
+				}
 			}
 		}
 		unset($enregEnf);
@@ -256,11 +260,13 @@ else {
 	memo_pers($Refer,$enreg['Nom'],$enreg['Prenoms']);
 	
 	// NB : tout le monde peut contribuer sur Internet
-	if ($Environnement == 'I') {
-		$txt_im = LG_FFAM_CONTRIBUTE.' '.$enreg['Prenoms'].' '.$enreg['Nom'];
-		$compl .= '<a href="'.Get_Adr_Base_Ref().'Ajout_Contribution.php?Refer='.$Refer.'">'.Affiche_Icone('contribuer',$txt_im).'</a>&nbsp;&nbsp;';
+	if (!$is_bot) {
+		if ($Environnement == 'I') {
+			$txt_im = LG_FFAM_CONTRIBUTE.' '.$enreg['Prenoms'].' '.$enreg['Nom'];
+			$compl .= '<a href="'.Get_Adr_Base_Ref().'Ajout_Contribution.php?Refer='.$Refer.'">'.Affiche_Icone('contribuer',$txt_im).'</a>&nbsp;&nbsp;';
+		}
+		$compl .= Affiche_Icone_Lien('href="Vue_Personnalisee_Rapide.php?Refer='.$Refer.'"','vue_pers',LG_FFAM_SET_AS_DECUJUS)."\n";
 	}
-	$compl .= Affiche_Icone_Lien('href="Vue_Personnalisee_Rapide.php?Refer='.$Refer.'"','vue_pers',LG_FFAM_SET_AS_DECUJUS)."\n";
 	
 	// Cache la personne ou la montre sur internet
 	if ($est_contributeur) {
@@ -269,8 +275,8 @@ else {
 		else
 			$compl .= Affiche_Icone_Lien('href="Cache_Montre_Rapide.php?Refer='.$Refer.'&amp;Diff=O"','internet_oui',LG_FFAM_SHOW_INTERNET)."\n";
 	}
-	
-	$compl .= Lien_Chrono_Pers($Refer)."\n";
+	if (!$is_bot)
+		$compl .= Lien_Chrono_Pers($Refer)."\n";
 	$compl .= Ajoute_Page_Info(600,150);
 	if ($est_privilegie)
 		$compl .= Affiche_Icone_Lien('href="exp_Gedcom_Personne.php?Refer='.$Refer.'"','gedcom',$LG_Menu_Title['Exp_Ged_Pers'])."\n";
@@ -376,7 +382,9 @@ else {
 	$x = Aff_Evenements_Objet($Refer,'F','N');
 
 	//  Documents lies a la personne
-	$x = Aff_Documents_Objet($Refer, 'P' , 'O');
+	if (!$is_bot) {
+		$x = Aff_Documents_Objet($Refer, 'P' , 'O');
+	}
 
 	//  Sources lies a la personne
 	$x = Aff_Sources_Objet($Refer, 'P' , 'O');
@@ -438,8 +446,10 @@ else {
 						echo Affiche_Icone_Lien(Ins_Ref_Fam($Ref_Union,'P'),'PDF',LG_FFAM_COUPLE_REC_PDF).'&nbsp;';
 					}
 				}
-				echo Affiche_Icone_Lien('href="Arbre_Noyau.php?Reference='.$Ref_Union.'"','groupe',$LG_Menu_Title['Nuclear_Family']).'&nbsp;';
-				echo Affiche_Icone_Lien('href="Asc_Conjoints.php?Reference='.$Ref_Union.'"','asc_conj',$LG_Menu_Title['Partners_Ancestors']).'&nbsp;';
+				if (!$is_bot) {				
+					echo Affiche_Icone_Lien('href="Arbre_Noyau.php?Reference='.$Ref_Union.'"','groupe',$LG_Menu_Title['Nuclear_Family']).'&nbsp;';
+					echo Affiche_Icone_Lien('href="Asc_Conjoints.php?Reference='.$Ref_Union.'"','asc_conj',$LG_Menu_Title['Partners_Ancestors']).'&nbsp;';
+				}
 
 				if (($Date_Mar != '') or ($Ville_Mar)) {
 					echo 'mari&eacute;s';
@@ -506,14 +516,13 @@ else {
 	// Affichage de la fratrie
 	echo '<hr/>';
 	Aff_Enfants($le_pere,$la_mere,'F',$Refer);
-	echo '<a href="Parentees.php?TP=OT&amp;Refer='.$Refer.'"> '.my_html($LG_Menu_Title['Pers_Uncles']).'</a><br />';
-	echo '<a href="Parentees.php?TP=CG&amp;Refer='.$Refer.'"> '.my_html($LG_Menu_Title['Pers_Cousins']).'</a>';
-
-	if ($debug) echo $nb_req_ex.' req';
+	if (!$is_bot) {
+		echo '<a href="Parentees.php?TP=OT&amp;Refer='.$Refer.'"> '.my_html($LG_Menu_Title['Pers_Uncles']).'</a><br />';
+		echo '<a href="Parentees.php?TP=CG&amp;Refer='.$Refer.'"> '.my_html($LG_Menu_Title['Pers_Cousins']).'</a>';
+	}
 	
 	Insere_Bas($compl);
 }
-
 
 ?>
 

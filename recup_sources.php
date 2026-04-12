@@ -88,7 +88,7 @@ echo '<a href="install.php">Page d\'installation</a>';
 // L'utilisateur a cliqué sur Mettre à jour les paramètres
 if ($majsource == 'OK') {
 	$nom_arch_locale = 'comp.zip';
-	$nom_arch_distante = 'http://tech.geneamania.net/Telechargements/';
+	$nom_arch_distante = 'https://tech.geneamania.net/Telechargements/';
 	if ($vTest == 'O') $nom_arch_distante .= 'Geneamania_test.zip';
 	else $nom_arch_distante .= 'Geneamania.zip';
 

@@ -22,6 +22,7 @@ function affiche_pers($nb) {
 session_start();
 include('fonctions.php');
 $acces = 'L';
+$index_follow = 'ON';		// NOFOLLOW demandé pour les moteurs
 
 $tab_variables = array('annuler');
 foreach ($tab_variables as $nom_variables) {

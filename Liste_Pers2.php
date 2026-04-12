@@ -25,10 +25,16 @@ if ($annuler == $lib_Retour) $annuler = $lib_Annuler;
 $Type_Liste = Recup_Variable('Type_Liste','C','PNDMCKpE'); // type de liste
 $idNom      = Recup_Variable('idNom','N');             // Famille, ville ou catégorie
 $NomL       = Recup_Variable('Nom','S');               // Nom de famille, de ville ou de catégorie
+$texte      = Dem_Texte();                             // texte ou non
 if ($NomL == '') $NomL = '?';
 $Ville      = Recup_Variable('Ville','N');             // Référence de la ville
-$texte      = Dem_Texte();                             // texte ou non
 $Tri        = Recup_Variable('Tri','C','FHD');         // tri de la liste par femme ou homme sur mariage
+
+// Cas des robots trompés par des ? dans le nom de la ville, vu dans les logs...
+if (! $Type_Liste) {
+	$Type_Liste = 'N';
+	$idNom = -1;	// Cela ne sert à rien de renvoyer un résultat lors de la requête de sélection !
+}
 
 // La liste des personnes par catégorie n'est valable que pour le profil gestionnaire
 if (($Type_Liste == 'C') and (isset($_SESSION['estGestionnaire']))) {
@@ -42,7 +48,7 @@ if (($SiteGratuit) and (!$Premium)) {
 	if ($Type_Liste == 'p') $Type_Liste = 'P';
 }
 
-$ma_var = 'LG_LPers_Obj_'.$Type_Liste;
+// $ma_var = 'LG_LPers_Obj_'.$Type_Liste;
 switch ($Type_Liste) {
 	case 'P' : $objet = LG_LPERS_OBJ_P; break;
 	case 'p' : $objet = LG_LPERS_OBJ_PC; break;
@@ -54,8 +60,6 @@ switch ($Type_Liste) {
 	case 'E' : $objet = LG_LPERS_OBJ_E; break;
 }
 $_SESSION['NomP'] = stripcslashes($NomL);
-$objet_pdf = chaine_pdf($objet.' '.$_SESSION['NomP']);
-// $objet = my_html($objet).' '.stripcslashes($NomL);
 $objet = $objet.' '.stripcslashes($NomL);
 
 $titre = $objet;     // Titre pour META
@@ -102,6 +106,7 @@ if (! $texte) {
 else {
 	// Sortie dans un PDF
 	if($sortie_pdf) {
+		$objet_pdf = chaine_pdf($objet.' '.$_SESSION['NomP']);
 		require('html2pdfb.php');
 		$sortie = 'P';
 		$pdf = new PDF_HTML();

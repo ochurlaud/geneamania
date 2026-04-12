@@ -28,6 +28,7 @@ if ($annuler == $lib_Retour) $annuler = $lib_Annuler;
 $acces = 'L';								// Type d'accès de la page : (M)ise à jour, (L)ecture
 $titre = $LG_Menu_Title['Histo_Death'];		// Titre pour META
 $x = Lit_Env();
+$index_follow = 'ON';		// NOFOLLOW demandé pour les moteurs
 include('Gestion_Pages.php');
 
 // Retour sur demande d'annulation

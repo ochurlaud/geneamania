@@ -410,6 +410,8 @@ function Insere_Bas($compl_entete) {
 	$x = Affiche_Icones_Standard();
 	echo '</tr>';
 	echo '</table>'."\n";
+	// Fichiers de session des bots : pool!
+	kill_sess_bot();
 }
 
 function Insere_Haut_texte ($titre) {
@@ -423,15 +425,18 @@ function Insere_Haut_texte ($titre) {
 }	
 
 function Ligne_Body($aff_manuel=true) {
-	global $chemin_images, $Image_Fond, $Icones, $offset_info;
-	$nom_manuel = 'Geneamania.pdf';
+	global $chemin_images, $Image_Fond, $Icones, $offset_info, $chemin_manuel;
+	// $nom_manuel = 'Geneamania.pdf';
+	// var_dump($chemin_manuel);
 	if (is_info()) {
 		$chemin = $offset_info.$chemin_images.$Image_Fond;
-		$chemin_manuel = $offset_info.$nom_manuel;
+		// $chemin_manuel = $offset_info.$nom_manuel;
 	} else {
 		$chemin = $chemin_images.$Image_Fond;
-		$chemin_manuel = $nom_manuel;
+		// $chemin_manuel = $nom_manuel;
 	}
+	// var_dump($offset_info);
+	// var_dump($chemin_manuel);
 	if (($Image_Fond != 'fonds/-') and (file_exists($chemin))) {
 		echo '<body background="'.$chemin.'">'."\n";
 		// echo '<body vlink="#0000ff" link="#0000ff" background="'.$chemin.'">'."\n";
@@ -556,7 +561,7 @@ function Ecrit_meta($titre,$cont,$mots,$index_follow='IF') {
 		if ($index_follow[1] == 'N') $p2 = 'NO';
 	  	echo '<meta name="robots" content="'.$p1.'INDEX, '.$p2.'FOLLOW">'."\n";
 	}
-	echo '<meta name="REVISIT-AFTER" content="7 days">'."\n";
+	// echo '<meta name="REVISIT-AFTER" content="7 days">'."\n";
 	// echo '<link rel="stylesheet" href="divers_styles.css">'."\n";
 	include ('divers_styles.css');
 	if (file_exists('divers_styles_part.css')) 
@@ -585,6 +590,8 @@ function Ecrit_meta($titre,$cont,$mots,$index_follow='IF') {
 function Etend_date($LaDate, $forcage=false) {
 	global $Mois_Lib,$ListeMoisRev,$ListeAnneesRev,$Affiche_Annee, $Environnement, $est_cnx,
 			$Premium, $Pivot_Masquage, $SiteGratuit, $langue, $LG_first;
+	if (is_null($LaDate))
+		$LaDate = '';
 	$long_date = strlen($LaDate);
 	if (($LaDate != '') and ($long_date == 10)) {
 		$date_retour = $LaDate;
@@ -660,6 +667,8 @@ function Etend_date($LaDate, $forcage=false) {
 // Fonction étendue d'affichage de date avec conversion des dates révolutionnares
 function Etend_date_2($LaDate, $forcage=false) {
 	global $aff_rev, $chemin_images_icones, $Icones;
+	if (is_null($LaDate))
+		$LaDate = '';
 	$LaDate2 = Etend_date($LaDate);
 	$long_date = strlen($LaDate);
 	if (($LaDate != '') and ($long_date == 10)) {
@@ -1317,7 +1326,12 @@ function Recup_Variable($nom_var,$type_var,$Autorises="") {
 		// if (!get_magic_quotes_gpc()) $contenu = addslashes($_GET[$nom_var]);
 		// else $contenu = $_GET[$nom_var];
 		$contenu = addslashes($_GET[$nom_var]);
+		$contenu = htmlspecialchars($contenu);
 	}
+	// $ucontenu = strtoupper($contenu);
+	// if (strpos($ucontenu,'SCRIPT') !== false) {
+		// $contenu = 'x';
+	// }
 	if ($contenu) {
 		if ($type_var == 'N') {
 			if (!is_numeric($contenu)) $contenu = 0;
@@ -1926,16 +1940,18 @@ function Affiche_Calendrier($nom_image,$fonc_click) {
 
 // Affiche l'icone d'information si la page d'information existe et le lien vers la page
 function Ajoute_Page_Info($largeur,$hauteur) {
-	global $chemin_images_icones, $Icones, $rep_Infos;
-	// Constitution du nom de la page info
-	$nom_script = $_SERVER['SCRIPT_NAME'];
-	if ($nom_script[0] == '/') $nom_script = substr($nom_script,1);
-	$nom_script = Retire_sr($nom_script);
-	$l_p  = strrpos($nom_script,'.');
-	$texte = 'Aide sur la page';
-	$nom_script = substr($nom_script,0,$l_p);
-	return '<a href=\'javascript:PopupCentrer("appel_info.php?aide='.$nom_script.'",'.$largeur.','.$hauteur.',"menubar=no,scrollbars=yes,statusbar=no")\'>'.
-		'<img src="'.$chemin_images_icones.$Icones['information'].'" alt="'.$texte.'" title="'.$texte.'" /></a>&nbsp;';
+	global $chemin_images_icones, $Icones, $rep_Infos, $is_bot;
+	if (!$is_bot) {
+		// Constitution du nom de la page info
+		$nom_script = $_SERVER['SCRIPT_NAME'];
+		if ($nom_script[0] == '/') $nom_script = substr($nom_script,1);
+		$nom_script = Retire_sr($nom_script);
+		$l_p  = strrpos($nom_script,'.');
+		$texte = 'Aide sur la page';
+		$nom_script = substr($nom_script,0,$l_p);
+		return '<a href=\'javascript:PopupCentrer("appel_info.php?aide='.$nom_script.'",'.$largeur.','.$hauteur.',"menubar=no,scrollbars=yes,statusbar=no")\'>'.
+			'<img src="'.$chemin_images_icones.$Icones['information'].'" alt="'.$texte.'" title="'.$texte.'" /></a>&nbsp;';
+	}
 }
 
 function Retire_sr($nom_script) {
@@ -2397,7 +2413,7 @@ function aff_menu($type_menu,$droits,$formu=true) {
 		$menu[] = sous_menu('Liste_Noms_Non_Ut.php','Name_Not_Used','C');
 	}
 	$menu[] = sous_menu('Vide_Base.php','Reset_DB','G');
-	if (!$SiteGratuit) $menu[] = sous_menu('Infos_Tech.php','Tech_Info','G');
+	$menu[] = sous_menu('Rectif_Notes.php','Rectif_Notes','G');
 
 	$menu[] = '0^^^ ^^^Informations^^^I^^^';
 	$menu[] = sous_menu('Premiers_Pas_Genealogie.php','Start','I');
@@ -2405,6 +2421,7 @@ function aff_menu($type_menu,$droits,$formu=true) {
 	$menu[] = sous_menu('Stat_Base.php','Statistics','I');
 	$menu[] = sous_menu('Liste_Liens.php','Links','I');
 	$menu[] = '1^^^Anniversaires.php^^^Anniversaires^^^I^^^';
+	if (!$SiteGratuit) $menu[] = sous_menu('Infos_Tech.php','Tech_Info','G');
 
 	$menu[] = '0^^^ ^^^Gestion du site^^^G^^^';
 	$menu[] = sous_menu('Edition_Parametres_Site.php','Site_parameters','G');

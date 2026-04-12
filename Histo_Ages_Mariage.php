@@ -1,10 +1,9 @@
 <?php
 
 //=====================================================================
-// Répartition des âges de mariage sur une période donnée
+// Répartition des âges de mariage ou de 1er enfant sur une période donnée
 // en fonction de l'année de naissance
 // (c) JLS
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -36,10 +35,12 @@ switch ($Type_Histo) {
 	case 'U' : $titre = $LG_Menu_Title['First_Wedding']; 
 				$Ch_Histo_Age_Youngest_M = LG_CH_HISTO_AGE_YOUNGEST_M;
 				$Ch_Histo_Age_Youngest_W = LG_CH_HISTO_AGE_YOUNGEST_W;
+				$ch_warn_age = LG_CH_HISTO_AGE_CTL_UNION;
 				break;
 	case 'F' : $titre = $LG_Menu_Title['Histo_First_Child']; 
 				$Ch_Histo_Age_Youngest_M = LG_CH_HISTO_AGE_YOUNGEST_FATH;
 				$Ch_Histo_Age_Youngest_W = LG_CH_HISTO_AGE_YOUNGEST_MOTH;
+				$ch_warn_age = LG_CH_HISTO_AGE_CTL_CHILD;
 				break;
 }
 $titre .= ' '.$Debut.'-'.$Fin;
@@ -94,6 +95,9 @@ if ($Type_Histo == 'F') {
 	$order = ' order by p.Ne_Le, p.Reference, e.Ne_le';
 }
 
+// Zone pour les incohérences de base : enfant né avant parent, union avant naissance...
+$warning_negatif = false;
+
 // Récupération des personnes pour lesquelles on peut calculer un âge, partie hommes
 $sql = $deb_sql . " and p.Sexe = 'm'".$order;
 $ref_anc = 0;
@@ -112,7 +116,11 @@ if ($res = lect_sql($sql)) {
 			$ans = floor($mois / 12);
 			if ($ans < 100) $rang = floor($ans / 10);
 			else            $rang = 10;
-			$nb_pers[$rang]++;
+			// var_dump($rang);
+			if ($rang < 0)
+				$warning_negatif = true;
+			else
+				$nb_pers[$rang]++;
 			if ($debug) {
 				echo $ref_nouv.', âge : '.Decompose_Mois($mois)
 					.' : <a '.Ins_Ref_Pers($ref_nouv).'>'.$ref_nouv.'</a>'
@@ -131,7 +139,7 @@ for ($nb=0;$nb<10;$nb++) {
 	$labels .= $nb.'0-'.$nb.'9'.'*';
 }
 $datas_h .= $nb_pers[10].'*';
-$labels .= '100et+'.'*';
+$labels .= '100 et+'.'*';
 
 $datas_h = substr($datas_h,0,strlen($datas_h)-1);
 $labels = substr($labels,0,strlen($labels)-1);
@@ -156,7 +164,10 @@ if ($res = lect_sql($sql)) {
 			$ans = floor($mois / 12);
 			if ($ans < 100) $rang = floor($ans / 10);
 			else            $rang = 10;
-			$nb_pers[$rang]++;
+			if ($rang < 0)
+				$warning_negatif = true;
+			else
+				$nb_pers[$rang]++;
 			if ($debug) {
 				echo $ref_nouv.', âge : '.Decompose_Mois($mois)
 					.' : <a '.Ins_Ref_Pers($ref_nouv).'>'.$ref_nouv.'</a>'
@@ -217,6 +228,13 @@ if (Get_Nom_Prenoms($ref_min_h,$Nom,$Prenoms)) {
 }
 if (Get_Nom_Prenoms($ref_min_f,$Nom,$Prenoms)) {
 	echo '<br />'.$Ch_Histo_Age_Youngest_W.' : <a '.Ins_Ref_Pers($ref_min_f).'>'.$Prenoms.'&nbsp;'.$Nom.'</a> ('.Decompose_Mois($min_mois_f).')';
+}
+
+// Un age d'évènement (naissance enfant, union) est antérieur à la date de naissance
+if ($est_contributeur) {
+	if ($warning_negatif) {
+		echo '<br><br>'.Affiche_Icone('tip','Conseil').' '.$ch_warn_age;
+	}
 }
 
 // Formulaire pour le bouton retour

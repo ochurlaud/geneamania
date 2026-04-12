@@ -389,7 +389,7 @@ if (($ok=='') && ($annuler=='')) {
 
 	// ville inconnue, supprimée entre temps, retour...
 	if ((!$enreg) and ($Ident != -1)) {
-		aff_erreur(LG_ICSV_TOWN_DELETED);
+		aff_erreur(LG_ICSV_TOWN_UNKNOWN);
 		echo '<a href="Liste_Villes.php?Type_Liste=V">'.LG_SUBDIV_LIST.'</a>';
 	}
 	else {
@@ -408,10 +408,22 @@ if (($ok=='') && ($annuler=='')) {
 		echo '</td></tr></table></div>'."\n";
 
 		echo '</form>'."\n";
+		
+		include ('gest_onglets.js');
+		// On cache les div d'ajout des villes et on positionne l'onglet par défaut
+		echo '<script type="text/javascript">'."\n";
+		echo 'function affiche_icone_carte(obj) {'."\n";
+		echo 'if ((document.getElementById(\'Latitude\').value == 0) && (document.getElementById(\'Longitude\').value == 0))'."\n";
+		echo '	document.getElementById(obj).style.display = "none";'."\n";
+		echo 'else'."\n";
+		echo '	document.getElementById(obj).style.display = "inline";'."\n";
+		echo '}'."\n";
+		echo '	setupPanes("container1", "tab1", 40);'."\n";
+		echo '	affiche_icone_carte(\'carte_osm\');'."\n";
+		echo '</script>'."\n";
 	}
 	Insere_Bas($compl);
   }
-  include ('gest_onglets.js');
 
 function champ_carte($libelle, $nom_champ, $valeur) {
 	global $largP;
@@ -421,24 +433,6 @@ function champ_carte($libelle, $nom_champ, $valeur) {
 }
 
 ?>
-
-<script type="text/javascript">
-<!--
-
-// On positionne l'onglet par défaut
-setupPanes("container1", "tab1",40);
-
-affiche_icone_carte('carte_osm');
-
-function affiche_icone_carte(obj) {
-	if ((document.getElementById('Latitude').value == 0) && (document.getElementById('Longitude').value == 0))
-		document.getElementById(obj).style.display = "none";
-	else
-		document.getElementById(obj).style.display = "inline";
-}
-
-//-->
-</script>
 
 </body>
 </html>

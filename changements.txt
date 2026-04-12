@@ -1,3 +1,42 @@
+Version 2025.03
+===============
+Liste_Evenements_Zone.php ==> nouveau : liste des évènements pour une zone géographique (accessible pour le moment à partir de la fiche ville)
+Fusion_Villes.php ==> nouveau : fusion d'une ville sur une autre ville (les naissances, lieux d'évènements , etc... sont basculés sur la ville cible) ; accessible depuis la fiche ville
+                  ==> correction : correction du code HTML
+Rectif_Notes.php ==> nouveau : utilitaire de rectification des commentaires
+Liste_Utilisateurs.php ==> amélioration : affichage du bouton d'envoi de mail uniquement si des utilisateurs ont été sélectionnés
+Calendriers.php ==> changement : couleur des mois pour plus de visibilité (suggestion de Christophe sur le forum)
+Import_Gedcom.php ==> correction : message "Requête en erreur : insert into sources values(...) SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1" en cas de présence de source dans le gedcom
+                  ==> amélioration : prise en compte des dates approximatives (dates avec des parenthèses dans le Gedcom)
+				  ==> libellé "mois inconnu" à tort si le fichier avait été créé en janvier
+				  ==> correction : message "Warning:  Undefined array key 4 ... on line 449" dans certains cas
+                  ==> correction : troncature active de certains champs des sources pour éviter le plantage quand la longueur est trop grande sur certaines configurations
+Recherche_Personne.php ==> correction : recherche sur les personnes vivantes pour une année donnée
+Liste_Pers2.php ==> correction : message "Warning:  Undefined variable $objet ... on line 57" dans certains cas (à priori accès via des robots à des villes contenant ?)
+                ==> correction : message "Notice: iconv(): Detected an illegal character in input string ... on line 3043" pour les noms de villes transcodifiées (accès robot)
+Edition_Depart.php ==> correction : message "Warning: Trying to access array offset on value of type bool ... on line 225" en cas de département inexistant
+Fiche_Ville.php ==> correction : message "Warning:  Trying to access array offset on value of type bool ... on line 59" (cas des robots qui accèdent en direct à des villes qui n'existent pas en base)
+Fiche_NomFam.php ==> correction : message "Warning:  Trying to access array offset on value of type bool ... on line 67" (cas des robots qui accèdent en direct à des noms qui n'existent pas en base)
+Ajout_Rapide.php ==> correction : suppression des nulls à la création de personnes qui pouvaient perturber d'autres endroits de l'application (la fiche familiale par exemple)
+Histo_Ages_Mariage.php ==> amélioration : conseil de vérification de la base pour des dates incohérentes
+                       ==> correction : message "Warning:  Undefined array key ... on line 115 ou 159"
+Histo_Ages_Deces.php ==> idem Histo_Ages_Mariage.php pour amélioration et correction
+Fiche_Homonymes.php ==> correction : message "PHP Deprecated:  htmlentities(): Passing null to parameter #1 ($string) of type string is deprecated ... on line 2813" + affichage de "Sexe indéterminé" lorsque le sexe d'une personne est inconnu
+Fiche_Evenement.php ==> correction : message "Warning:  Trying to access array offset on value of type bool ... on line 60" (cas des robots qui accèdent en direct à des évènements qui n'existent pas en base)
+Import_Sauvegarde.php ==> correction : la date du fichier affichée était parfois celle de création et non de dernière modification
+Infos_Tech.php ==> correction : verrouillage sur le site de téléchargement et les sites hébergés pour ne pas exposer des informations techniques
+               ==> changement : déplacement dans le sous-menu informations
+Fiche_Fam_Pers ==> correction : le lien vers l'édition des rangs n'était pas protégé (sans conséquence réelle car l'édition des rangs elle-même l'était)
+index.php.php ==> correction : durcissement du contrôle du formulaire de connexion
+Edition_Source.php ==> changement : passage du champ Adresse_Web à 200 caractères pour laisser plus de marge à l'utilisateur
+toutes les pages ==> changement : suppression de la balise "<meta name="REVISIT-AFTER" content="7 days">' qui est inutile
+                 ==> changement : gestion des sessions pour les robots
+plusieurs pages ==> correction : message "Deprecated:  strlen(): Passing null to parameter #1 ($string) of type string is deprecated ... on line 588" sur des dates vides
+                ==> correction : traitement des accès robots sans paramètres qui génèrent des erreurs
+                ==> suppression de liens pour les robots
+				==> faille de sécurité (XSS)
+
+
 Version 2024.08
 ===============
 Recherche_MatchId_Unitaire.php ==> nouveau : recherche unitaire dans matchId de la date de décès pour une personne

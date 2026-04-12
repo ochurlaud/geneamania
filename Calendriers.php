@@ -218,18 +218,20 @@ echo '    <option selected="selected" value="">'.$h_month.' ?</option>';
 // Eté       : couleur jaune...
 // Automne   : couleur marron...
 // Hiver     : couleur argent...
+// Yellow ==> orange
+// Silver ==> grey
 Ecrit_Mois('maroon',2,'Brumaire',$MoisRep);
 Ecrit_Mois('green' ,8,'Flor&eacute;al',$MoisRep);
 Ecrit_Mois('maroon',3,'Frimaire',$MoisRep);
-Ecrit_Mois('Yellow',12,'Fructidor',$MoisRep);
+Ecrit_Mois('orange',12,'Fructidor',$MoisRep);
 Ecrit_Mois('green' ,7,'Germinal',$MoisRep);
-Ecrit_Mois('Yellow',10,'Messidor',$MoisRep);
-Ecrit_Mois('silver',4,'Niv&ocirc;se',$MoisRep);
-Ecrit_Mois('silver',5,'Pluvi&ocirc;se',$MoisRep);
+Ecrit_Mois('orange',10,'Messidor',$MoisRep);
+Ecrit_Mois('grey',4,'Niv&ocirc;se',$MoisRep);
+Ecrit_Mois('grey',5,'Pluvi&ocirc;se',$MoisRep);
 Ecrit_Mois('green' ,9,'Prairial',$MoisRep);
-Ecrit_Mois('Yellow',11,'Thermidor',$MoisRep);
+Ecrit_Mois('orange',11,'Thermidor',$MoisRep);
 Ecrit_Mois('maroon',1,'Vend&eacute;miaire',$MoisRep);
-Ecrit_Mois('silver',6,'Vent&ocirc;se',$MoisRep);
+Ecrit_Mois('grey',6,'Vent&ocirc;se',$MoisRep);
 Ecrit_Mois('black' ,13,'sanculottides',$MoisRep);
 echo '</select>'."\n";
 
@@ -265,9 +267,9 @@ if ($JourRep >= 1 and $JourRep <= 30 and $MoisRep != "" and $AnneeRep != "") {
 
 echo '<br /><i>'.$h_month.' ';
 aff_color('green', LG_CALEND_SPRING);
-aff_color('yellow', LG_CALEND_SUMMER);
+aff_color('orange', LG_CALEND_SUMMER);
 aff_color('maroon', LG_CALEND_AUTUMN);
-aff_color('silver', LG_CALEND_WINTER);
+aff_color('grey', LG_CALEND_WINTER);
 aff_color('black', LG_CALEND_BROWSER_DEP);
 echo '</i><br />';
 echo '</p>';

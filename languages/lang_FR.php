@@ -319,8 +319,8 @@ if (($nom_page == 'Import_CSV_Evenements.php') or ($nom_page == 'appelle_chronol
 	$LG_ICSV_Event_Ca_Dates = 'approximation sur les dates';
 }
 
-if (in_array($nom_page,array('Import_CSV_Villes.php',
-							'Fiche_Ville.php', 'Edition_Ville.php'
+if (in_array($nom_page,array('Import_CSV_Villes.php', 'Fusion_Villes.php'
+							, 'Fiche_Ville.php', 'Edition_Ville.php'
 							)) 
 	) {
 	define('LG_ICSV_TOWN_ADD_DOCUMENT', 'Ajout d\'un document');
@@ -335,7 +335,7 @@ if (in_array($nom_page,array('Import_CSV_Villes.php',
 	define('LG_ICSV_TOWN_LINK_DOCUMENT', 'Lier un document existant à la ville');
 	define('LG_ICSV_TOWN_LINK_SOURCE', 'Lier une source à la ville');
 	define('LG_SUBDIV_LIST', 'Liste des villes');
-	define('LG_ICSV_TOWN_DELETED', 'Ville supprimée');
+	define('LG_ICSV_TOWN_UNKNOWN', 'Ville inconnue');
 	define('LG_ICSV_TOWN_NAME', 'Nom de la ville');
 	define('LG_ICSV_TOWN_PERS_CREATE', 'Création de personnes ');
 	define('LG_ICSV_TOWN_PERS_BORN_CREATE', LG_ICSV_TOWN_PERS_CREATE.'nées à ');
@@ -354,6 +354,10 @@ if (in_array($nom_page,array('Import_CSV_Villes.php',
 	define('LG_ICSV_TOWN_ZIP_CODE', 'Code postal');
 	define('LG_ICSV_TOWN_ZIP_LATITUDE', 'Latitude');
 	define('LG_ICSV_TOWN_ZIP_LONGITUDE', 'Longitude');
+	define('LG_CH_FUSIONNER', 'Fusionner');
+	define('LG_CH_FUSION_TOWN1', 'Ville 1');
+	define('LG_CH_FUSION_TOWN2', 'Ville 2');
+	define('LG_CH_FUSION_TARGET', 'Ville cible de la fusion');
 }
 
 if ($nom_page == 'Liste_Villes.php') {
@@ -416,7 +420,7 @@ if (in_array($nom_page,array('Liste_Pers_Gen.php', 'Import_CSV.php'
 							,'Ajout_Rapide.php', 'index.php'
 							,'Edition_Personnes_Ville.php'
 							,'Fiche_Homonymes.php', 'Ajout_Contribution.php'
-							, 'Recherche_Personne.php', 'Recherche_Personne_CP.php'
+							,'Recherche_Personne.php', 'Recherche_Personne_CP.php'
 							))
 	) {
 	define('LG_PERS_ADD_NAME', 'Ajout d\'un nom');
@@ -692,6 +696,9 @@ if (in_array($nom_page,array('Pyramide_Ages_Mar_Histo.php', 'Histo_Ages_Mariage.
 	define('LG_CH_HISTO_DEATH_TITLE', 'Age de décès pour la période ');
 	define('LG_CH_HISTO_REPARTITION', 'Répartition des âges');
 	define('LG_CH_HISTO_YEARS', 'ans');
+	define('LG_CH_HISTO_AGE_CTL_CHILD','Contrôle des personnes recommandé car au moins un enfant est né avant un de ses parents !');
+	define('LG_CH_HISTO_AGE_CTL_UNION',"Contrôle des personnes recommandé car au moins une union est antérieure à la date de naissance d'un conjoint !");
+	define('LG_CH_HISTO_AGE_CTL_BIRTH','Contrôle des personnes recommandé car au moins une personne est décédée avant sa naissance !');
 }
 
 if ($nom_page == 'Liste_Connexions.php') {
@@ -744,6 +751,7 @@ if (in_array($nom_page,array('Edition_Utilisateur.php'
 	define('LG_UTIL_THIS', 'cet utilisateur');
 	define('LG_UTIL_WARN', 'vous êtes sur la fiche de l\'utilisateur sous lequel vous êtes connecté(e)');
 	define('LG_USERS_LIST_ADD', 'Ajouter un utilisateur');
+	define('LG_UTIL_CHK_MAIL', 'Si vous voulez envoyer un mail, vous devez sélectionner les utilisateurs concernés');
 }
 
 if (($nom_page == 'Edition_Utilisateur.php') or ($nom_page == 'index.php')) {
@@ -776,6 +784,7 @@ if ($nom_page == 'Import_Gedcom.php') {
 	define('LG_IMP_GED_DEL_MANY_M', 'supprimés');
 	define('LG_IMP_GED_DEL_MANY_F', 'supprimées');
 	define('LG_IMP_GED_RESUME', 'Résumé du traitement');
+	define('LG_IMP_GED_TRUNC_STR', 'Zone tronquée sur la ligne ');
 }
 
 if ($nom_page == 'Liste_Docs_Branche.php') {
@@ -856,6 +865,8 @@ if ($nom_page == 'Edition_Depart.php') {
 	$LG_County_Name = 'Nom';
 	$LG_County_Id = 'Code';
 	$LG_County_Region = 'Région';
+	define('LG_DEPART_UNKNOWN', 'Département inconnu');
+	define('LG_LAREAS_COUNTIES', 'Liste des départements');
 }
 
 if (($nom_page == 'Edition_Depot.php') or ($nom_page == 'Fiche_Depot.php')) {
@@ -1669,8 +1680,28 @@ if ($nom_page == 'Vide_Base.php') {
 	define('LG_RESET_DATA_BEG', 'Données');
 	define('LG_RESET_DATA_END', 'supprimées');
 }
-	
-	
+
+if ($nom_page == 'Mail_Ut.php') {
+	define('LG_MAIL_SUBJECT', 'Sujet');
+	define('LG_MAIL_MSG', 'Sujet');
+	define('LG_MAIL_FROM', 'Il est préférable d\'utiliser une autre adresse mail de contact que ');	
+}
+
+if ($nom_page == 'Rectif_Notes.php') {
+	define('LG_RN_NOTE', 'Suppression "Note sur la personne" post import Gedcom');
+	define('LG_RN_CRLF', 'Remplacement des sauts de ligne "invisibles"');
+	define('LG_RN_SIMULATE', 'Mode simulation');
+	define('LG_RN_CMT_TO_UPD',' commentaire(s) à modifier');
+	define('LG_RN_UPD_NOTE',' commentaire(s) modifié(s)');
+	define('LG_RN_UPD_CRLF',' saut(s) de ligne "invisible(s)" modifié(s)');
+}
+
+define('LG_AREA_COUNTRY', 'Pays');
+define('LG_AREA_REGION', 'Région');
+define('LG_AREA_COUNTY', 'Département');
+define('LG_AREA_TOWN', 'Ville');
+define('LG_AREA_SUBDIV', 'Subdivision');
+
 // Divers
 $Mois_Lib = Array('janvier', 'février', 'mars', 'avril', 'mai', 'juin',
 					'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre');
@@ -1973,6 +2004,7 @@ if (!is_info()) {
 	$LG_Menu_Title['Names_List'] 				= 'Liste des noms de famille';
 	$LG_Menu_Title['Patronymic_List'] 			= 'Liste patronymique';
 	$LG_Menu_Title['Event_List']				= 'Liste des évènements';
+	$LG_Menu_Title['Event_List_Area']			= 'Liste des évènements pour une zone';
 	$LG_Menu_Title['News_List']					= 'Liste des actualités';
 	$LG_Menu_Title['Jobs_List']					= 'Liste des professions';
 	$LG_Menu_Title['County_List']				= 'Liste éclair';
@@ -2000,5 +2032,7 @@ if (!is_info()) {
 	$LG_Menu_Title['Export_Death']		    	= 'Export pour recherche des dates de décès';
 	$LG_Menu_Title['Reset_DB']			    	= 'Vidage de la base';
 	$LG_Menu_Title['MatchId_Sch']			    = 'Recherche matchId';
+	$LG_Menu_Title['Town_Merging']				= 'Fusion de villes';
+	$LG_Menu_Title['Rectif_Notes']				= 'Rectification des commentaires';
 }
 ?>

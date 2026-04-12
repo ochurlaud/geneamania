@@ -49,6 +49,9 @@ $ref_max_f = 0;
 
 for ($nb=0;$nb<=10;$nb++) $nb_pers[$nb] = 0;
 
+// Zone pour les incohérences de base : décès avant naissance...
+$warning_negatif = false;
+
 // Récupération des personnes pour lesquelles on peut calculer un âge, partie hommes
 $deb_sql = 'SELECT Ne_le, Decede_Le, Reference FROM '.nom_table('personnes').
 			" WHERE Ne_le LIKE '_________L'".
@@ -66,7 +69,10 @@ if ($res = lect_sql($sql)) {
 		$ans = floor($mois / 12);
 		if ($ans < 100) $rang = floor($ans / 10);
 		else            $rang = 10;
-		$nb_pers[$rang]++;
+		if ($rang < 0)
+			$warning_negatif = true;
+		else
+			$nb_pers[$rang]++;
 		if ($mois > $max_mois_h) { 
 			$max_mois_h = $mois;
 			$ref_max_h = $row[2];
@@ -99,7 +105,10 @@ if ($res = lect_sql($sql)) {
 		$ans = floor($mois / 12);
 		if ($ans < 100) $rang = floor($ans / 10);
 		else            $rang = 10;
-		$nb_pers[$rang]++;
+		if ($rang < 0)
+			$warning_negatif = true;
+		else
+			$nb_pers[$rang]++;
 		if ($mois > $max_mois_f) { 
 			$max_mois_f = $mois;
 			$ref_max_f = $row[2];
@@ -152,6 +161,13 @@ if (Get_Nom_Prenoms($ref_max_h,$Nom,$Prenoms)) {
 }
 if (Get_Nom_Prenoms($ref_max_f,$Nom,$Prenoms)) {
 	echo '<br />'.LG_CH_HISTO_AGE_OLDEST_W.' : <a '.Ins_Ref_Pers($ref_max_f).'>'.$Prenoms.'&nbsp;'.$Nom.'</a> ('.Decompose_Mois($max_mois_f).')';
+}
+
+// Un décès est antérieur à la date de naissance
+if ($est_contributeur) {
+	if ($warning_negatif) {
+		echo '<br><br>'.Affiche_Icone('tip','Conseil').' '.LG_CH_HISTO_AGE_CTL_BIRTH;
+	}
 }
 
 // Formulaire pour le bouton retour

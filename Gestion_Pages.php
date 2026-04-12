@@ -13,6 +13,41 @@ function Ecrit_Entete_Page($titre,$contenu,$mots,$index_follow='IF') {
 	Ecrit_Meta($titre,$contenu,$mots,$index_follow);
 }
 
+// Détruit toute la session, y compris le fichier de session pour les robots
+function kill_sess_bot() {
+	global $is_bot;
+	// Vérifie si l'agent utilisateur est un robot
+	if ($is_bot) {
+		// Détruit toutes les variables de session
+		$_SESSION = array();
+		
+		// Obtenir l'identifiant de la session
+		$session_id = session_id();
+
+		// Construire le chemin vers le fichier de session
+		$session_file = session_save_path() . '/sess_' . $session_id;
+		// var_dump($session_file);
+
+		// Vérifier si le fichier de session existe et le supprimer
+		if (file_exists($session_file)) {
+			unlink($session_file);
+			// echo "Le fichier de session a été supprimé.";
+		} else {
+			echo "Le fichier de session n'existe pas.";
+		}
+
+		// Finalement, on détruit la session
+		session_destroy();
+	}
+	// else echo 'pas un robot';
+}
+
+// L'accès est-il le fait d'un robot ?
+$is_bot =  (
+      isset($_SERVER['HTTP_USER_AGENT'])
+      && preg_match('/bot|crawl|slurp|spider|mediapartners/i', $_SERVER['HTTP_USER_AGENT'])
+	  ) ; 
+
 // Initialisations
 if (!isset($titre)) $titre = '';
 if (!isset($contenu)) $contenu = $titre;

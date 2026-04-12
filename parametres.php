@@ -253,6 +253,8 @@ $rupt_Fiche_Indiv = '';
 // Répertoire des pages d'information
 //$rep_Infos = 'pages_info/';
 //$offset_info = '../';
+$offset_info = '';
+$chemin_manuel = 'Geneamania.pdf';
 
 // Répertoire des langues
 $rep_lang = 'languages';

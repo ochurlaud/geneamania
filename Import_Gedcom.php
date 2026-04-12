@@ -3,7 +3,6 @@
 //=====================================================================
 // Import ou lecture d'un fichier Gedcom
 // (c) JLS
-// +UTF-8
 //=====================================================================
 
 session_start();
@@ -24,11 +23,22 @@ function suppression($lib,$n_table,$genre,$where,$affichage=true) {
 			if ($enr_mod > 1) $lib_sup = LG_IMP_GED_DEL_MANY_F;
 			else $lib_sup = LG_IMP_GED_DEL_1_F;
 		}
-	    echo $enr_mod.' '.$lib.' '.my_html($lib_sup).'<br />'."\n";
+	    echo $enr_mod.' '.$lib.' '.$lib_sup.'<br>'."\n";
     }
 }
 
-include('fonctions.php');
+// Tronque une zone à une longueur maxi ; évite des plantages sur certaines configurations
+function tronque($zone, $longueur) {
+	global $str, $nb_enr;
+	$lg = strlen($zone);
+	if (strlen($zone) > $longueur) {
+		echo LG_IMP_GED_TRUNC_STR.$nb_enr.' : '.$str.'<br>';
+		$zone = substr($zone, 0, $longueur);
+	}
+	return $zone;
+}
+
+require('fonctions.php');
 
 // Fonction de recctification UTF8
 include('Rectif_Utf8_Commun.php');
@@ -97,6 +107,7 @@ function init_format_lieux() {
 	$p_pays = -1;
 	for ($nb = 0; $nb < $nb_format_lieux; ++$nb) {
 		$zone = $format_lieux[$nb];
+		if ($zone == 'commune') $zone = 'ville';	// Pour les villes qui utilisent le mot commune à la place de ville
 		if ($zone == 'ville') $p_ville = $nb;
 		if ($zone == 'code postal') $p_code_postal = $nb;
 		if ($zone == 'département') $p_depart = $nb;
@@ -139,7 +150,7 @@ function Ansel_ANSI($Entree) {
 //  @#DFRENCH R@   <DATE_FREN>
 function traite_date($str) {
 	global $arr,$Mois_Abr, $ListeAnneesRev, $MoisRevAbr4;
-
+	
 	//Mois non trouvé sur la date
 	//2 DATE @#DFRENCH R@ 04 FRIM 9 , merci de prendre contact avec l'auteur en lui donnant la date en erreur.
 	//2 DATE @#DFRENCH R@ 4 VENT an IX
@@ -260,13 +271,28 @@ function traite_date($str) {
       $Annee  = substr($LaDate,$s2+1,4);
     }
 
-  // Attention si type calendrier incorrect ou calendrier rév ******************
-  if ($type_cal == '') $type_cal = 'G';
-  $ret = $Annee.$Mois.$Jour.$type_cal.$Precision;
-  if ($ret == '000001G') $ret = '';
-  if ($ret == '000001XL') $ret = '';
-  //echo 'Trait date : '.$str.', retour : '.$ret.'</br>';
-  return $ret;
+	// Attention si type calendrier incorrect ou calendrier rév ******************
+	if ($type_cal == '') $type_cal = 'G';
+	$ret = $Annee.$Mois.$Jour.$type_cal.$Precision;
+
+	// Traitement résiduel des dates incertaines : exemple 2 DATE (ABT 1784) donne 1784)0101GE ==> il faut supprimer les parenthèses
+	$ret = str_replace(')','',$ret);
+	$ret = str_replace('(','',$ret);
+
+	if ($ret == '000001G') $ret = '';
+	if ($ret == '000001XL') $ret = '';
+	// RAZ des dates qui ne sont pas sur 10 en sortie, donc à priori non correctement traitées
+	if (strlen($ret) != 10) {
+			$ret= '';
+	} else {
+		// Rattrapage des dates approximatives
+		if (strpos($str,'(') !== false) {
+			$ret[9] = 'E';
+		}
+	}
+	
+	// echo 'Trait date : '.$str.', retour : '.$ret.'</br>';
+	return $ret;
 }
 
 // Transforme une date Gedcom en format DateTime
@@ -292,18 +318,18 @@ function rech_zone($tableau_lib,$tableau_ref,$posi,$table,$nom_zone,$niveau) {
 	
 	if ($debug) {
 		$lieu_arr_str = implode($lieu_arr);
-		echo 'lieu_arr : '.$lieu_arr_str.'<br />';
+		echo 'lieu_arr : '.$lieu_arr_str.'<br>';
 		echo 'posi : '.$posi.', ';
-		echo 'Niveau : '.$niveau.'/'.$la_zone.'<br />';
+		echo 'Niveau : '.$niveau.'/'.$la_zone.'<br>';
 	}
 
 	$zone_geo = -1;
 
 	if ($niveau == 4) {
-		//echo $la_zone.'/'.$memo_lib_ville.'<br />';
+		//echo $la_zone.'/'.$memo_lib_ville.'<br>';
 		if ($la_zone == $memo_lib_ville) {
 			$zone_geo = $memo_ville;
-			//echo 'pas de recherche...<br />';
+			//echo 'pas de recherche...<br>';
 		}
 		$memo_lib_ville = $la_zone;
 	}
@@ -314,7 +340,7 @@ function rech_zone($tableau_lib,$tableau_ref,$posi,$table,$nom_zone,$niveau) {
 		// Si la zone a déjà été analysée, on a son identifiant
 		$x = false;
 		if (isset($tableau_lib)) $x = array_search($la_zone,$tableau_lib);
-		//if ($debug) for ($nb=0;nb<count($tableau_lib);$nb++) echo $nb.':'.$tableau_lib[$nb].'<br />';
+		//if ($debug) for ($nb=0;nb<count($tableau_lib);$nb++) echo $nb.':'.$tableau_lib[$nb].'<br>';
 		// La zone a été trouvée dans le tableau
 		if ($x !== false) {
 			$zone_geo = $tableau_ref[$x];
@@ -339,7 +365,7 @@ function rech_zone($tableau_lib,$tableau_ref,$posi,$table,$nom_zone,$niveau) {
 					$doit_rech = false;
 				if ($doit_rech) {
 					$sql = 'select Identifiant_zone from '.$table.' where '.$nom_zone.' = \''.$sZone.'\' limit 1';
-					if ($debug) echo 'rech <br />';
+					if ($debug) echo 'rech <br>';
 					if ($res = lect_sql($sql)) {
 						if ($enreg = $res->fetch(PDO::FETCH_NUM)) {
 							$zone_geo = $enreg[0];
@@ -356,7 +382,7 @@ function rech_zone($tableau_lib,$tableau_ref,$posi,$table,$nom_zone,$niveau) {
 		}
 	}
 	if ($niveau == 4) $memo_ville = $zone_geo;
-	if ($debug) echo 'val retour = '.$zone_geo.'<br />';
+	if ($debug) echo 'val retour = '.$zone_geo.'<br>';
 	return $zone_geo;
 }
 
@@ -430,7 +456,9 @@ function traite_lieu($str) {
 					$lg_cp = strlen($code_postal);
 				}
 				// Contrôle de cohérence du code postal pour la France
-				if (($p_pays != -1) and ($p_pays <= $c_lieux)) {
+				if (($p_pays != -1) and ($p_pays < $c_lieux)) {
+					// var_dump($p_pays);
+					// var_dump($c_lieux);
 					if (strtoupper(trim($lieu_arr[$p_pays])) == 'FRANCE') {
 						if ($code_postal != 'null') {
 							if ((!is_numeric($code_postal)) or ($lg_cp <> 5)) {
@@ -547,9 +575,9 @@ if ($ok=='OK') {
     $msg = '';
     $Codage_ANSEL = 0;
     $msg .= ' Fichier demand&eacute; : '.$_FILES['nom_du_fichier']['name'];
-    echo $msg.'<br />';
+    echo $msg.'<br>';
 	if ($fic_utf8 == 'on')
-		echo $LG_Ch_UTF8.'<br />';
+		echo $LG_Ch_UTF8.'<br>';
 
     $erreur = false;
 
@@ -615,12 +643,12 @@ if ($ok=='OK') {
 			// Demande de reprise des dates ou non
 			$Rep_date = ($reprise_date == 'on') ? true : false;
 
-     		if ($Maj) echo 'Demande de mise &agrave; jour des donn&eacute;es<br />';
-          	else      echo 'Demande de lecture des donn&eacute;es<br />';
+     		if ($Maj) echo 'Demande de mise &agrave; jour des donn&eacute;es<br>';
+          	else      echo 'Demande de lecture des donn&eacute;es<br>';
 
           	if (($Maj) and ($Init)) {
 				
-	            echo 'Demande de suppression des donn&eacute;es de la base :<br />';
+	            echo 'Demande de suppression des donn&eacute;es de la base :<br>';
 	            suppression('filiation',$n_filiations,'f','');
 	            suppression('union',$n_unions,'f','');
 	            suppression('image',$n_images,'f','Type_Ref  in ("P","V","U")');
@@ -658,7 +686,7 @@ if ($ok=='OK') {
 					$res->closeCursor();
 				}
 				if ($num_ville != 0) $existe_villes = true;
-				//if ($existe_villes) echo 'existe ville<br /> '; else echo 'pas de villes en base<br />';
+				//if ($existe_villes) echo 'existe ville<br> '; else echo 'pas de villes en base<br>';
           	}
 
           	// Optimisation
@@ -690,19 +718,19 @@ if ($ok=='OK') {
             // Rappel des options demandées
             echo 'Visibilit&eacute; Internet ';
             if ($diff_internet != 'on') echo 'non ';
-            echo 'autoris&eacute;e par d&eacute;faut<br />';
+            echo 'autoris&eacute;e par d&eacute;faut<br>';
             echo 'Visibilit&eacute; Internet des notes ';
             if ($diff_internet_note != 'on') echo 'non ';
             echo 'Visibilit&eacute; Internet des images ';
             if ($diff_internet_img != 'on') echo 'non ';
-            echo 'autoris&eacute;e par d&eacute;faut<br />';
+            echo 'autoris&eacute;e par d&eacute;faut<br>';
             echo 'Statut par d&eacute;faut des fiches : ';
             switch ($Statut_Fiche) {
               case 'O' : echo 'valid&eacute;'; break;
               case 'N' : echo 'non valid&eacute;'; break;
               case 'I' : echo 'source internet'; break;
             }
-            echo '<br />';
+            echo '<br>';
             echo 'Reprise des dates de modification du fichier : ';
             if ($Rep_date) echo 'oui';
             else           echo 'non';
@@ -761,7 +789,7 @@ if ($ok=='OK') {
             $p_blanc = strpos($str,' ');
             $niveau = intval(substr($str,0,$p_blanc));
 
-			if ($debug) echo $nb_enr.' :' .$str.'<br />';
+			if ($debug) echo $nb_enr.' :' .$str.'<br>';
 
 			// Traitement en rupture sur niveau 0
 			if (($niveau == 0) and ($nb_enr > 1)) {
@@ -794,9 +822,10 @@ if ($ok=='OK') {
                 				'0,'.		// Ident_Depot ==> on rattache par défaut au dépôt générique
                 				'\''.ajoute_sl_rt($S_Ident_Depot_Tempo).'\','.
                 				'\''.ajoute_sl_rt($S_Cote).'\','.
-                				'null,'.
+                				'null,'.	// Adresse_Web
+                				'null,'.	// Fiabilite_Source
                 				'\''.$S_Ident_Source_Tempo.'\''.
-                				');';	// Adresse_Web
+                				');';	
 						$res = maj_sql($req);
                 	}
 				}
@@ -823,7 +852,7 @@ if ($ok=='OK') {
 						', lieu de d&eacute;c&egrave;s : '.$lieu_deces.
 						//' m&eacute;tier : '.$metier.
 						', commentaire : '.$comment.
-						'</font><br />';
+						'</font><br>';
                 }
                 // Demande de mise à jour
                 else {
@@ -857,7 +886,7 @@ if ($ok=='OK') {
 	                    	$la_date = $date_ev[$nb_ev];
 							if ($la_date == '') $la_date = 'null';
 							else                $la_date = '\''.$la_date.'\'';
-							//echo 'code : '.$code_ev[$nb_ev].', date : '.$la_date.', lieu : '.$lieu_ev[$nb_ev].'<br />';
+							//echo 'code : '.$code_ev[$nb_ev].', date : '.$la_date.', lieu : '.$lieu_ev[$nb_ev].'<br>';
 							// Le titre est celui du type de l'évènement si vide
 							$titre = $titre_ev[$nb_ev];
 							if ($Codage_ANSEL) $titre = Ansel_ANSI($titre);
@@ -923,7 +952,7 @@ if ($ok=='OK') {
                        ', lieu de mariage : '.$lieu_mariage.
                        ', date de contrat de mariage : '.Etend_date($date_K).
                        ', lieu de contrat de mariage : '.$lieu_K.
-                       '</font><br />';
+                       '</font><br>';
                 }
 				$num_mari  = strval($mari);
 				$num_femme = strval($femme);
@@ -975,7 +1004,7 @@ if ($ok=='OK') {
 		                    	$la_date = $date_ev[$nb_ev];
 								if ($la_date == '') $la_date = 'null';
 								else                $la_date = '\''.$la_date.'\'';
-								//echo 'code : '.$code_ev[$nb_ev].', date : '.$la_date.', lieu : '.$lieu_ev[$nb_ev].'<br />';
+								//echo 'code : '.$code_ev[$nb_ev].', date : '.$la_date.', lieu : '.$lieu_ev[$nb_ev].'<br>';
 								// Le titre est celui du type de l'évènement si vide
 								$titre = $titre_ev[$nb_ev];
 								if ($Codage_ANSEL) $titre = Ansel_ANSI($titre);
@@ -1024,7 +1053,7 @@ if ($ok=='OK') {
             }
 
             $zone2 = rtrim(substr($str,$p_blanc+1,4));
-            //echo 'zone 2 : >'.$zone2.'<<br />';
+            //echo 'zone 2 : >'.$zone2.'<<br>';
 
             // Type de ligne ?
 			$l_NOTE = false;
@@ -1040,7 +1069,7 @@ if ($ok=='OK') {
 			if ($l_DATE) $str = str_replace('  ',' 0',$str);
 
             $z1 = strtoupper($zone2);
-            //echo 'str : '.$str.'<br />';
+            //echo 'str : '.$str.'<br>';
             if (( ! $l_NOTE) and (! $l_CONT) and (! $l_CONC) ) {
 				$arr = explode(' ',$str);
             }
@@ -1082,7 +1111,7 @@ if ($ok=='OK') {
 					case 'HEAD'	: $s_HEAD = true; break;
 	            }
 
-	            //echo 'Zone 2 : '.$zone2.'<br />';
+	            //echo 'Zone 2 : '.$zone2.'<br>';
             }
 
             // Traitement de la section HEAD ==> affichage
@@ -1108,7 +1137,7 @@ if ($ok=='OK') {
                   if ($c_arr_date == 5) {
                     $msg .= trim($arr[2]).' ';
                     $x = array_search(strtoupper(trim($arr[3])),$Mois_Abr);
-                    if ($x) $msg .= $Mois_Lib[$x].' ';
+                    if ($x !== FALSE) $msg .= $Mois_Lib[$x].' ';
                     else    $msg .= 'mois inconnu ';
                     $msg .= trim($arr[4]).' ';
 					echo $msg.'<br>';
@@ -1143,7 +1172,7 @@ if ($ok=='OK') {
               }
               // Sous-section de niveau 2
               // Récupération des informations complémentaires
-              if ($niveau == 2) {
+              if (($niveau == 2) and (count($arr))> 2 ){
                 $z2 = trim($arr[2]);
                 if ($ss_SOUR == 1) {
                   if ($sous_section == 'VERS') $msg = '+Version de la source : '.$z2;
@@ -1286,14 +1315,14 @@ if ($ok=='OK') {
 			                      $date_ev[] = '';
 			                      $lieu_ev[] = 0;
 			                      $ssGed = true;
-			                      //echo '<b>sous section gedcom : '.$sous_section.'</b>, num_ev'.$num_ev.'<br />';
+			                      //echo '<b>sous section gedcom : '.$sous_section.'</b>, num_ev'.$num_ev.'<br>';
 			                      if ($sous_section == 'OCCU') $metier = trim(substr($str,7));
 			                    }
 			                  }
                   }
                 }
                 if ($niveau == 2) {
-                	//echo 'sous-section : '.$sous_section.', z1 : '.$z1.'<br />';
+                	// echo 'sous-section : '.$sous_section.', z1 : '.$z1.'<br>';
                   switch ($sous_section) {
                     case 'BIRT' :   if ($z1 == 'DATE') $date_naissance = traite_date($str);
 									else {
@@ -1311,7 +1340,7 @@ if ($ok=='OK') {
                     case 'CHAN' : if (($z1 == 'DATE') and ($Rep_date)) $date_mod = traite_date_dt($arr);
                                   break;
                     default : if ($ssGed == 1) {
-                                //echo '<i>sous section gedcom : '.$sous_section.'</i>, num_ev'.$num_ev.'<br />';
+                                //echo '<i>sous section gedcom : '.$sous_section.'</i>, num_ev'.$num_ev.'<br>';
                                 // Récupération des dates et lieux d'un évènement Gedcom
                                 if ($z1 == 'DATE') {
                                   $date_ev[$num_ev] = traite_date($str);
@@ -1324,32 +1353,32 @@ if ($ok=='OK') {
                 // Traitement particulier des notes sur les personnes
                 // Niveau 1 : directement sous la personne
                 // Niveau 2 : on prend en compte si rattaché à la naissance ou le décès
-                //echo 'sous-section : '.$sous_section.', niveau : '.$niveau.'/'.$zone2.'<br />';
+                //echo 'sous-section : '.$sous_section.', niveau : '.$niveau.'/'.$zone2.'<br>';
                 if ($zone2 == 'NOTE') {
                 	$pec_note = false;
                 	if ($niveau == 1) {
                 		$pec_note = true;
-                		if ($comment != '') $comment .= '<br />';
-                		$comment .= 'Note sur la personne :<br />'.rtrim(substr($str,7));
+                		if ($comment != '') $comment .= '<br>';
+                		$comment .= 'Note sur la personne :<br>'.rtrim(substr($str,7));
                 	}
                 	if ($niveau == 2) {
                 		$n1 = $niveau - 1;
-                		//echo 'arbo - 1 : '.$arbo[$n1].'<br />';
+                		//echo 'arbo - 1 : '.$arbo[$n1].'<br>';
                 		if ($arbo[$n1] == 'BIRT') {
 	                		$pec_note = true;
-                			if ($comment != '') $comment .= '<br />';
-                			$comment .= 'Note sur la naissance : <br />'.rtrim(substr($str,7));
+                			if ($comment != '') $comment .= '<br>';
+                			$comment .= 'Note sur la naissance : <br>'.rtrim(substr($str,7));
                 		}
                 		if ($arbo[$n1] == 'DEAT') {
 	                		$pec_note = true;
-                			if ($comment != '') $comment .= '<br />';
-                			$comment .= 'Note sur le d&eacute;c&egrave;s :<br />'.rtrim(substr($str,7));
+                			if ($comment != '') $comment .= '<br>';
+                			$comment .= 'Note sur le d&eacute;c&egrave;s :<br>'.rtrim(substr($str,7));
                 		}
                 	}
                 }
 				// On ne prend en compte les continuations que sur les notes prises en charge
                 if (($zone2 == 'CONT') and ($pec_note)) {
-                	$comment .= '<br />'.rtrim(substr($str,7));
+                	$comment .= '<br>'.rtrim(substr($str,7));
                 }
                 if (($zone2 == 'CONC') and ($pec_note)) {
                 	$comment .= rtrim(substr($str,7));
@@ -1443,7 +1472,7 @@ if ($ok=='OK') {
                 }
                 switch ($zone2) {
                 	case 'NOTE' : $comment .= rtrim(substr($str,7)); break;
-	                case 'CONT' : $comment .= '<br />'.rtrim(substr($str,7)); break;
+	                case 'CONT' : $comment .= '<br>'.rtrim(substr($str,7)); break;
 	                case 'CONC' : $comment .= rtrim(substr($str,7)); break;
                 }
               }
@@ -1455,9 +1484,9 @@ if ($ok=='OK') {
 					$sous_section = $z1;
 					$z2 = rtrim(substr($str,7));
 					switch ($sous_section) {
-						case 'TITL' : $S_Titre = $z2; break;
-						case 'AUTH' : $S_Auteur = $z2; break;
-						case 'ABBR' : $S_Classement = $z2; break;
+						case 'TITL' : $S_Titre = tronque($z2,100); break;
+						case 'AUTH' : $S_Auteur = tronque($z2); break;
+						case 'ABBR' : $S_Classement = tronque($z2); break;
 						case 'REPO' : $S_Ident_Depot_Tempo = $z2; break;
 					}
 				}
@@ -1482,10 +1511,10 @@ if ($ok=='OK') {
 				}
 			}
 
-              //echo '('.$niveau.' : '.$section.'/'.$sous_section.')'.$tab.$str.'<br />'."\n";
+              //echo '('.$niveau.' : '.$section.'/'.$sous_section.')'.$tab.$str.'<br>'."\n";
             }
             if (substr($msg,0,1) == '+') {
-              echo substr($msg,1).'<br />'."\n";
+              echo substr($msg,1).'<br>'."\n";
             }
 
             // Mémo de la balise précédente
@@ -1494,19 +1523,19 @@ if ($ok=='OK') {
           }
         }
         else {
-          echo 'Fichier impossible &agrave; ouvrir<br />';
+          echo 'Fichier impossible &agrave; ouvrir<br>';
         }
         fclose($fp);
         /*
         for ($nb_ind = 1;$nb_ind < count($individus_ref);$nb_ind++) {
           echo $individus_ref[$nb_ind];
           if ($maj_oui == 'on') echo ' ==> '.$individus_ref_base[$nb_ind];
-          echo '<br />'."\n";
+          echo '<br>'."\n";
         }
         for ($nb_villes = 0;$nb_villes < count($lib_villes);$nb_villes++) {
           echo $lib_villes[$nb_villes];
           if ($maj_oui == 'on') echo ' ==> '.$ref_villes[$nb_villes];
-          echo '<br />'."\n";
+          echo '<br>'."\n";
         }
         */
 
@@ -1562,19 +1591,19 @@ if ($ok=='OK') {
         $nb_pers = count($individus_ref) - 1; // 1ère pos à x pour trouver le poste 0
         $tab = '&nbsp;&nbsp;';
 		if ($Codage_ANSEL)
-			echo 'D&eacute;codage des caract&egrave;res ANSEL vers ANSI<br />';
-		echo LG_IMP_GED_RESUME.' :<br />';
-		echo $tab.'D&eacute;but :&nbsp;'.$debut.'<br />';
-		echo $tab.'Fin :&nbsp;'.$fin.'<br />';
-		echo $tab.$nb_pers.' personnes '.$action.'<br />';
+			echo 'D&eacute;codage des caract&egrave;res ANSEL vers ANSI<br>';
+		echo LG_IMP_GED_RESUME.' :<br>';
+		echo $tab.'D&eacute;but :&nbsp;'.$debut.'<br>';
+		echo $tab.'Fin :&nbsp;'.$fin.'<br>';
+		echo $tab.$nb_pers.' personnes '.$action.'<br>';
         if (isset($nb_cre_noms)) {
-			if ($nb_cre_noms > 0) echo $tab.$idNom.' noms '.$action_m.'<br />';
+			if ($nb_cre_noms > 0) echo $tab.$idNom.' noms '.$action_m.'<br>';
 		}
-		echo $tab.$nb_unions.' unions '.$action.'<br />';
-		echo $tab.$nb_filiations.' filiations '.$action.'<br />';
+		echo $tab.$nb_unions.' unions '.$action.'<br>';
+		echo $tab.$nb_filiations.' filiations '.$action.'<br>';
 		if (($maj_oui == 'on') and (isset($ref_villes))) 
-			echo $tab.count($ref_villes).' villes '.$action.'<br />';
-        echo $tab.'Format des lieux pris en charge : '.my_html($lieux).'<br />';
+			echo $tab.count($ref_villes).' villes '.$action.'<br>';
+        echo $tab.'Format des lieux pris en charge : '.my_html($lieux).'<br>';
 
         if ($maj_oui == 'on') {
         	maj_date_site(true);
@@ -1584,11 +1613,11 @@ if ($ok=='OK') {
 				. '<a href="'.$base_ref.'Liste_Pers.php?Type_Liste=P">'
 				. LG_IMP_GED_REMIND_SOSA_2.'</a>.&nbsp;'. LG_IMP_GED_REMIND_SOSA_3
 				. '<a href="'.$base_ref.'Verif_Sosa.php">'
-				. $LG_Menu_Title['Check_Sosa'].'</a>,<br />'."\n";
+				. $LG_Menu_Title['Check_Sosa'].'</a>,<br>'."\n";
 			echo $ic_conseil.LG_IMP_GED_REMIND_EVT
-				. '<a href="'.$base_ref.'Fusion_Evenements.php">'.$LG_Menu_Title['Event_Merging'].'</a>.<br />';
+				. '<a href="'.$base_ref.'Fusion_Evenements.php">'.$LG_Menu_Title['Event_Merging'].'</a>.<br>';
 			echo $ic_conseil.LG_IMP_GED_REMIND_INTERNET
-				. '<a href="'.$base_ref.'Verif_Internet.php">'.$LG_Menu_Title['Internet_Cheking'].'</a>.<br />';	
+				. '<a href="'.$base_ref.'Verif_Internet.php">'.$LG_Menu_Title['Internet_Cheking'].'</a>.<br>';	
         }
       }
     }
@@ -1602,7 +1631,7 @@ if ($_SESSION['estGestionnaire']) {
 	// Première entrée : affichage pour saisie
 	if (($ok=='') && ($annuler=='')) {
 
-		echo '<br />';
+		echo '<br>';
 
 		$larg_titre = '35';
 		echo '<form id="saisie" method="post" enctype="multipart/form-data" action="'.my_self().'">'."\n";

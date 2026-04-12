@@ -83,8 +83,8 @@ if ($bt_OK) {
 	$ADepot				= Secur_Variable_Post($ADepot,1,'N');
 	$Cote				= Secur_Variable_Post($Cote,100,'S');
 	$ACote				= Secur_Variable_Post($ACote,100,'S');
-	$Adresse_Web		= Secur_Variable_Post($Adresse_Web,100,'S');
-	$AAdresse_Web		= Secur_Variable_Post($AAdresse_Web,100,'S');
+	$Adresse_Web		= Secur_Variable_Post($Adresse_Web,200,'S');
+	$AAdresse_Web		= Secur_Variable_Post($AAdresse_Web,200,'S');
 	$Divers				= Secur_Variable_Post($Divers,65535,'S');
 	$ADivers			= Secur_Variable_Post($ADivers,65535,'S');
 	$Fiabilite_Source	= Secur_Variable_Post($Fiabilite_Source,1,'S');

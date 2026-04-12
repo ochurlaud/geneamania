@@ -28,11 +28,13 @@ $idents   = Secur_Variable_Post($idents,500,'S');
 $sujet    = Secur_Variable_Post($sujet,80,'S');
 $message  = Secur_Variable_Post($message,250,'S');
 
+// var_dump($idents);
+
 // On n'autorise que les chiffres et la virgule
 $idents = preg_replace('/([^,0-9]+)/i', '', $idents);
 
 // Gestion standard des pages
-$acces = 'M';						// Type d'accès de la page : (M)ise à jour, (L)ecture
+$acces = 'M';						// Type d'accès de la page : (M)ise à jour
 $titre = 'Envoi d\'un mail';		// Titre pour META
 $x = Lit_Env();						// Lecture de l'indicateur d'environnement
 $niv_requis = 'G';					// Les contributions sont ouvertes à tout le monde
@@ -98,19 +100,20 @@ else {
 	}
 	echo '<input type="hidden" name="idents" value="'.$idents.'"/>'."\n";
 	echo '<input type="hidden" name="maxi" value="'.$max_emails.'"/>'."\n";
+	// var_dump($idents);
 	
 	$larg_titre = '25';
 	
 	echo '<table width="70%" class="table_form">'."\n";
 	ligne_vide_tab_form(1);
 	
-	col_titre_tab('Sujet',$larg_titre);
+	col_titre_tab(LG_MAIL_SUBJECT,$larg_titre);
 	echo '<td class="value">';
 	echo '<input class="oblig" type="text" name="sujet" id="sujet" size="80" maxlength="80"/>&nbsp;'."\n";
 	Img_Zone_Oblig('imgOblig1');
 	echo '</td></tr>'."\n";
 	
-	col_titre_tab('Message',$larg_titre);
+	col_titre_tab(LG_MAIL_MSG,$larg_titre);
 	echo '<td class="value">';
 	echo '<textarea cols="50" rows="5" name="message" id="message"></textarea>&nbsp;'."\n";
     Img_Zone_Oblig('imgOblig2');
@@ -119,6 +122,10 @@ else {
 	bt_ok_an_sup($lib_Okay, $lib_Annuler, '', '', true);    
     
 	echo '</table>';
+		
+	if ((!$SiteGratuit) and ($FromTo_Mail = 'support@geneamania.net'))
+		echo '<br>'.Affiche_Icone('tip','Information').' '.LG_MAIL_FROM.$FromTo_Mail.'<br>'."\n";
+
 	echo '</form>';
 	
 }

@@ -127,8 +127,10 @@ if ($texte) {
 $comp_texte = '';
 if ($conj_demandes) $comp_texte .= '&amp;avec_conjoints=O';
 
-$compl = Ajoute_Page_Info(600,150) .
-       Affiche_Icone_Lien('href="'.my_self().'?Refer='.$Refer.'&amp;texte=O'.$comp_texte.'"','text',$LG_printable_format).'&nbsp;';
+$compl = Ajoute_Page_Info(600,150);
+if (!$is_bot) {
+	$compl .= Affiche_Icone_Lien('href="'.my_self().'?Refer='.$Refer.'&amp;texte=O'.$comp_texte.'"','text',$LG_printable_format).'&nbsp;';
+}
 
 if (! $texte) Insere_Haut('Arbre descendant',$compl,'Arbre_Desc_Pers',$Refer);
 else          Insere_Haut_texte ('&nbsp;');

@@ -58,9 +58,12 @@ $Coord_Y = Array(255,
 // Recup de la variable passée dans l'URL : référence de la personne
 $Refer = Recup_Variable('Refer','N');
 
-$compl = Ajoute_Page_Info(600,150) .
+$compl = Ajoute_Page_Info(600,150);
+if (!$is_bot) {
+	$compl .=
          Affiche_Icone_Lien('href="'.Get_Adr_Base_Ref().'appelle_image_arbre_asc.php?Refer='.$Refer.'"','text',$LG_printable_format).'&nbsp;'.
          Affiche_Icone_Lien('href="'.Get_Adr_Base_Ref().'Arbre_Asc_PDF.php?Refer='.$Refer.'"','PDF',$LG_Tree_Pdf_7Gen).'&nbsp;';
+}
 Insere_Haut('Arbre ascendant',$compl,'nouv_arbre_asc',$Refer);
 
 echo '<div style="position:absolute; top:50px; left:10px;">'."\n";
@@ -204,6 +207,7 @@ if ($existe_images) {
 	echo '</td></tr>';
 	echo '</table>';
 }
+
 ?>
 
 </body>

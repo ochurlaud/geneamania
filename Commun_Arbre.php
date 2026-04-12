@@ -24,7 +24,7 @@ function case_pers($LaRef,$before, $after, $trait='solid') {
 		, $img_asc , $img_desc, $img_image
 		, $evenement, $existe_images
 		, $Haut_Cellule, $Larg_Cellule, $Larg_Trait_Hor, $Demie_Hauteur
-		, $Ok_Protection, $LG_Data_noavailable_profile
+		, $Ok_Protection, $LG_Data_noavailable_profile, $is_bot
 		;
 	$Ok_Protection = false;
 	// Accès aux données de la personne
@@ -63,8 +63,11 @@ function case_pers($LaRef,$before, $after, $trait='solid') {
 					else                $Decede = '';
 					$Dates = $Ne.' '.$Decede;
 					echo $Dates.'<br />'."\n";
-					echo '<a '.Ins_Ref_Arbre($LaRef).'>'.$img_asc.'</a>';
-					echo '<a '.Ins_Ref_Arbre_Desc($LaRef).'>'.$img_desc.'</a>';
+					// Les robots n'ont pas les liens vers les arbres
+					if (!$is_bot) {
+						echo '<a '.Ins_Ref_Arbre($LaRef).'>'.$img_asc.'</a>';
+						echo '<a '.Ins_Ref_Arbre_Desc($LaRef).'>'.$img_desc.'</a>';
+					}
 					if ($image != '') {
 						$image = $chemin_images_util.$image;
 						$hauteur = 150; $largeur = 150;

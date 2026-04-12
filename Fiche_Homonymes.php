@@ -3,7 +3,6 @@
 // Gerard KESTER
 //   Affichage de deux personnes
 // Révision 2018-2019 JLS, ajout de la fusion
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -28,25 +27,16 @@ include('fonctions.php');
 
 // Sécurisation des variables postées
 $ok       = Secur_Variable_Post($ok,strlen(LG_CH_FUSIONNER),'S');
-$annuler  = Secur_Variable_Post($annuler,strlen($lib_Annuler),'S');
+$annuler  = Secur_Variable_Post($annuler,strlen($lib_Retour),'S');
 
 // On retravaille le libellé du bouton pour être standard...
 if ($ok == LG_CH_FUSIONNER) $ok = 'OK';
+// On retravaille le libellé du bouton pour effectuer le retour...
+if ($annuler == $lib_Retour) $annuler = $lib_Annuler;
 
 $acces = 'M';								// Type d'accès de la page : (M)ise à jour, (L)ecture
 $titre = $LG_Menu_Title['Compare_Persons'];	// Titre pour META
 $niv_requis = 'C';
-
-$tab_variables = array('annuler');
-foreach ($tab_variables as $nom_variables) {
-  if (isset($_POST[$nom_variables])) $$nom_variables = $_POST[$nom_variables];
-  else $$nom_variables = '';
-}
-// Sécurisation des variables postées
-$annuler  = Secur_Variable_Post($annuler,strlen($lib_Retour),'S');
-
-// On retravaille le libellé du bouton pour effectuer le retour...
-if ($annuler == $lib_Retour) $annuler = $lib_Annuler;
 
 $x = Lit_Env();
 include('Gestion_Pages.php');
@@ -310,13 +300,12 @@ function update_champ($champ,$valeur,$le_type) {
 }
 
 function libSexe($sexe) {
-	global 	$LG_Pers_Sex_Undef;
-	$lib = $LG_Pers_Sex_Undef;
+	$lib = LG_PERS_SEX_UNDEF;
 	switch ($sexe) {
 		case 'f' : $lib = LG_SEXE_WOMAN; break;
 		case 'm' : $lib = LG_SEXE_MAN; 
 	}
-	return my_html($lib);
+	return $lib;
 }
 
 function aff_zones($titre, $nom_rb) {

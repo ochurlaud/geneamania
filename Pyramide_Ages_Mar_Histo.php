@@ -42,6 +42,7 @@ switch ($Type_Histo) {
 				break;
 }
 $x = Lit_Env();
+$index_follow = 'ON';		// NOFOLLOW demandé pour les moteurs
 include('Gestion_Pages.php');
 
 // Retour sur demande d'annulation

@@ -543,7 +543,8 @@ if ($_SESSION['estGestionnaire']) {
 		while ($fichier = readdir($dossier)) {
 			// var_dump($fichier);
 			$extension = strtolower(substr(strrchr($fichier, "."),1));
-			if ((is_file($dir.'/'.$fichier)) and (strpos($ext_poss,$extension) != false)) {
+			if ((is_file($dir.$fichier)) and (strpos($ext_poss,$extension) != false)) {
+			// if ((is_file($dir.'/'.$fichier)) and (strpos($ext_poss,$extension) != false)) {
 				$sel = false;
 				if ($SiteGratuit) {
 					if (strpos($fichier,'Export_SiteGratuit') === 0) $sel = true;
@@ -562,13 +563,13 @@ if ($_SESSION['estGestionnaire']) {
 					$nb++;
 					$col++;
 					if ($col == 1) echo '<tr align="center" valign="middle">'."\n";
-					$image = $dir.'/'.$fichier;
-					$date_fic = date("d/m/Y H:i:s", filectime($image));
-					if (file_exists($image)) {
+					$fic_svg = $dir.$fichier;
+					// $fic_svg = $dir.'/'.$fichier;
+					$date_fic = date("d/m/Y H:i:s", filemtime($fic_svg));
+					if (file_exists($fic_svg)) {
 						echo '<td>';
 						echo '<br><input type="radio" name="SelFic" value="'.$fichier.'"/>';
-						echo '<br>'.$fichier;
-						echo '<br>'.$date_fic."\n";
+						echo '<br>'.$fichier.'<br>'.$date_fic."\n";
 					}
 					echo '</td>'."\n";
 					if ($col == $max_col) {

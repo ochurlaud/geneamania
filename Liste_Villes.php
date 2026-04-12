@@ -3,7 +3,6 @@
 //=====================================================================
 // Liste des zones géographiques
 // (c) JLS
-// UTF-8
 //=====================================================================
 
 session_start();
@@ -12,6 +11,9 @@ $acces = 'L';                          // Type d'accès de la page : (M)ise à j
 
 // Recup de la variable passée dans l'URL : type de liste
 $Type_Liste = Recup_Variable('Type_Liste','C','SVDRP');
+// Si pas de type de liste demandé (robots ?), on envoie la liste des pays
+if (!$Type_Liste)
+	$Type_Liste = 'P';
 
 switch ($Type_Liste) {
 	case 'S' : $objet = LG_LAREAS_SUBDIVS; break;

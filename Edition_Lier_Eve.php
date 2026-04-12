@@ -1,7 +1,7 @@
 <?php
 //===========================================================================================
 // Gerard KESTER    Fevrier 2007
-//   Affectation d'un evenement a une persone ou l'inverse
+//   Affectation d'un evenement à une persone ou l'inverse
 //  Parametres a renseigner :
 //  - refPers : reference de la personne (mettre -1 pour creer un lien depuis 1 fiche évènement)
 //  - refEvt : la reférence de l'evenement (mettre -1 pour creer un lien depuis 1 fiche personne)
@@ -9,8 +9,6 @@
 //
 // Intégration et ajouts JL Servin
 // v > 2.2 mai 2008 by JLS
-//
-// UTF-8
 //===========================================================================================
 
 session_start();
